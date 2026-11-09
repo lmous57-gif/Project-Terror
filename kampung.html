@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#070a10"><title>PROJECT: TERROR v1.1 — Kampung Berhantu</title>
+<style>
+:root{color-scheme:dark;--ember:#ff7955;--ink:#070a10;--white:#e8e4d9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05070c;color:var(--white);font-family:Consolas,'Courier New',monospace;overscroll-behavior:none}#shell{position:relative;width:100vw;height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#181a22,#05070c 75%)}#game{display:block;width:min(100vw,177.7778dvh);height:min(100dvh,56.25vw);object-fit:contain;image-rendering:pixelated;touch-action:none;cursor:crosshair;box-shadow:0 0 90px #000}#scan{pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0px,#0000 3px,#0002 4px);mix-blend-mode:multiply;opacity:.35}.overlay{position:absolute;inset:0;background:linear-gradient(145deg,#070a10e8,#0f1217da);display:flex;justify-content:center;align-items:center;padding:22px;text-align:center;z-index:3}.hidden{display:none!important}.modal{width:min(94%,620px);max-height:94%;overflow:auto;border:1px solid #9a584b;padding:clamp(16px,3vw,38px);background:linear-gradient(140deg,#161b26,#07090e);box-shadow:0 0 90px #000a, inset 0 0 45px #f8471011;position:relative}.tag{font-weight:bold;letter-spacing:.35em;color:#ffae8c;font-size:11px}.modal h1{font-size:clamp(29px,6vw,68px);line-height:.98;letter-spacing:.08em;margin:18px 0 14px;text-shadow:3px 4px #783228;color:#f5e5d7}.modal p{font-size:clamp(12px,1.8vw,16px);line-height:1.7;color:#bac4c9}.stats{display:flex;justify-content:center;gap:20px;margin:22px 0;color:#ffa788;font-size:12px}.pill{border:1px solid #47505a;padding:8px 12px}.primary{cursor:pointer;border:0;background:#eb6b44;color:#17100e;font:900 15px Consolas,monospace;letter-spacing:.15em;padding:15px 34px;min-height:44px;box-shadow:5px 5px 0 #743623;touch-action:manipulation}.primary:hover{background:#ff9168}.controls-text{margin-top:20px;font-size:11px;color:#879097;line-height:1.7}.mobileControls{display:none;position:absolute;z-index:2;inset:0;pointer-events:none;touch-action:none}.joy-zone{position:absolute;left:0;top:0;bottom:0;width:52%;pointer-events:auto;touch-action:none}.joystick{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:clamp(35px,14vh,120px);width:116px;height:116px;border:2px solid #ffffff58;border-radius:50%;background:#0b0c12a0;pointer-events:none;touch-action:none;backdrop-filter:blur(2px);opacity:1;transform:scale(1);transition:opacity .12s ease, transform .12s ease}.joystick.inactive{opacity:0;transform:scale(.92)}.joystick::after{content:"";position:absolute;inset:14px;border:1px solid #ffffff1f;border-radius:50%}.stick{position:absolute;left:36px;top:36px;width:42px;height:42px;border:2px solid #ffcfacaa;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffd3b3,#ff795588 72%);transform:translate(0,0)}.fire{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:clamp(40px,15vh,136px);height:78px;width:78px;border-radius:50%;background:#0b0d12a8;border:1px solid #ffffff26;box-shadow:0 8px 24px #00000042;backdrop-filter:blur(2px);pointer-events:auto;touch-action:none;color:white}.fire:active{transform:scale(.96);background:#141923c8;border-color:#ffffff44}.fire-shell{position:absolute;left:50%;top:50%;width:8px;height:28px;transform:translate(-50%,-50%);border:2px solid #f3f6fa;border-top-left-radius:7px;border-top-right-radius:7px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;box-sizing:border-box;opacity:.95}.fire-shell::before{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:8px;height:8px;border:2px solid #f3f6fa;border-bottom:none;border-top-left-radius:6px;border-top-right-radius:6px;background:transparent;box-sizing:border-box}.fire-shell::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:8px;height:2px;background:#f3f6fa;border-radius:2px;opacity:.75}.reload{position:absolute;right:max(32px,env(safe-area-inset-right));bottom:clamp(12px,4vh,40px);background:#17222ecc;border:1px solid #aec2ce77;color:#e6f0fa;padding:10px 13px;pointer-events:auto;touch-action:none;font:800 11px Consolas,monospace}.hint{position:absolute;right:10%;top:22%;font-size:10px;color:#ffffff77;pointer-events:none;letter-spacing:.1em}.tiny{font-size:11px;color:#83909f}@media (pointer:coarse){.mobileControls{display:block}.controls-text .desktop{display:none}}@media (orientation:portrait) and (pointer:coarse){.modal{padding:18px}.modal h1{font-size:clamp(28px,9vw,48px)}.joystick{width:95px;height:95px}.stick{left:29px;top:29px;width:36px;height:36px}.fire{width:68px;height:68px;bottom:14%;right:5%}.reload{bottom:4%;right:6%}.hint{top:32%}.joy-zone{width:56%}}
+.weapons-mobile{position:absolute;left:15%;right:auto;top:48px;display:flex;gap:5px;pointer-events:auto;z-index:3}.weapons-mobile button{font:700 9px monospace;line-height:1.1;border:1px solid #9ca6ac8a;color:#e7d4c6;background:#171c22bb;padding:5px 8px;min-width:56px;touch-action:manipulation}.weapons-mobile button.active{border-color:#f19779;background:#822f2ecc;color:#fff}.tag{color:#eea18d}.modal{border-color:#9c4842}.modal h1{text-shadow:3px 4px #441b21}.primary{background:#d65945}.mobileControls .reload{bottom:2vh}.modal{max-height:96%;overflow-y:auto}@media (pointer:fine){.weapons-mobile{display:none}}@media (pointer:coarse){.weapons-mobile{display:flex}}@media (orientation:portrait) and (pointer:coarse){.weapons-mobile{left:4%;right:auto;top:6px}.weapons-mobile button{min-width:40px;padding:4px 3px;font-size:7px}.fire{bottom:12%}}
+
+/* v0.6: contextual USE button has independent touch target */
+.use{position:absolute;right:max(125px,env(safe-area-inset-right));bottom:clamp(14px,4vh,44px);background:#17392fe8;border:1px solid #a6ddb0;color:#dcffe0;pointer-events:auto;touch-action:manipulation;padding:11px 17px;font:bold 11px Consolas,monospace;min-height:38px}
+.use:active{background:#387659}
+@media (pointer:fine){.use{display:none}}
+@media (pointer:coarse) and (max-height:480px){.use{right:max(122px,env(safe-area-inset-right));bottom:2vh}}
+@media (pointer:coarse) and (orientation:portrait){.use{right:34%;bottom:5%;padding:9px}}
+/* v0.5: togglable low-intensity jumpscare; no flashing strobe */
+.option-toggle{display:block;margin:15px auto 2px;min-height:38px;padding:9px 14px;border:1px solid #7e6562;background:#262124;color:#d0c2b9;font:700 11px Consolas,monospace;cursor:pointer;touch-action:manipulation}
+.option-toggle[aria-pressed="false"]{border-color:#687b6c;color:#a8c7ae}
+/* v0.4: accessible mobile flashlight, safe-area spacing, compact landscape layout */
+.torch{position:absolute;right:max(18px,env(safe-area-inset-right));top:12px;z-index:4;pointer-events:auto;touch-action:manipulation;background:#172824e8;border:1px solid #9fcca4;color:#d0ffda;padding:8px 10px;font:bold 11px Consolas,monospace;min-height:34px;letter-spacing:.02em}
+.torch.off{background:#231c23d9;color:#b1a7ad;border-color:#66616c}
+@media (pointer:fine){.torch{display:none}}
+@media (pointer:coarse) and (max-height:480px){.torch{right:4%;top:clamp(78px,28vh,132px)}.weapons-mobile{top:12px;left:18%}.hint{top:36%;right:8%}}
+@media (pointer:coarse) and (orientation:portrait){.torch{right:5%;top:7px;font-size:10px;padding:6px}.weapons-mobile{left:3%;top:7px}}
+.continue-button{display:block;cursor:pointer;min-height:44px;width:min(100%,340px);margin:12px auto;background:#1d302e;border:1px solid #82a99b;color:#defff0;font:bold 12px Consolas,monospace;letter-spacing:.035em;padding:10px 12px}.continue-button:active{background:#325249}.continue-button.hidden{display:none!important}
+.back-hospital{display:block;color:#a1bdaa;margin:12px auto;font:bold 11px Consolas,monospace;text-decoration:none}.back-hospital:hover{text-decoration:underline}
+</style>
+</head>
+<body><main id="shell">
+<canvas id="game" width="480" height="270" aria-label="Retro first person shooter game"></canvas><div id="scan"></div>
+<section id="menu" class="overlay"><div class="modal"><div class="tag">▣ FAIL SULIT // KAMPUNG BERHANTU</div><h1><span style="font-size:.48em;display:block;letter-spacing:.3em;color:#f8d0ba">PROJECT:</span><span style="color:#dc5145">TERROR</span></h1><p>KAMPUNG BERHANTU — MALAM KEDUA<br>Estet getah diselubungi kabus. Cari tiga JALUR PENDINDING, kunci pagar keramat dan hidupkan TIANG PENDINDING sebelum HANTU RAYA menyerang.</p><div class="stats"><span class="pill">02 KAMPUNG</span><span class="pill">05 JENIS HANTU</span><span class="pill">03 SENJATA</span><span class="pill">v1.1</span></div><button class="primary" id="start">MASUK KAMPUNG</button><button class="continue-button hidden" id="continueSaved" type="button">SAMBUNG SIMPANAN KAMPUNG</button><a href="./index.html" class="back-hospital">↶ KEMBALI KE HOSPITAL LAMA</a><button class="option-toggle" id="scareToggle" type="button" aria-pressed="true">JUMPSCARE RINGAN: ON</button><div class="controls-text"><span class="desktop">WASD bergerak · Mouse pandang · Klik/Space tembak · 1/2/3 senjata · R reload · E buka pintu · L lampu · ESC pause</span><span class="mobile">Sentuh kiri untuk joystick · Seret kanan untuk pandang · butang tembak kanan · pilih senjata · GUNA · ISI · LAMPU</span><br>Misi: TEROKA ESTET → KUNCI PAGAR + 3 JALUR → TIANG PENDINDING → HANTU RAYA → KELUAR</div></div></section>
+<section id="end" class="overlay hidden"><div class="modal"><div class="tag" id="result-tag">MISSION STATUS</div><h1 id="result-title">SECTOR CLEAR</h1><p id="result-description">The gate is sealed.</p><button id="resumeCheckpoint" class="primary hidden" type="button" style="background:#6fae97;display:block;margin:12px auto">SAMBUNG DARI CHECKPOINT</button><button id="again" class="primary">CUBA LAGI</button></div></section>
+<div class="mobileControls" id="mobile"><div id="joyZone" class="joy-zone" aria-hidden="true"></div><div id="joy" class="joystick inactive"><div id="stick" class="stick"></div></div><div class="hint">SERET KANAN UNTUK PANDANG ↔</div><div class="weapons-mobile"><button data-w="parang">1<br>PARANG</button><button data-w="pistol">2<br>PISTOL</button><button data-w="shotgun" class="active">3<br>SHOTGUN</button></div><button id="fire" class="fire" aria-label="Tembak"><span class="fire-shell" aria-hidden="true"></span></button><button id="reload" class="reload">ISI SEMULA</button><button id="use" class="use" aria-label="Gunakan pintu atau generator">GUNA</button><button id="torch" class="torch" aria-label="Tutup lampu suluh" aria-pressed="true">🔦 LAMPU ON</button></div>
+</main>
+<script>
+'use strict';
+(() => {
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d',{alpha:false});
+ctx.imageSmoothingEnabled=false;
+const W=canvas.width,H=canvas.height,FOV=Math.PI/3,RAYS=W/2,STEP=W/RAYS;
+const $=id=>document.getElementById(id);
+const MAP=[
+'111111111111111111111',
+'1...................1',
+'1..22......22....33.1',
+'1.............22.33.1',
+'1...22..............1',
+'2222222D222222222D222',
+'1...................1',
+'1...22.......22.....1',
+'1......22...........1',
+'1....22.......22....1',
+'22222222K222222222222',
+'1...................1',
+'1...22.....22.......1',
+'1...................1',
+'111111111111111111111'];
+const MW=MAP[0].length,MH=MAP.length;
+if(!MAP.every(row=>row.length===MW)){throw Error('Invalid map: rows have different widths')}
+const portal={x:18.5,y:13.4};
+const generator={x:3.5,y:1.5};
+const FOE_SPAWNS=[
+ {x:10.5,y:2.5,type:'pocong'},{x:16.5,y:3.5,type:'toyol'},
+ {x:6.5,y:7.5,type:'pocong'},{x:15.5,y:8.5,type:'toyol'},
+ {x:11.5,y:7.5,type:'langsuir'},{x:16.5,y:12.5,type:'langsuir'},
+ {x:10.5,y:12.2,type:'pocong'}, {x:7.5,y:11.5,type:'pontianak'}];
+const ENEMY_TYPES={
+ pocong:{hp:6,speed:.54,damage:11,rate:1.35,scale:.9,range:.8},
+ toyol:{hp:3,speed:1.03,damage:6,rate:1.05,scale:.56,range:.65},
+ pontianak:{hp:14,speed:.68,damage:17,rate:1.3,scale:1.1,range:.85},
+ langsuir:{hp:7,speed:.55,damage:8,rate:2.9,scale:.96,range:1.2},
+ raya:{hp:34,speed:.45,damage:24,rate:3.3,scale:2.1,range:1.8}
+};
+const WEAPONS={
+ parang:{name:'PARANG',damage:2.6,range:1.15,rate:.43,clip:0,reload:0,spread:.22},
+ pistol:{name:'PISTOL',damage:1.7,range:11,rate:.31,clip:12,reload:.98,spread:.048},
+ shotgun:{name:'SHOTGUN',damage:4.3,range:6,rate:.7,clip:6,reload:1.25,spread:.15}
+};
+
+// D: standard access, K: mortuary key required. Opened doors remain open.
+const DOOR_DEFS=[
+ {x:7,y:5,label:'PAGAR ESTET A',requiresKey:false},
+ {x:17,y:5,label:'PAGAR ESTET B',requiresKey:false},
+ {x:8,y:10,label:'PAGAR KERAMAT',requiresKey:true}
+];
+let openDoors=new Set(),doorProgress=new Map(),closingDoors=new Set(),checkpoint=null;
+const SAVE_KEY='project-terror-kampung-v1-save',SAVE_VERSION=1;let saveClock=0,surveyClock=0,navClock=0,navKey='',navDistances=new Int16Array(MW*MH);let hurtCooldown=0;
+const DOOR_AT=new Map(DOOR_DEFS.map(d=>[`${d.x},${d.y}`,d]));
+function tileAt(mx,my){const t=MAP[my]?.[mx]||'1';return (t==='D'||t==='K')&&openDoors.has(`${mx},${my}`)?'.':t}
+const itemSpawns=[
+ {x:6.5,y:3.5,type:'fuse'}, {x:17.5,y:8.5,type:'fuse'}, {x:11.5,y:13.5,type:'fuse'},
+ {x:3.5,y:9.5,type:'key'},
+ {x:9.5,y:1.5,type:'ammo_shell'}, {x:14.5,y:8.5,type:'health'},
+ {x:3.5,y:12.5,type:'air_garam'}, {x:12.5,y:13.5,type:'ammo_bullet'},
+ {x:16.5,y:1.5,type:'tangkal'}, {x:2.5,y:8.5,type:'stash',hidden:true}
+];
+let projectiles=[],deathWisps=[],scareTime=0,scareUsed=false,scareEnabled=true;
+// A 3-state exploration atlas: 0 unknown, 1 seen, 2 physically visited.
+const MAP_SIGHT_RADIUS=3.4;
+const MAP_WALKABLE=MAP.join('').split('').filter(t=>t==='.'||t==='D'||t==='K').length;
+let mapSeen=new Uint8Array(MW*MH),mappedWalkable=0,hiddenCaches=0;
+let visitedZones=new Set(),zoneName='LOBI';
+let player,enemies,items,kills=0,started=false,playing=false,ended=false,last=0,frame=0,screenShake=0,flash=0,hitmark=0,shotClock=0,bob=0,moving=0,tip='',tipTimer=0,startTime=0,shots=0,objective=null,spawnedBoss=false,missionWon=false,ambienceClock=5,killPulse=0;
+const keys=new Set(),pointer={joy:null,look:null,lastX:0},joy={x:0,y:0}; let fireHeld=false,mouseHeld=false;
+const zbuf=Array(RAYS).fill(100);
+const ambianceCanvas=document.createElement('canvas');ambianceCanvas.width=W;ambianceCanvas.height=H;const lightCtx=ambianceCanvas.getContext('2d');
+let renderLightLevel=0;
+let audio=null;
+function tone(freq,delay,duration,volume,type='sawtooth',endFreq=null){try{if(!audio) return;const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);if(endFreq)o.frequency.exponentialRampToValueAtTime(endFreq,t+duration);g.gain.setValueAtTime(Math.max(.001,volume),t);g.gain.exponentialRampToValueAtTime(.001,t+duration);o.connect(g).connect(audio.destination);o.start(t);o.stop(t+duration+.005)}catch(_){}}
+function sound(name){if(name==='shot'){tone(170,0,.13,.19,'sawtooth',42);tone(78,0,.19,.12,'triangle',35)}else if(name==='hit'){tone(540,0,.08,.075,'square',240)}else if(name==='hurt'){tone(105,0,.22,.1,'sawtooth',45)}else if(name==='pickup'){tone(520,0,.08,.06,'sine',700);tone(700,.08,.1,.06,'sine',960)}else if(name==='dry'){tone(1500,0,.028,.022,'square')}else if(name==='win'){tone(420,0,.18,.06,'triangle',520);tone(620,.19,.3,.08,'triangle',980)}else if(name==='ghost'){tone(210,0,.6,.018,'sine',85);tone(74,.1,.5,.026,'triangle',44)}else if(name==='scream'){tone(960,0,.32,.11,'sawtooth',260);tone(330,.18,.35,.07,'sine',120)}else if(name==='torch'){tone(980,0,.025,.025,'square',740)}else if(name==='shield'){tone(360,0,.16,.08,'sine',920)}else if(name==='door'){tone(155,0,.42,.08,'triangle',62);tone(210,.16,.35,.037,'sawtooth',91)}else if(name==='reload'){tone(310,0,.06,.035,'square',230);tone(440,.29,.065,.03,'square',320)}else if(name==='checkpoint'){tone(540,0,.11,.045,'sine',680);tone(750,.13,.21,.05,'sine',1040)}}
+function rand(seed){let s=seed|0;return ()=>{s=(s*1664525+1013904223)|0;return(s>>>0)/4294967296}}
+function texture(n){
+ const c=document.createElement('canvas');c.width=c.height=64;
+ const t=c.getContext('2d'),r=rand(450+n*417);t.imageSmoothingEnabled=false;
+ t.fillStyle=n===1?'#34352c':n===2?'#1e3026':'#3b332a';t.fillRect(0,0,64,64);
+ if(n===1){ // boundary fencing, kampung timber planks
+  for(let x=0;x<64;x+=11){t.fillStyle=r()>.5?'#6a5840':'#544a39';t.fillRect(x+1,0,9,64);t.fillStyle='#191c17';t.fillRect(x,0,1,64);for(let y=4;y<62;y+=23){t.fillStyle='#a0916a';t.fillRect(x+4,y,2,3)}}
+  t.fillStyle='#202d23';t.fillRect(0,18,64,7);t.fillRect(0,49,64,6);
+ }else if(n===2){ // thick tree roots and jungle hedges; dark rubber trees
+  t.fillStyle='#152a20';t.fillRect(0,0,64,64);
+  for(let j=0;j<12;j++){const x=r()*60|0,y=r()*56|0;t.fillStyle=j%3?'#294e34':'#446344';t.fillRect(x,y,9+(r()*12|0),5+(r()*8|0))}
+  for(let x=3;x<64;x+=16){t.fillStyle='#443b2d';t.fillRect(x,0,7,64);t.fillStyle='#76644e';t.fillRect(x+2,0,2,64);t.fillStyle='#22241b';t.fillRect(x-2,14,2,20);t.fillRect(x+5,39,3,16)}
+ }else{ // plank house wall / kampung shack
+  for(let y=0;y<64;y+=10){t.fillStyle=r()>.5?'#69513e':'#534638';t.fillRect(0,y,64,9);t.fillStyle='#2a291e';t.fillRect(0,y+9,64,1)}
+  t.fillStyle='#282f28';t.fillRect(12,13,39,36);t.fillStyle='#967947';t.fillRect(15,16,33,29);t.fillStyle='#1d2929';t.fillRect(18,18,27,24);t.fillStyle='#99a88a';t.fillRect(30,18,3,25)
+ }
+ for(let j=0;j<75;j++){t.fillStyle=r()>.5?'#bdd08a0d':'#080f111c';t.fillRect(r()*64|0,r()*64|0,1+r()*4|0,1+r()*3|0)}
+ return c
+}
+function accessDoorTexture(locked){
+ const c=document.createElement('canvas');c.width=c.height=64;const t=c.getContext('2d');
+ t.fillStyle='#1d261d';t.fillRect(0,0,64,64);
+ for(let x=0;x<64;x+=11){t.fillStyle=x%2?'#75563d':'#90744b';t.fillRect(x+1,0,9,64);t.fillStyle='#2f3025';t.fillRect(x,0,1,64)}
+ for(let y of [12,45]){t.fillStyle='#30352c';t.fillRect(0,y,64,6);t.fillStyle='#9c9769';t.fillRect(0,y+1,64,2)}
+ t.fillStyle=locked?'#a54e47':'#a3ba89';t.fillRect(14,18,37,25);
+ t.font='bold 8px monospace';t.textAlign='center';t.fillStyle='#1c2421';t.fillText(locked?'KERAMAT':'ESTET',32,33);
+ t.fillStyle='#b7a37e';t.fillRect(49,36,4,8);
+ return c
+}
+const textures=[null,texture(1),texture(2),texture(3),accessDoorTexture(false),accessDoorTexture(true)];
+function sprite(draw){let c=document.createElement('canvas');c.width=64;c.height=80;let t=c.getContext('2d');t.imageSmoothingEnabled=false;draw(t);return c}
+// Readable low-resolution placeholder art. Replace with authored spritesheets in art pass.
+const pocongSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#18191d',18,7,28,71);p('#6c7777',15,11,34,65);p('#d3cebb',19,5,26,12);
+ p('#d6d5c5',12,16,40,48);p('#929e98',14,16,7,41);p('#e2ddcc',21,17,27,45);
+ p('#4a5056',20,15,24,25);p('#111920',23,19,19,19);p('#c63e3a',25,27,5,3);p('#c63e3a',35,27,5,3);
+ p('#4c2c2a',27,34,10,3);p('#9d8970',14,45,36,5);p('#473d3b',28,46,7,3);
+ p('#9faca4',16,57,32,10);p('#d8d7c6',17,66,30,7);p('#9aa5a0',15,73,17,4);p('#ced4ca',32,73,18,4);
+ p('#fff7df',20,8,6,3);p('#765e53',21,56,5,5);p('#796052',42,38,4,6)
+});
+const toyolSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#171e1c',16,29,34,44);p('#435c49',20,32,25,33);p('#608267',22,19,22,20);
+ p('#304b39',12,29,13,9);p('#304b39',42,28,12,9);p('#719079',13,30,8,4);p('#719079',46,29,7,4);
+ p('#a5ad7d',22,25,24,13);p('#15231b',23,28,6,6);p('#15231b',36,28,6,6);
+ p('#ff614e',24,29,4,4);p('#ff614e',38,29,4,4);p('#293a30',28,37,11,4);
+ p('#465f45',15,44,12,14);p('#465f45',41,44,12,14);p('#96a88b',11,54,7,10);p('#96a88b',51,53,7,10);
+ p('#31483d',19,60,13,10);p('#31483d',36,59,12,10);p('#768a6b',18,69,16,6);p('#768a6b',36,68,16,7);
+ p('#d6d2ae',12,61,3,5);p('#d6d2ae',54,60,3,5);p('#bcc09f',28,16,10,4)
+});
+const pontianakSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#0b0d17',14,3,36,74);p('#23202a',12,9,40,64);p('#c4b9a9',23,15,19,30);
+ p('#25212a',17,6,29,23);p('#14161d',18,9,7,59);p('#17171e',42,9,8,62);
+ p('#e4ded4',26,20,12,18);p('#b79a96',26,39,13,7);p('#a52332',27,27,4,3);p('#a52332',36,27,4,3);
+ p('#301319',30,35,7,6);p('#a0a0a0',24,43,18,7);p('#e2ddd4',19,49,27,25);
+ p('#aba5a2',16,61,34,16);p('#ebebe1',22,49,18,21);p('#a34c47',29,57,8,14);
+ p('#e8d3bf',12,52,5,16);p('#e8d3bf',50,52,5,16);p('#29202a',11,38,6,28);p('#29202a',50,35,5,27)
+});
+// High-contrast, authored procedural embellishments: silhouettes stay transparent / easy to replace.
+function distressSprite(c,seed,stains){const t=c.getContext('2d'),r=rand(seed);for(let i=0;i<stains;i++){let x=10+r()*44|0,y=13+r()*61|0;if(t.getImageData(x,y,1,1).data[3]>80){t.fillStyle=r()>.67?'#e7e1cf55':'#2e242d59';t.fillRect(x,y,1+(r()*3|0),1+(r()*5|0))}}}
+for(const [c,seed,n] of [[pocongSprite,113,75],[toyolSprite,477,44],[pontianakSprite,932,53]])distressSprite(c,seed,n);
+const enemySprites={pocong:pocongSprite,toyol:toyolSprite,pontianak:pontianakSprite};
+
+// v0.5: 4-frame pixel-art enemy animation atlas, generated once at launch.
+// Rendered with crisp nearest-neighbour sampling on the existing billboard pipeline.
+const langsuirSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ // An airborne spirit: hair silhouette, trailing burial cloth, clawed hands and cold eyes.
+ p('#080e16',16,5,34,62);p('#18212d',12,12,41,51);
+ p('#263240',11,20,11,36);p('#263240',44,14,10,48);
+ p('#0d1119',23,1,19,18);p('#0c0e18',15,9,13,47);p('#0a111a',42,10,11,53);
+ p('#e4e5db',25,14,16,26);p('#b4c2bd',23,27,20,12);
+ p('#98ece1',26,24,5,3);p('#98ece1',36,24,5,3);p('#192332',32,34,5,5);
+ p('#b1d0cb',21,42,23,23);p('#d9e7df',23,43,19,20);p('#718c96',19,59,27,9);
+ p('#bad8cf',21,66,11,10);p('#8ca9a7',36,64,12,13);
+ p('#202f36',9,33,11,23);p('#202f36',47,31,9,23);
+ p('#a2c8bf',10,52,7,9);p('#a2c8bf',49,51,7,10);
+ p('#c7dfd8',8,59,3,11);p('#c7dfd8',13,58,3,11);p('#c7dfd8',52,58,3,11);
+ p('#799995',24,76,5,3);p('#93bab7',41,75,4,3);
+});
+distressSprite(langsuirSprite,1573,56);
+const rayaSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ // Oversized shadowy village guardian, horned shoulders, earthy glowing eyes.
+ p('#080e0a',16,4,33,74);p('#1e2b23',13,12,40,60);p('#3b4c39',10,20,48,35);
+ p('#131b16',21,0,25,27);p('#56634d',25,10,16,19);
+ p('#162118',10,7,12,24);p('#172219',45,7,13,26);p('#677359',10,15,6,11);p('#677359',50,13,6,11);
+ p('#bc4836',26,19,7,5);p('#bc4836',38,19,7,5);p('#1a1b12',32,29,9,5);
+ p('#324533',13,39,11,24);p('#354836',45,39,11,24);p('#14281c',12,50,9,20);p('#15291d',49,50,10,18);
+ p('#71866b',13,62,8,8);p('#788b73',51,60,8,9);p('#5b6550',25,54,23,17);
+ p('#1b271c',24,68,10,10);p('#1b271c',40,68,10,10);p('#9aa785',12,71,8,6);p('#9aa785',51,70,7,6);
+ p('#ab9b6f',17,7,7,9);p('#ab9b6f',47,5,7,10);
+});
+distressSprite(rayaSprite,2109,48);
+function animatedFrames(base,type){
+ const result=[];
+ for(let f=0;f<4;f++){
+  const c=document.createElement('canvas');c.width=64;c.height=80;
+  const t=c.getContext('2d');t.imageSmoothingEnabled=false;
+  const shift=f===1?-2:f===3?2:0;
+  if(type==='pocong'){
+   // Squash and stretch the tied shroud during each hop.
+   const stretch=[0,-3,1,-2][f];t.drawImage(base,shift,stretch,64,80-stretch);
+   t.fillStyle=f===2?'#e0b5a4':'#eee2d1';t.fillRect(20+shift,8+stretch,6,2);
+   t.fillStyle='#3c3433';t.fillRect(15+shift,49+stretch,32,2);
+   t.fillStyle='#89514a';t.fillRect(20+shift,55+stretch,3,5);
+  }else if(type==='toyol'){
+   // Squat, spring up, then slash with alternating claws.
+   const dy=[3,-3,0,-1][f];t.drawImage(base,shift,dy,64,80);
+   t.fillStyle='#91ae8e';t.fillRect(f%2?8:11,48+dy,5,16);
+   t.fillRect(f%2?54:50,43+dy,4,17);
+   t.fillStyle='#e0e6bb';t.fillRect(f%2?7:10,63+dy,2,7);t.fillRect(f%2?57:53,60+dy,2,7);
+  }else if(type==='pontianak'){
+   t.drawImage(base,shift,0,64,80);
+   t.fillStyle='#11121b';t.fillRect(8+shift,14+f,5,47-f);t.fillRect(52+shift,10+3-f,5,50-f);
+   t.fillStyle='#3e2530';t.fillRect(11+shift,58-f,3,14);t.fillRect(55+shift,60-f,2,12);
+   if(f===3){t.fillStyle='#531823';t.fillRect(29+shift,34,10,9);t.fillStyle='#f9eee1';t.fillRect(31+shift,35,2,5);t.fillRect(36+shift,35,2,5)}
+  }else if(type==='raya'){
+   t.drawImage(base,shift,[0,-2,0,2][f],64,80);
+   if(f===3){t.fillStyle='#f97b45';t.fillRect(26+shift,19,8,6);t.fillRect(38+shift,19,8,6);t.fillStyle='#c38952';t.fillRect(10,64,48,5)}
+  }else if(type==='langsuir'){
+   t.drawImage(base,shift,[-2,0,-4,-1][f],64,80);
+   t.fillStyle='#0d141c';t.fillRect(8+shift,17+f*2,4,34);t.fillRect(54+shift,19-f,3,35);
+   t.fillStyle='#a9eee3';t.fillRect(26+shift,24,5,2);t.fillRect(36+shift,24,5,2);
+   if(f===3){t.fillStyle='#e8f9f5';t.fillRect(6+shift,53,3,13);t.fillRect(57+shift,49,3,14)}
+  }
+  // Very subtle light edging makes the sprite visible through dark corridors.
+  t.fillStyle=type==='langsuir'?'#9aeed126':'#ffe8bd16';t.fillRect(19+shift,18,2,24);
+  result.push(c)
+ }
+ return result
+}
+const enemySpriteFrames={
+ pocong:animatedFrames(pocongSprite,'pocong'),
+ toyol:animatedFrames(toyolSprite,'toyol'),
+ pontianak:animatedFrames(pontianakSprite,'pontianak'),
+ langsuir:animatedFrames(langsuirSprite,'langsuir'),
+ raya:animatedFrames(rayaSprite,'raya')
+};
+const curseSprite=sprite(t=>{
+ const ring=t.createRadialGradient(32,40,0,32,40,29);
+ ring.addColorStop(0,'#d6fff6');ring.addColorStop(.19,'#88ddc6');ring.addColorStop(.42,'#5bb2a7c4');ring.addColorStop(1,'#102c3600');
+ t.fillStyle=ring;t.fillRect(3,11,58,58);
+ t.fillStyle='#dcfff0';t.fillRect(30,36,6,6);t.fillRect(26,40,4,4);t.fillRect(36,40,4,4);
+});
+
+const medkit=sprite(t=>{t.fillStyle='#18222e';t.fillRect(11,30,42,38);t.fillStyle='#aebbc1';t.fillRect(13,32,38,33);t.fillStyle='#d8e6e8';t.fillRect(18,27,28,7);t.fillStyle='#ad3c45';t.fillRect(29,39,7,21);t.fillRect(22,46,21,7);t.fillStyle='#617786';t.fillRect(16,59,33,5)});
+const ammoImg=sprite(t=>{t.fillStyle='#261d23';t.fillRect(11,31,42,31);t.fillStyle='#b27b43';t.fillRect(13,32,38,27);t.fillStyle='#efb765';t.fillRect(17,34,30,5);t.fillStyle='#583d29';t.fillRect(17,51,30,4);t.fillStyle='#1a2935';t.fillRect(28,42,8,9)});
+const portalImg=sprite(t=>{t.fillStyle='#3b2260';t.fillRect(11,3,42,75);t.fillStyle='#b87df9';t.fillRect(13,5,38,73);t.fillStyle='#452278';t.fillRect(18,11,28,67);t.fillStyle='#8150bc';t.fillRect(24,17,16,55);t.fillStyle='#eab4fc';t.fillRect(28,25,8,36);t.fillStyle='#6e458e';t.fillRect(8,4,5,75);t.fillRect(51,4,5,75)});
+const fuseImg=sprite(t=>{t.fillStyle='#493c31';t.fillRect(22,24,22,46);t.fillStyle='#daa369';t.fillRect(25,25,16,42);t.fillStyle='#eed4a6';t.fillRect(27,26,12,9);t.fillStyle='#a0433e';t.fillRect(28,39,10,20);t.fillStyle='#e7e7e1';t.fillRect(29,30,8,5)});
+const garamImg=sprite(t=>{t.fillStyle='#2b3a42';t.fillRect(22,25,22,43);t.fillStyle='#9cd1d3';t.fillRect(24,32,18,32);t.fillStyle='#eaf8f0';t.fillRect(26,45,14,13);t.fillStyle='#f2c79a';t.fillRect(27,22,12,12);t.fillStyle='#3e656a';t.fillRect(29,23,8,4)});
+const sealImg=sprite(t=>{t.fillStyle='#271d19';t.fillRect(18,23,29,49);t.fillStyle='#cfb586';t.fillRect(20,21,25,48);t.fillStyle='#f1dfb1';t.fillRect(23,25,19,39);t.fillStyle='#a74132';t.fillRect(30,30,6,29);t.fillRect(26,39,14,4);t.fillStyle='#552e24';t.fillRect(23,57,19,3)});
+const generatorImg=sprite(t=>{t.fillStyle='#181e20';t.fillRect(9,27,46,48);t.fillStyle='#57615c';t.fillRect(13,31,39,40);t.fillStyle='#9a5041';t.fillRect(17,38,30,7);t.fillStyle='#191a1e';t.fillRect(18,52,25,13);t.fillStyle='#93e0b6';t.fillRect(21,56,4,5);t.fillStyle='#ddba76';t.fillRect(30,56,4,5);t.fillStyle='#cc6e69';t.fillRect(39,56,4,5)});
+const tangkalImg=sprite(t=>{t.fillStyle='#6e4b2d';t.fillRect(21,21,24,45);t.fillStyle='#d6b477';t.fillRect(23,18,20,44);t.fillStyle='#9e4e3b';t.fillRect(26,22,14,31);t.fillStyle='#ead8b2';t.fillRect(30,25,6,23);t.fillStyle='#eebf84';t.fillRect(28,36,10,3);t.fillStyle='#776044';t.fillRect(26,52,14,9);t.fillStyle='#e5f9cd';t.fillRect(29,27,3,4)});
+const keyImg=sprite(t=>{
+ t.fillStyle='#cda965';t.fillRect(18,33,11,11);t.fillStyle='#f6d690';t.fillRect(20,35,7,7);
+ t.fillStyle='#8c642e';t.fillRect(23,36,4,4);t.fillStyle='#e7ba69';t.fillRect(28,36,23,6);
+ t.fillRect(43,42,5,11);t.fillRect(35,42,4,8);t.fillStyle='#8e6634';t.fillRect(31,38,16,2)
+});
+const pickupSprite={health:medkit,ammo_shell:ammoImg,ammo_bullet:ammoImg,air_garam:garamImg,fuse:sealImg,key:keyImg,tangkal:tangkalImg};
+// v0.4: Three distinct categories: wall decals are painted ON the hit wall plane,
+// grounded decorations are floor billboards, and items stay collectible billboards.
+const trolleySprite=sprite(t=>{t.fillStyle='#252e30';t.fillRect(10,48,48,7);t.fillStyle='#667978';t.fillRect(12,47,45,4);t.fillStyle='#b3b9b2';t.fillRect(16,28,39,21);t.fillStyle='#8a8c81';t.fillRect(14,29,38,6);t.fillStyle='#a46b60';t.fillRect(17,38,31,7);t.fillStyle='#353f41';t.fillRect(15,55,5,14);t.fillRect(51,55,5,14);t.fillStyle='#a9aca5';t.fillRect(11,67,13,7);t.fillRect(47,67,13,7)});
+const rubberTree=sprite(t=>{
+ t.fillStyle='#332f27';t.fillRect(26,25,13,52);t.fillStyle='#85755a';t.fillRect(30,25,4,49);
+ for(const [x,y,w,h] of [[13,8,39,16],[7,20,52,15],[12,2,35,19],[21,0,22,18]]){t.fillStyle='#1d4933';t.fillRect(x,y,w,h);t.fillStyle='#386646';t.fillRect(x+3,y+2,w-7,5)}
+ t.fillStyle='#557e50';t.fillRect(12,23,9,5);t.fillRect(39,11,8,7);
+});
+const batuSprite=sprite(t=>{
+ t.fillStyle='#323a31';t.fillRect(15,31,36,46);t.fillStyle='#77806a';t.fillRect(19,26,29,42);t.fillStyle='#aaa991';t.fillRect(23,31,21,21);
+ t.fillStyle='#405c43';t.fillRect(29,28,4,37);t.fillStyle='#b7bd88';t.fillRect(16,70,38,5);
+});
+const floorDecorations=[
+ {x:7.5,y:2.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
+ {x:13.5,y:3.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
+ {x:10.5,y:8.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
+ {x:18.5,y:9.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
+ {x:8.5,y:12.5,img:batuSprite,scale:.8,grounded:true,kind:'floor'}
+];
+
+// Wall art is a 2D texture in local wall coordinates (u,h), not a camera-facing quad.
+function decalCanvas(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.imageSmoothingEnabled=false;paint(t,w,h);return c}
+function signDecal(title,subtitle,accent){return decalCanvas(128,64,(t,w,h)=>{
+ t.fillStyle='#131c1c';t.fillRect(0,2,w,h-4);t.fillStyle='#7b7667';t.fillRect(3,4,w-6,h-8);
+ t.fillStyle='#202e2b';t.fillRect(6,7,w-12,h-14);t.fillStyle=accent;t.fillRect(6,7,w-12,6);
+ t.fillStyle='#e8e2cf';t.font='bold 21px monospace';t.textAlign='center';t.fillText(title,64,37);
+ t.font='bold 11px monospace';t.fillStyle='#b0b9a8';t.fillText(subtitle,64,52);
+ t.fillStyle='#d5b78b';for(let x of [7,118])for(let y of [10,53])t.fillRect(x,y,3,3)
+})}
+function lampDecal(){return decalCanvas(96,40,(t,w,h)=>{
+ t.fillStyle='#252b2a';t.fillRect(0,8,w,28);t.fillStyle='#4f5c58';t.fillRect(4,4,w-8,30);
+ t.fillStyle='#ddd9ac';t.fillRect(9,8,w-18,17);t.fillStyle='#fff7c5';t.fillRect(12,10,w-24,12);
+ t.fillStyle='#827d66';t.fillRect(12,25,w-24,5);t.fillStyle='#1f2928';t.fillRect(0,12,7,13);t.fillRect(w-7,12,7,13)
+})}
+function noticeDecal(){return decalCanvas(96,128,(t,w,h)=>{
+ t.fillStyle='#453b30';t.fillRect(0,0,w,h);t.fillStyle='#a6a08e';t.fillRect(5,5,w-10,h-10);
+ t.fillStyle='#d1c5a8';t.fillRect(12,12,w-24,h-24);t.fillStyle='#6a332e';t.fillRect(15,15,w-30,18);
+ t.fillStyle='#f6dfc6';t.font='bold 14px monospace';t.textAlign='center';t.fillText('AMARAN',48,30);
+ t.fillStyle='#454c43';for(let y=45;y<102;y+=11)t.fillRect(20,y,56-(y%3)*5,3);
+ t.fillStyle='#6f2929';t.font='bold 11px monospace';t.fillText('JANGAN',48,109)
+})}
+function generatorDecal(on){return decalCanvas(112,128,(t,w,h)=>{
+ t.fillStyle='#1b2424';t.fillRect(0,0,w,h);t.fillStyle='#666c60';t.fillRect(5,5,w-10,h-10);t.fillStyle='#2b302b';t.fillRect(10,12,w-20,h-25);
+ t.fillStyle=on?'#4cae82':'#a65d45';t.fillRect(12,14,w-24,12);
+ t.fillStyle='#e9e0c5';t.font='bold 12px monospace';t.textAlign='center';t.fillText('PENDINDING',56,25);
+ t.fillStyle='#829a94';t.fillRect(19,40,74,25);t.fillStyle=on?'#9bf2bd':'#3f4847';t.fillRect(25,45,62,15);
+ t.fillStyle='#1f292b';for(let x of [23,43,63]){t.fillRect(x,79,15,23);t.fillStyle=on?'#6ceb9a':'#a64d3d';t.fillRect(x+3,82,9,8);t.fillStyle='#1f292b'}
+ t.fillStyle='#dec6a3';t.font='bold 10px monospace';t.fillText(on?'AKTIF':'3 JALUR',56,116);
+ t.fillStyle='#a8aa8d';for(let x of [8,99])for(let y of [7,115])t.fillRect(x,y,5,5)
+})}
+function doorDecal(open){return decalCanvas(128,192,(t,w,h)=>{
+ t.fillStyle='#222c29';t.fillRect(0,0,w,h);t.fillStyle='#84796b';t.fillRect(3,3,w-6,h-6);
+ t.fillStyle='#393b34';t.fillRect(9,9,w-18,h-14);
+ t.fillStyle=open?'#101e1b':'#5d6058';t.fillRect(16,29,w-32,h-42);
+ t.fillStyle=open?'#3b815c':'#8f4037';t.fillRect(13,10,w-26,18);
+ t.fillStyle='#fff2cb';t.textAlign='center';t.font='bold 18px monospace';t.fillText('KELUAR',64,24);
+ if(open){t.fillStyle='#14352c';t.fillRect(26,40,76,133);t.fillStyle='#285a49';t.fillRect(20,31,7,144);t.fillStyle='#a8ecaf';t.fillRect(36,43,4,116)}
+ else {t.fillStyle='#6d716c';t.fillRect(59,34,5,140);t.fillStyle='#222e2e';t.fillRect(70,96,18,30);t.fillStyle='#b1a18c';t.fillRect(74,102,11,7)}
+ t.fillStyle='#272f2d';t.fillRect(13,180,102,8)
+})}
+const wallArt={
+ wad:signDecal('KAMPUNG','JALAN LAMA','#496d48'),
+ mayat:signDecal('KERAMAT','JANGAN MASUK','#7e433c'),
+ rawatan:signDecal('ESTET GETAH','LALUAN SUNYI','#54765a'),
+ kecemasan:signDecal('AWAS','HANTU RAYA','#8d5844'),
+ keluar:signDecal('KELUAR','KE JALAN BESAR','#51846a'),
+ lamp:lampDecal(),notice:noticeDecal(),
+ genOff:generatorDecal(false),genOn:generatorDecal(true),
+ doorLocked:doorDecal(false),doorOpen:doorDecal(true)
+};
+const wallDecorations=[
+ {id:'generator',mx:3,my:0,face:'S',u:.5,w:.78,v:.26,h:.48,kind:'generator'},
+ {id:'kampung-sign',mx:5,my:0,face:'S',u:.5,w:.90,v:.16,h:.29,img:wallArt.wad},
+ {id:'estet-sign',mx:6,my:5,face:'S',u:.5,w:.86,v:.2,h:.28,img:wallArt.rawatan},
+ {id:'keramat-sign',mx:10,my:10,face:'S',u:.5,w:.88,v:.18,h:.31,img:wallArt.mayat},
+ {id:'raya-warning',mx:20,my:9,face:'W',u:.5,w:.8,v:.19,h:.30,img:wallArt.kecemasan},
+ {id:'exit-sign',mx:19,my:14,face:'N',u:.5,w:.88,v:.14,h:.25,img:wallArt.keluar},
+ {id:'exit-door',mx:18,my:14,face:'N',u:.5,w:.94,v:.035,h:.945,kind:'exit'},
+ {id:'lamp-north',mx:13,my:5,face:'S',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp},
+ {id:'lamp-west',mx:0,my:6,face:'E',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp},
+ {id:'lamp-south',mx:12,my:14,face:'N',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp}
+];
+const wallDecalIndex=new Map();
+for(const d of wallDecorations){
+ const neighbor={N:[0,-1],S:[0,1],E:[1,0],W:[-1,0]}[d.face];
+ if(!neighbor||MAP[d.my]?.[d.mx]==='.'||MAP[d.my+neighbor[1]]?.[d.mx+neighbor[0]]!=='.')throw Error(`Wall prop ${d.id} is not mounted on an accessible wall face`);
+ if(d.u-d.w/2<0||d.u+d.w/2>1||d.v<0||d.v+d.h>1)throw Error(`Invalid wall prop dimensions ${d.id}`);
+ const key=`${d.mx},${d.my},${d.face}`;if(!wallDecalIndex.has(key))wallDecalIndex.set(key,[]);wallDecalIndex.get(key).push(d)
+}
+function paintWallAttachments(mx,my,side,rx,ry,wallFrac,top,height,col){
+ // We are drawing the actual first wall ray hit; therefore occlusion, perspective
+ // and lighting match wall tiles exactly rather than camera-facing sprites.
+ const face=side===0?(rx>0?'W':'E'):(ry>0?'N':'S');
+ const props=wallDecalIndex.get(`${mx},${my},${face}`);if(!props)return;
+ const u=(face==='N'||face==='E')?1-wallFrac:wallFrac;
+ for(const d of props){const unit=(u-(d.u-d.w/2))/d.w;if(unit<0||unit>=1)continue;
+  const img=d.kind==='generator'?(objective.generator?wallArt.genOn:wallArt.genOff):d.kind==='exit'?(objective.generator&&objective.boss?wallArt.doorOpen:wallArt.doorLocked):d.img;
+  const sourceX=Math.min(img.width-1,Math.floor(unit*img.width));
+  ctx.drawImage(img,sourceX,0,1,img.height,col*STEP,top+height*d.v,STEP+1,height*d.h)
+ }
+}
+function isWall(x,y){const cx=Math.floor(x),cy=Math.floor(y);return tileAt(cx,cy)!=='.'}
+function free(x,y,r=.22){return !isWall(x-r,y-r)&&!isWall(x+r,y-r)&&!isWall(x-r,y+r)&&!isWall(x+r,y+r)}
+// Visibility is checked against the same dynamic door tiles used by the world renderer.
+// The target wall itself can be seen, but anything behind that wall cannot be revealed.
+function canSurveyTile(tx,ty){
+ const ex=tx+.5,ey=ty+.5,dx=ex-player.x,dy=ey-player.y,d=Math.hypot(dx,dy);
+ if(d>MAP_SIGHT_RADIUS)return false;
+ const steps=Math.max(1,Math.ceil(d/.09));
+ for(let n=1;n<=steps;n++){
+  const t=n/steps,mx=Math.floor(player.x+dx*t),my=Math.floor(player.y+dy*t);
+  if(mx===tx&&my===ty)return true;
+  if(tileAt(mx,my)!=='.')return false;
+ }
+ return true
+}
+function surveyMap(){
+ const r=MAP_SIGHT_RADIUS;
+ for(let y=Math.max(0,Math.floor(player.y-r));y<=Math.min(MH-1,Math.floor(player.y+r));y++){
+  for(let x=Math.max(0,Math.floor(player.x-r));x<=Math.min(MW-1,Math.floor(player.x+r));x++){
+   if(!canSurveyTile(x,y))continue;
+   const idx=y*MW+x;
+   if(mapSeen[idx]===0){mapSeen[idx]=1;if(' .DK'.includes(MAP[y][x])&&MAP[y][x]!==' ')mappedWalkable++}
+  }
+ }
+ const px=Math.floor(player.x),py=Math.floor(player.y),here=py*MW+px;
+ if(mapSeen[here]===0){if(MAP[py]?.[px]==='.'||MAP[py]?.[px]==='D'||MAP[py]?.[px]==='K')mappedWalkable++}
+ mapSeen[here]=2;
+}
+function tileDiscovered(x,y){return x>=0&&x<MW&&y>=0&&y<MH&&mapSeen[y*MW+x]>0}
+function mapPercent(){return Math.min(100,Math.round(mappedWalkable/MAP_WALKABLE*100))}
+function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0,awareness:0}}
+function reset(){
+ try{localStorage.removeItem(SAVE_KEY)}catch(_){};updateSaveButton();
+ started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];scareTime=0;scareUsed=false;
+ player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6},reserve:{pistol:42,shotgun:26},reload:0,attack:0,buff:0,shield:0,flashlight:true};
+ surveyMap();enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));
+ objective={fuses:0,key:false,generator:false,boss:false};kills=0;shots=0;last=performance.now();startTime=last;frame=0;shotClock=0;flash=0;screenShake=0;hitmark=0;bob=0;
+ tip='CARI 3 JALUR PENDINDING DAN KUNCI PAGAR KERAMAT';tipTimer=4;ambienceClock=5;killPulse=0;keys.clear();fireHeld=false;mouseHeld=false;joy.x=joy.y=0;
+ $('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');
+ updateWeaponButtons();updateTorchButton();updateScareToggle();
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){}
+ requestAnimationFrame(loop)
+}
+function end(win){playing=false;ended=true;missionWon=win;fireHeld=false;mouseHeld=false;try{document.exitPointerLock?.()}catch(_){};
+ $('result-tag').textContent=win?'MISI SELESAI':'MISI GAGAL';
+ $('result-title').textContent=win?'KAMPUNG DISELAMATKAN':'KAU TEWAS';
+ $('result-description').textContent=win?`Hantu Raya dihalau! Kampung selamat dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.`:`${kills} hantu ditumpaskan. Cuba lagi untuk hidupkan generator dan cari jalan keluar.`;
+ $('resumeCheckpoint').classList.toggle('hidden',win||!checkpoint);$('end').classList.remove('hidden');if(win){try{localStorage.removeItem(SAVE_KEY)}catch(_){};sound('win')}updateSaveButton()
+}
+function showTip(msg,sec=2.2){tip=msg;tipTimer=sec}
+function moveEntity(ent,dx,dy,r=.2){if(free(ent.x+dx,ent.y,r))ent.x+=dx;if(free(ent.x,ent.y+dy,r))ent.y+=dy}
+function updateWeaponButtons(){document.querySelectorAll('[data-w]').forEach(el=>el.classList.toggle('active',el.dataset.w===player.weapon))}
+function equip(w){if(!playing||!WEAPONS[w])return;player.weapon=w;player.reload=0;player.attack=0;showTip(`SENJATA: ${WEAPONS[w].name}`,1.1);updateWeaponButtons();sound('pickup')}
+function updateTorchButton(){const el=$('torch');el.textContent=player.flashlight?'🔦 LAMPU ON':'🔦 LAMPU OFF';el.classList.toggle('off',!player.flashlight);el.setAttribute('aria-pressed',String(player.flashlight));el.setAttribute('aria-label',player.flashlight?'Tutup lampu suluh':'Buka lampu suluh')}
+function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;updateTorchButton();sound('torch')}
+function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
+function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('HANTU RAYA TELAH BANGKIT...',1.25)}
+function getInteractable(){
+ if(!playing)return null;
+ let pick=null,best=1.35;
+ for(const d of DOOR_DEFS){if(doorProgress.has(`${d.x},${d.y}`))continue;
+  const dist=Math.hypot(player.x-(d.x+.5),player.y-(d.y+.5));
+  if(dist<best){pick={kind:'door',door:d};best=dist}
+ }
+ const dg=Math.hypot(generator.x-player.x,generator.y-player.y);
+ if(!objective.generator&&dg<best){pick={kind:'generator'};best=dg}
+ return pick
+}
+// Save is versioned and isolated to this browser (no login or cloud account).
+function snapshotGame(){return {player:JSON.parse(JSON.stringify(player)),enemies:JSON.parse(JSON.stringify(enemies)),items:JSON.parse(JSON.stringify(items)),objective:{...objective},doors:[...openDoors],doorProgress:[...doorProgress],closingDoors:[...closingDoors],mapSeen:[...mapSeen],mappedWalkable,hiddenCaches,kills,shots,spawnedBoss,scareUsed,visitedZones:[...visitedZones],elapsed:Math.max(0,performance.now()-startTime)}}
+function validSnapshot(c){if(!c||typeof c!=='object'||!c.player||!c.objective||!Array.isArray(c.enemies)||!Array.isArray(c.items)||!Array.isArray(c.mapSeen)||c.mapSeen.length!==MW*MH||!Array.isArray(c.doors)||!Array.isArray(c.doorProgress||[])||!Array.isArray(c.closingDoors||[]))return false;
+ if(!Number.isFinite(c.player.x)||!Number.isFinite(c.player.y)||c.player.x<1||c.player.x>=MW-1||c.player.y<1||c.player.y>=MH-1)return false;
+ if(!WEAPONS[c.player.weapon]||!c.player.ammo||!c.player.reserve||!Number.isFinite(c.player.hp)||c.player.hp<=0||c.player.hp>100)return false;
+ if(!Number.isInteger(c.objective.fuses)||c.objective.fuses<0||c.objective.fuses>3||typeof c.objective.key!=='boolean'||typeof c.objective.generator!=='boolean'||typeof c.objective.boss!=='boolean')return false;
+ if(c.enemies.length>60||c.items.length!==itemSpawns.length||c.mapSeen.some(v=>v!==0&&v!==1&&v!==2))return false;
+ const knownDoors=new Set(DOOR_DEFS.map(d=>`${d.x},${d.y}`));if(c.doors.some(k=>!knownDoors.has(k))||c.doorProgress.some(e=>!Array.isArray(e)||!knownDoors.has(e[0])||!Number.isFinite(e[1])||e[1]<0||e[1]>1))return false;
+ return true}
+function restoreState(c){player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));items=JSON.parse(JSON.stringify(c.items));objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map(c.doorProgress||[]);closingDoors=new Set(c.closingDoors||[]);mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable||0;hiddenCaches=c.hiddenCaches||0;kills=c.kills||0;shots=c.shots||0;spawnedBoss=!!c.spawnedBoss;scareUsed=!!c.scareUsed;visitedZones=new Set(c.visitedZones||[]);
+ checkpoint=null;navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;projectiles=[];deathWisps=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;keys.clear();playing=true;started=true;ended=false;missionWon=false;last=performance.now();startTime=last-Math.max(0,Math.min(86400000,c.elapsed||0));zoneName=player.y<5?'LAMAN KAMPUNG':player.y<10?'ESTET GETAH':'KAWASAN KERAMAT';
+ $('joy').classList.add('inactive');$('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');updateWeaponButtons();updateTorchButton();updateSaveButton();
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){};requestAnimationFrame(loop)}
+function persistGame(){if(!playing||player.hp<=0||ended)return false;try{const state={v:SAVE_VERSION,when:Date.now(),game:snapshotGame(),checkpoint:checkpoint?JSON.parse(JSON.stringify(checkpoint)):null};localStorage.setItem(SAVE_KEY,JSON.stringify(state));updateSaveButton();return true}catch(_){return false}}
+function readSave(){try{const data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!data||data.v!==SAVE_VERSION||!validSnapshot(data.game))return null;if(data.checkpoint&&!validSnapshot(data.checkpoint))data.checkpoint=null;return data}catch(_){return null}}
+function updateSaveButton(){$('continueSaved').classList.toggle('hidden',!readSave())}
+function loadSavedGame(){const data=readSave();if(!data){updateSaveButton();return}restoreState(data.game);checkpoint=data.checkpoint;showTip('PERMAINAN DISAMBUNG — SELAMAT KEMBALI',3)}
+function saveCheckpoint(){
+ if(checkpoint||!playing)return;checkpoint=snapshotGame();checkpoint.player.hp=Math.max(checkpoint.player.hp,65);
+ showTip('CHECKPOINT ESTET DISIMPAN',3.2);sound('checkpoint');persistGame()
+}
+function restoreCheckpoint(){if(!checkpoint||!validSnapshot(checkpoint))return;const snap=checkpoint;restoreState(snap);checkpoint=snap;showTip('SAMBUNG DARI ESTET GETAH',2.8);sound('checkpoint');persistGame()}
+
+// Breadth-first distance field over walkable tiles; recalculated after movement/door change.
+const NAV_DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
+function updateNavigation(dt){navClock-=dt;const px=Math.floor(player.x),py=Math.floor(player.y),doorSig=[...openDoors].sort().join(';'),key=`${px},${py}|${doorSig}`;
+ if(key===navKey&&navClock>0)return;navKey=key;navClock=.35;navDistances.fill(-1);
+ if(tileAt(px,py)!=='.')return;const qx=new Int16Array(MW*MH),qy=new Int16Array(MW*MH);let head=0,tail=1;qx[0]=px;qy[0]=py;navDistances[py*MW+px]=0;
+ while(head<tail){const x=qx[head],y=qy[head++],dist=navDistances[y*MW+x];for(const [dx,dy] of NAV_DIRS){const nx=x+dx,ny=y+dy,idx=ny*MW+nx;if(nx<0||ny<0||nx>=MW||ny>=MH||navDistances[idx]!==-1||tileAt(nx,ny)!=='.')continue;navDistances[idx]=dist+1;qx[tail]=nx;qy[tail]=ny;tail++}}
+}
+function chaseAroundWalls(e,dt,speed){const x=Math.floor(e.x),y=Math.floor(e.y),index=y*MW+x;if(x<0||y<0||x>=MW||y>=MH)return false;const dist=navDistances[index];if(dist<=0||dist>12)return false;
+ let best=null,bestDist=dist;for(const [dx,dy] of NAV_DIRS){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=MW||ny>=MH||tileAt(nx,ny)!=='.')continue;const nd=navDistances[ny*MW+nx];if(nd>=0&&nd<bestDist){bestDist=nd;best={x:nx+.5,y:ny+.5}}}
+ if(!best)return false;const vx=best.x-e.x,vy=best.y-e.y,len=Math.hypot(vx,vy);if(len>.01)moveEnemy(e,vx/len*dt*speed,vy/len*dt*speed);return true
+}
+function advanceDoors(dt){
+ for(const [key,progress] of doorProgress){
+  const closing=closingDoors.has(key);
+  if(closing){const [x,y]=key.split(',').map(Number);
+   // An open door must never solidify around the player or a ghost.
+   if(Math.hypot(player.x-x-.5,player.y-y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-x-.5,e.y-y-.5)<.52)){
+    closingDoors.delete(key);doorProgress.delete(key);showTip('LALUAN PINTU TERHALANG',1.5);continue
+   }
+  }
+  const next=closing?Math.max(0,progress-dt*1.45):Math.min(1,progress+dt*1.45);
+  doorProgress.set(key,next);
+  if((closing&&next<=0)||(!closing&&next>=1)){
+   doorProgress.delete(key);closingDoors.delete(key);
+   if(closing){openDoors.delete(key);showTip('PINTU DITUTUP',1.2)}
+   else{openDoors.add(key);surveyMap();showTip('PINTU TERBUKA — LALUAN BARU',1.7)}
+   navKey='';persistGame()
+   sound('door')
+  }
+ }
+}
+function interact(){
+ const near=getInteractable();if(!near){showTip('TIADA APA UNTUK DIGUNAKAN',1.1);return}
+ if(near.kind==='door'){
+  const d=near.door;
+  const key=`${d.x},${d.y}`;
+  if(openDoors.has(key)){
+   if(Math.hypot(player.x-d.x-.5,player.y-d.y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-d.x-.5,e.y-d.y-.5)<.52)){
+    showTip('BERUNDUR SEBELUM TUTUP PINTU',1.8);sound('dry');return
+   }
+   doorProgress.set(key,.999);closingDoors.add(key);showTip(`${d.label} SEDANG DITUTUP`,1.5);sound('door');return
+  }
+  if(d.requiresKey&&!objective.key){showTip('PAGAR KERAMAT TERKUNCI — CARI KUNCI',2.8);sound('dry');return}
+  doorProgress.set(key,.001);showTip(`${d.label} SEDANG DIBUKA`,1.5);sound('door');return
+ }
+ if(objective.fuses!==3){showTip(`TIANG PENDINDING PERLUKAN ${3-objective.fuses} JALUR LAGI`,2.5);sound('dry');return}
+ objective.generator=true;showTip('PENDINDING AKTIF! HANTU RAYA MUNCUL!',3.4);sound('win');
+ if(!spawnedBoss){enemies.push(makeEnemy('raya',17.2,12.6));triggerScare();spawnedBoss=true}persistGame()
+}
+function reload(){const w=player.weapon,def=WEAPONS[w];if(!playing||!def.clip||player.reload>0||player.ammo[w]>=def.clip||player.reserve[w]<=0)return;player.reload=def.reload;showTip('ISI SEMULA...');sound('reload')}
+function shoot(){
+ if(!playing||player.reload>0||shotClock>0)return;
+ const w=player.weapon,def=WEAPONS[w];
+ if(def.clip&&player.ammo[w]<=0){sound('dry');shotClock=.19;reload();return}
+ if(def.clip)player.ammo[w]--;shots++;shotClock=def.rate;player.attack=.3;screenShake=w==='shotgun'?4:w==='pistol'?1.6:2.2;flash=w==='shotgun'?.11:.04;
+ sound(w==='parang'?'hit':'shot');
+ let target=null,best=Infinity;
+ for(const e of enemies){if(!e.alive)continue;
+  const dx=e.x-player.x,dy=e.y-player.y,dist=Math.hypot(dx,dy),da=Math.atan2(Math.sin(Math.atan2(dy,dx)-player.a),Math.cos(Math.atan2(dy,dx)-player.a));
+  const size=def.spread+.15/Math.max(1,dist);
+  if(dist<=def.range&&Math.abs(da)<size&&dist<best&&lineOfSight(player.x,player.y,e.x,e.y)){target=e;best=dist}
+ }
+ if(target){let dmg=def.damage*(w==='shotgun'?Math.max(.42,1-best/8):1)*(player.buff>0?1.6:1);target.hp-=dmg;target.flash=.18;hitmark=.25;sound('hit');
+  if(target.hp<=0){target.alive=false;kills++;deathWisps.push({x:target.x,y:target.y,life:.62,type:target.type});killPulse=.3;showTip(`${target.type.toUpperCase()} TUMPAS`);if(target.type==='raya'){objective.boss=true;showTip('HANTU RAYA TUMPAS! LARI KE JALAN BESAR!',3.5);persistGame()}}
+ }
+ if(def.clip&&player.ammo[w]===0&&player.reserve[w]>0)reload()
+}
+function lineOfSight(ax,ay,bx,by){const dist=Math.hypot(bx-ax,by-ay);for(let d=.13;d<dist-.23;d+=.14){const x=ax+(bx-ax)*d/dist,y=ay+(by-ay)*d/dist;if(isWall(x,y))return false}return true}
+function damagePlayer(dmg){if(hurtCooldown>0)return false;hurtCooldown=.58;const amount=player.shield>0?Math.ceil(dmg*.55):dmg;player.hp=Math.max(0,player.hp-amount);flash=Math.max(flash,player.shield>0?.08:.16);screenShake=player.shield>0?2.5:5;sound(player.shield>0?'shield':'hurt');if(player.hp<=0){end(false);return true}return false}
+function moveEnemy(e,dx,dy){moveEntity(e,dx,dy,e.type==='toyol'?.16:.22)}
+function castCurse(e,dx,dy,d){const len=Math.max(.01,d);const vx=dx/len,vy=dy/len;
+ projectiles.push({x:e.x+vx*.35,y:e.y+vy*.35,vx:vx*3.4,vy:vy*3.4,ttl:3.5,phase:0});sound('ghost')}
+function updateProjectiles(dt){
+ for(const p of projectiles){if(p.ttl<=0)continue;
+  // Short sub-steps prevent fast projectiles passing through walls or player.
+  const steps=Math.max(1,Math.ceil(dt*4.5/.1));
+  for(let k=0;k<steps&&p.ttl>0;k++){
+   p.x+=p.vx*dt/steps;p.y+=p.vy*dt/steps;
+   if(isWall(p.x,p.y)){p.ttl=0;break}
+   if(Math.hypot(p.x-player.x,p.y-player.y)<.32){p.ttl=0;if(damagePlayer(9))return;showTip('ELAK SUMPAHAN LANGSUIR!',1.6);break}
+  }
+  p.phase+=dt*7;p.ttl-=dt
+ }
+ projectiles=projectiles.filter(p=>p.ttl>0);
+}
+
+function updateEnemy(e,dt){
+ const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;
+ const dx=player.x-e.x,dy=player.y-e.y,d=Math.hypot(dx,dy),safeD=Math.max(.08,d),visible=d<9&&lineOfSight(e.x,e.y,player.x,player.y);
+ if(e.type==='raya'){
+  if(e.ai==='slam'){
+   e.charge-=dt;e.flash=.12;
+   if(e.charge<=0){e.ai='recover';e.charge=.70;screenShake=Math.max(screenShake,6);sound('scream');if(d<1.85&&visible)damagePlayer(spec.damage);showTip('HENTAKAN HANTU RAYA!',1.1)}
+   return
+  }
+  if(e.ai==='recover'){e.charge-=dt;if(e.charge<=0)e.ai='chase';return}
+  if(!visible){if(d<11)chaseAroundWalls(e,dt,spec.speed);return}
+  if(d>1.55)moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);
+  else if(e.attack<=0){e.ai='slam';e.charge=1.0;e.attack=3.1;showTip('HANTU RAYA NAK HENTAK! UNDUR!',2.0);sound('ghost')}
+  return
+ }
+ if(visible)e.awareness=5;else{e.awareness=Math.max(0,(e.awareness||0)-dt);if(d<5.6)e.awareness=Math.max(e.awareness,2.0);if(e.awareness>0&&d<9)chaseAroundWalls(e,dt,spec.speed*(e.type==='langsuir'?.82:1));return}
+ if(e.type==='langsuir'){
+  // Hover at medium distance, sidestep around the player, telegraph every curse.
+  if(e.ai==='cast'){
+   e.charge-=dt;if(e.charge<=0){castCurse(e,dx,dy,d);e.ai='chase';e.attack=spec.rate}
+  }else{
+   if(d<2.4)moveEnemy(e,-dx/safeD*dt*.68,-dy/safeD*dt*.68);
+   else if(d>4.9)moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);
+   else{const sweep=Math.sin(e.phase*.9)*dt*.26;moveEnemy(e,-dy/safeD*sweep,dx/safeD*sweep)}
+   if(d<7.2&&e.attack<=0){e.ai='cast';e.charge=.75;e.attack=spec.rate;showTip('LANGSUIR MENGUMPUL SUMPAHAN...',1.4);sound('ghost')}
+  }
+  return;
+ }
+ if(e.type==='pontianak'){
+  if(e.ai==='tell'){e.charge-=dt;if(e.charge<=0){e.ai='dash';e.dash=.65;e.dx=dx/Math.max(.1,d);e.dy=dy/Math.max(.1,d);showTip('PONTIANAK MENERKAM!')}}
+  else if(e.ai==='dash'){if(e.dash>0){moveEnemy(e,e.dx*dt*3,e.dy*dt*3);e.dash-=dt}else{e.ai='chase';e.attack=1.5}}
+  else if(d>1.05){moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);if(d<3.4&&e.attack<=0){e.ai='tell';e.charge=.7;e.attack=2.8;sound('scream');triggerScare();showTip('DENGAR JERITAN PONTIANAK...',1.2)}}
+ }else if(d>spec.range){
+  let moveSpeed=spec.speed;
+  if(e.type==='pocong')moveSpeed*=.35+.8*Math.max(0,Math.sin(e.phase*2));
+  if(e.type==='toyol'){const wiggle=Math.sin(e.phase*2.5)*.55;moveEnemy(e,(dx/safeD+(-dy/safeD)*wiggle)*dt*moveSpeed,(dy/safeD+(dx/safeD)*wiggle)*dt*moveSpeed)}
+  else moveEnemy(e,dx/safeD*dt*moveSpeed,dy/safeD*dt*moveSpeed)
+ }
+ const nd=Math.hypot(player.x-e.x,player.y-e.y);
+ if(nd<=spec.range&&e.attack<=0){e.attack=spec.rate;if(e.type==='toyol'&&Math.random()<.35){const ww=player.weapon==='parang'?'pistol':player.weapon;player.reserve[ww]=Math.max(0,player.reserve[ww]-2);showTip('TOYOL CURI PELURU!')}
+  if(damagePlayer(spec.damage))return
+ }
+}
+function pickup(i){
+ if(i.type==='fuse'){objective.fuses++;showTip(`JALUR PENDINDING ${objective.fuses}/3`,3)}
+ else if(i.type==='key'){objective.key=true;showTip('KUNCI PAGAR KERAMAT DIJUMPAI! CARI PAGAR MERAH',3.8)}
+ else if(i.type==='health'){const gained=Math.min(100-player.hp,35);player.hp+=gained;showTip(`+${gained} KESIHATAN`)}
+ else if(i.type==='air_garam'){player.buff=14;showTip('AIR GARAM AKTIF — DAMAGE +60%',3)}
+ else if(i.type==='tangkal'){player.shield=18;showTip('TANGKAL AKTIF — SERANGAN -45%',3)}
+ else if(i.type==='stash'){hiddenCaches++;player.hp=Math.min(100,player.hp+25);player.reserve.pistol+=12;player.reserve.shotgun+=6;showTip('PONDOK BEKALAN RAHSIA! +NYAWA +PELURU',3.1)}
+ else if(i.type==='ammo_bullet'){player.reserve.pistol+=18;showTip('+18 PELURU PISTOL')}
+ else if(i.type==='ammo_shell'){player.reserve.shotgun+=10;showTip('+10 PELURU SHOTGUN')}
+ i.taken=true;sound('pickup');persistGame()
+}
+function update(dt){
+ frame+=dt;advanceDoors(dt);hurtCooldown=Math.max(0,hurtCooldown-dt);saveClock+=dt;surveyClock-=dt;scareTime=Math.max(0,scareTime-dt);shotClock=Math.max(0,shotClock-dt);flash=Math.max(0,flash-dt);hitmark=Math.max(0,hitmark-dt);
+ screenShake=Math.max(0,screenShake-dt*22);tipTimer=Math.max(0,tipTimer-dt);killPulse=Math.max(0,killPulse-dt);player.attack=Math.max(0,player.attack-dt);player.buff=Math.max(0,player.buff-dt);player.shield=Math.max(0,player.shield-dt);
+ ambienceClock-=dt;if(ambienceClock<=0){const nearest=enemies.reduce((best,e)=>e.alive?Math.min(best,Math.hypot(e.x-player.x,e.y-player.y)):best,100);if(nearest<6)sound('ghost');ambienceClock=3.5+Math.random()*4}
+ if(player.reload>0){player.reload-=dt;if(player.reload<=0){const w=player.weapon,def=WEAPONS[w],take=Math.min(def.clip-player.ammo[w],player.reserve[w]);player.ammo[w]+=Math.max(0,take);player.reserve[w]-=Math.max(0,take);player.reload=0;showTip('SENJATA SIAP')}}
+ let forward=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-joy.y;
+ let strafe=(keys.has('KeyD')?1:0)-(keys.has('KeyA')?1:0)+joy.x;
+ let magnitude=Math.hypot(forward,strafe);
+ if(keys.has('ArrowLeft'))player.a-=dt*1.9;if(keys.has('ArrowRight'))player.a+=dt*1.9;
+ const move=dt*2.6;
+ if(magnitude>.05){forward/=Math.max(1,magnitude);strafe/=Math.max(1,magnitude);const cos=Math.cos(player.a),sin=Math.sin(player.a);
+  moveEntity(player,(forward*cos-strafe*sin)*move,(forward*sin+strafe*cos)*move);bob+=dt*10;moving=1
+ }else moving=Math.max(0,moving-dt*5);
+ if(surveyClock<=0){surveyMap();surveyClock=.14}updateNavigation(dt);
+ if(saveClock>=12){saveClock=0;persistGame()}
+ if(fireHeld||mouseHeld)shoot();
+ for(const e of enemies){if(e.alive){updateEnemy(e,dt);if(!playing)return}}
+ updateProjectiles(dt);if(!playing)return;for(const w of deathWisps)w.life-=dt;deathWisps=deathWisps.filter(w=>w.life>0);
+ for(const i of items){if(!i.taken&&Math.hypot(i.x-player.x,i.y-player.y)<.57)pickup(i)}
+ // Room title appears when entering a new wing, then leaves the player in control.
+ zoneName=player.y<5?'LAMAN KAMPUNG':player.y<10?'ESTET GETAH':'KAWASAN KERAMAT';
+ if(!visitedZones.has(zoneName)){visitedZones.add(zoneName);showTip(`MEMASUKI ${zoneName}`,2.5)}
+ if(!checkpoint&&zoneName==='ESTET GETAH'&&player.y>5.35&&player.y<9.65)saveCheckpoint()
+ const near=getInteractable();
+ if(near&&tipTimer<.15){
+  const d=near.door;
+  showTip(near.kind==='generator'?'E / GUNA: TIANG PENDINDING':d.requiresKey&&!objective.key?'PERLUKAN KUNCI PAGAR KERAMAT':`E / GUNA: ${openDoors.has(`${d.x},${d.y}`)?'TUTUP':'BUKA'} ${d.label}`,1.1)
+ }
+ if(Math.hypot(portal.x-player.x,portal.y-player.y)<.75){
+  if(objective.generator&&objective.boss){end(true)}
+  else if(tipTimer<.25)showTip(!objective.generator?'JALAN TERKUNCI — AKTIFKAN PENDINDING':'TEWASKAN HANTU RAYA DAHULU')
+ }
+}
+function world(){const shake=(Math.random()-.5)*screenShake,cy=H*.47+Math.sin(bob)*1.1*moving+shake;
+ const flicker=Math.sin(frame*1.4)*.009;renderLightLevel=flicker-.12+(objective.generator?-.025:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#050d23');ceiling.addColorStop(.72,'#102b33');ceiling.addColorStop(1,'#24443c');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);const moonX=((1.95-player.a%(Math.PI*2))*42+W*2)%(W*2);ctx.fillStyle='#dfddbe';ctx.beginPath();ctx.arc(moonX,cy*.25,10,0,Math.PI*2);ctx.fill();let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263b27');floor.addColorStop(1,'#101c13');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
+for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const key=`${mx},${my}`,tile=doorProgress.has(key)?MAP[my][mx]:tileAt(mx,my);if(tile!=='.'){
+  const progress=doorProgress.get(`${mx},${my}`)||0;
+  if((tile==='D'||tile==='K')&&progress>0){const hitD=side===0?sidx-ddx:sidy-ddy;let doorU=side===0?player.y+hitD*ry:player.x+hitD*rx;doorU-=Math.floor(doorU);if((side===0&&rx>0)||(side===1&&ry<0))doorU=1-doorU;
+   if(doorU<progress)continue}
+  wall=tile==='D'?4:tile==='K'?5:(Number(tile)||1);break} }let dist=Math.max(.05,side===0?sidx-ddx:sidy-ddy);zbuf[col]=dist;let height=H/dist*.8,top=cy-height/2,wallX=side===0?player.y+dist*ry:player.x+dist*rx;wallX-=Math.floor(wallX);let uv=wallX;if((side===0&&rx>0)||(side===1&&ry<0))uv=1-uv;
+ const doorOpening=(wall===4||wall===5)?(doorProgress.get(`${mx},${my}`)||0):0;
+ if(doorOpening>0)uv=Math.min(.999,(uv-doorOpening)/(1-doorOpening));
+ const texX=Math.max(0,Math.min(63,(uv*64)|0));ctx.drawImage(textures[wall]||textures[1],texX,0,1,64,col*STEP,top,STEP+1,height);paintWallAttachments(mx,my,side,rx,ry,wallX,top,height,col);let shade=Math.min(.92,dist*.047+(side?.14:0)+.06+renderLightLevel);ctx.fillStyle=`rgba(7,10,19,${shade})`;ctx.fillRect(col*STEP,top,STEP+1,height);if(top+height<H){ctx.fillStyle='#05070a15';ctx.fillRect(col*STEP,top+height,STEP+1,Math.min(H-top-height,2))}}
+const sprites=[];
+for(const e of enemies)if(e.alive){
+ const bobbing=e.type==='pocong'?Math.sin(e.phase*2)*.035:e.type==='pontianak'?-.11+Math.sin(e.phase)*.06:e.type==='langsuir'?-.22+Math.sin(e.phase*1.3)*.085:e.type==='raya'?-0.12+Math.sin(e.phase*.7)*.025:Math.sin(e.phase*3)*.02;
+ const pose=(e.ai==='dash'||e.ai==='cast'||e.ai==='slam')?3:Math.floor(e.phase*1.15)%4;
+ sprites.push({x:e.x,y:e.y,bob:bobbing,img:enemySpriteFrames[e.type][pose],scale:ENEMY_TYPES[e.type].scale,glow:e.flash>0||e.ai==='cast',grounded:true})}
+ for(const p of projectiles)sprites.push({x:p.x,y:p.y,bob:-.1,img:curseSprite,scale:.22,glow:true,grounded:false,kind:'curse'});
+ for(const w of deathWisps)sprites.push({x:w.x,y:w.y,bob:-.11-(.62-w.life)*.65,img:curseSprite,scale:.25+(.62-w.life)*.22,glow:true,grounded:false,kind:'wisp'});
+for(const i of items)if(!i.taken&&(!i.hidden||(Math.hypot(i.x-player.x,i.y-player.y)<1.6&&lineOfSight(player.x,player.y,i.x,i.y))))sprites.push({x:i.x,y:i.y,img:i.type==='stash'?ammoImg:pickupSprite[i.type],scale:.45,glow:i.type==='air_garam'||i.type==='tangkal',grounded:true,kind:'pickup'});
+for(const prop of floorDecorations)sprites.push({...prop,glow:false});
+sprites.sort((a,b)=>(b.x-player.x)**2+(b.y-player.y)**2-((a.x-player.x)**2+(a.y-player.y)**2));
+const inv=1/(px*dy-dx*py);
+for(const s of sprites){let xx=s.x-player.x,yy=s.y-player.y,tx=inv*(dy*xx-dx*yy),tz=inv*(-py*xx+px*yy);if(tz<=.15)continue;
+ let sx=W*.5*(1+tx/tz),sh=H/tz*s.scale,sw=sh*.66;
+ // A grounded object's bottom is the projected floor plane at its distance,
+ // independent of its sprite height. No hover artifacts for trolleys/pickups.
+ let groundY=cy+H/tz*.4,top=(s.grounded?groundY-sh:cy-sh*.53)+(s.bob||0)*H/tz;
+ if(s.kind==='floor'&&tz<zbuf[Math.min(RAYS-1,Math.max(0,(sx/STEP)|0))]){
+  ctx.fillStyle='#03080962';ctx.beginPath();ctx.ellipse(sx,groundY,Math.max(2,sw*.30),Math.max(1,sh*.044),0,0,Math.PI*2);ctx.fill()
+ }
+ for(let stripe=Math.floor(sx-sw/2);stripe<Math.ceil(sx+sw/2);stripe+=2){if(stripe<0||stripe>=W||tz>=zbuf[Math.min(RAYS-1,Math.max(0,(stripe/STEP)|0))]+.18)continue;
+ let texX=Math.floor((stripe-(sx-sw/2))/sw*s.img.width);if(texX<0||texX>=s.img.width)continue;
+ ctx.drawImage(s.img,texX,0,1,s.img.height,stripe,top,2.5,sh);
+ if(s.glow){ctx.fillStyle='#ffe7bd2c';ctx.fillRect(stripe,top,2.2,sh)}
+ }
+}
+}
+function weapon(){
+ ctx.save();let strike=player.attack>0?Math.sin(Math.PI*Math.max(0,Math.min(1,1-player.attack/.3))):0;let recoil=strike*(player.weapon==='shotgun'?27:player.weapon==='pistol'?14:9);
+ let x=W/2-47+Math.sin(bob)*2*moving,y=H-24+recoil+Math.abs(Math.cos(bob))*2*moving;
+ const w=player.weapon,p=(c,ox,oy,ww,hh)=>{ctx.fillStyle=c;ctx.fillRect(x+ox,y+oy,ww,hh)};
+ if(w==='parang'){
+  ctx.translate(x+47,y);const swing=player.attack>0?Math.sin((1-player.attack/.3)*Math.PI):0;ctx.rotate(-.45+swing*1.05);ctx.translate(-(x+47),-y);
+  p('#232028',37,-2,18,48);p('#a05c35',40,-25,12,32);p('#d4c8a0',34,-31,24,8);p('#6f7981',35,-93,21,63);p('#c0c9c4',36,-94,8,58);p('#e0d9c7',36,-94,5,38)
+ }else if(w==='pistol'){
+  p('#16171f',17,-19,65,46);p('#393f4c',31,-61,43,49);p('#a1a8a9',35,-60,38,10);p('#262c35',46,-63,23,16);p('#626b6c',32,-34,43,7);p('#6f3c33',50,-9,22,33);p('#a35c43',53,-4,15,24);
+  if(player.attack>.14){p('#ffe3a4',43,-102,20,29);p('#fc963d',35,-89,36,18)}
+ }else{
+  p('#17141b',13,-33,69,54);p('#414650',24,-48,43,51);p('#79868d',29,-48,34,8);p('#252d3b',38,-58,17,33);p('#a6a3a0',40,-66,13,23);p('#242532',32,-14,34,31);p('#6f3537',20,4,54,12);p('#b05b49',36,4,20,9);p('#d0d8d7',43,-67,7,9);
+  if(player.attack>.16){p('#ffebaa',36,-95,22,26);p('#ffa74c',27,-88,40,18);p('#ff7c27',38,-111,18,27)}
+ }
+ ctx.restore()
+}
+function hud(){
+ ctx.fillStyle='#060b14ee';ctx.fillRect(0,H-40,W,40);ctx.fillStyle=player.buff>0?'#8cd8d8':'#b04c43';ctx.fillRect(0,H-40,W,2);
+ ctx.font='bold 9px monospace';ctx.fillStyle='#bbc2c4';ctx.fillText('NYAWA',12,H-24);ctx.fillText('SENJATA',181,H-24);ctx.fillText('JALUR',344,H-24);
+ ctx.font='bold 18px monospace';ctx.fillStyle=player.hp<30?'#ff6c5c':'#f6e5cf';ctx.fillText(String(Math.floor(player.hp)).padStart(3,'0'),12,H-7);
+ ctx.fillStyle='#65bb9d';ctx.fillRect(63,H-17,Math.max(0,player.hp)*.77,8);
+ const w=player.weapon,def=WEAPONS[w];ctx.fillStyle='#f3dac8';ctx.font='bold 10px monospace';ctx.fillText(def.name,181,H-12);
+ ctx.fillStyle='#eac5a4';ctx.font='bold 11px monospace';ctx.fillText(def.clip?`${player.ammo[w]} / ${player.reserve[w]}`:'∞',261,H-12);
+ ctx.fillStyle='#f9b09a';ctx.font='bold 20px monospace';ctx.fillText(`${objective.fuses}/3`,341,H-7);
+ ctx.fillStyle='#f2e9db';let c=W/2,q=H*.47;const bloom=player.attack>0?(player.weapon==='shotgun'?5:2)*player.attack/.3:0;ctx.fillRect(c-8-bloom,q,5,1);ctx.fillRect(c+4+bloom,q,5,1);ctx.fillRect(c,q-7-bloom,1,5);ctx.fillRect(c,q+3+bloom,1,5);
+ if(hitmark>0){ctx.save();ctx.globalAlpha=Math.min(1,hitmark*5);ctx.strokeStyle=killPulse>0?'#ff7762':'#fff1cf';ctx.lineWidth=killPulse>0?2.3:1.5;ctx.beginPath();for(let sx of [-1,1])for(let sy of [-1,1]){ctx.moveTo(c+sx*4,q+sy*4);ctx.lineTo(c+sx*(killPulse>0?12:9),q+sy*(killPulse>0?12:9))}ctx.stroke();ctx.restore()}
+ if(tipTimer>0){ctx.font='bold 9px monospace';let tw=ctx.measureText(tip).width;ctx.fillStyle='#03070ce9';ctx.fillRect(W/2-tw/2-8,34,tw+16,18);ctx.fillStyle='#ffd1a3';ctx.fillText(tip,W/2-tw/2,46)}
+ if(player.reload>0){ctx.font='bold 10px monospace';ctx.fillStyle='#ffedc6';ctx.fillText('ISI SEMULA...',W/2-38,H-64)}
+ ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // KAMPUNG BERHANTU  v1.1',10,14);
+ if(player.buff>0){ctx.fillStyle='#c9f6f6';ctx.font='bold 9px monospace';ctx.fillText(`AIR GARAM ${Math.ceil(player.buff)}s`,12,29)}
+ else if(objective.generator){ctx.fillStyle='#bce9c9';ctx.font='bold 9px monospace';ctx.fillText(objective.boss?'LALUAN SUDAH TERBUKA':'BOSS: HANTU RAYA',12,29)}
+ if(player.shield>0){ctx.fillStyle='#f6cf8d';ctx.font='bold 9px monospace';ctx.fillText(`TANGKAL ${Math.ceil(player.shield)}s`,12,player.buff>0?41:29)}
+ const mission=objective.boss?'MENUJU JALAN BESAR':objective.generator?'HAPUSKAN HANTU RAYA':objective.fuses===3?'GUNA TIANG PENDINDING':!objective.key?'CARI KUNCI PAGAR':`JALUR ${objective.fuses}/3 · KERAMAT TERBUKA`;
+ ctx.font='bold 9px monospace';ctx.fillStyle='#d6c0a8';ctx.fillText(mission,Math.max(10,Math.floor(W/2-ctx.measureText(mission).width/2)),H-48);
+ ctx.fillStyle='#b2e6bd';ctx.fillText(zoneName+(objective.key?' | KUNCI ✓':' | KUNCI ?'),10,53);
+ const raya=enemies.find(e=>e.alive&&e.type==='raya');
+ if(raya){const left=W/2-87,top=62;
+  ctx.fillStyle='#06110ef0';ctx.fillRect(left-4,top-12,182,30);
+  ctx.fillStyle='#f4c4aa';ctx.font='bold 8px monospace';ctx.fillText('HANTU RAYA',left+55,top-2);
+  ctx.fillStyle='#562b2a';ctx.fillRect(left,top+2,172,8);
+  ctx.fillStyle='#d47754';ctx.fillRect(left,top+2,172*Math.max(0,raya.hp/ENEMY_TYPES.raya.hp),8)
+ }
+ if(flash>0){ctx.fillStyle=`rgba(252,75,52,${flash*1.35})`;ctx.fillRect(0,0,W,H-40)}
+}
+function minimap(){
+ const size=4,ox=W-MW*size-9,oy=8;
+ ctx.fillStyle='#03070bee';ctx.fillRect(ox-5,oy-5,MW*size+10,MH*size+25);
+ // An unexplored cell has zero structure information, including floors and doors.
+ for(let y=0;y<MH;y++)for(let x=0;x<MW;x++){
+  if(!tileDiscovered(x,y))continue;
+  const tile=tileAt(x,y),seen=mapSeen[y*MW+x];
+  ctx.fillStyle=tile==='.'?(seen===2?'#345b4b':'#1c3533'):tile==='D'?'#d6a15b':tile==='K'?'#bd5b5b':tile==='2'?'#48899a':'#637371';
+  ctx.fillRect(ox+x*size,oy+y*size,size-.4,size-.4)
+ }
+ // Objective markers become persistent only after the player discovers their tile.
+ if(tileDiscovered(Math.floor(generator.x),Math.floor(generator.y))){
+  ctx.fillStyle=objective.generator?'#74dea0':'#efce62';ctx.fillRect(ox+generator.x*size-2,oy+generator.y*size-2,4,4)
+ }
+ if(tileDiscovered(Math.floor(portal.x),Math.floor(portal.y))){
+  ctx.fillStyle=objective.boss?'#7eedc0':'#b78cf4';ctx.fillRect(ox+portal.x*size-2,oy+portal.y*size-2,4,4)
+ }
+ for(const i of items){if(i.taken||i.hidden||!tileDiscovered(Math.floor(i.x),Math.floor(i.y)))continue;
+  if(i.type==='fuse')ctx.fillStyle='#ffc75e';else if(i.type==='key')ctx.fillStyle='#baf4d2';else continue;
+  ctx.fillRect(ox+i.x*size-2,oy+i.y*size-2,3,3)
+ }
+ // Enemies aren't persistent radar contacts: only show nearby visible threats.
+ for(const e of enemies){if(!e.alive||Math.hypot(e.x-player.x,e.y-player.y)>2.7||!lineOfSight(player.x,player.y,e.x,e.y))continue;
+  ctx.fillStyle=e.type==='pontianak'?'#ff3c59':e.type==='toyol'?'#cb88ea':e.type==='langsuir'?'#77f0dc':e.type==='raya'?'#ffb365':'#ff715c';
+  ctx.fillRect(ox+e.x*size-1,oy+e.y*size-1,2.8,2.8)
+ }
+ ctx.save();ctx.translate(ox+player.x*size,oy+player.y*size);ctx.rotate(player.a);
+ ctx.fillStyle='#b1f8cc';ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(-2,-2);ctx.lineTo(-2,2);ctx.fill();ctx.restore();
+ ctx.font='bold 8px monospace';ctx.fillStyle='#b7c6bc';ctx.fillText(`PETA ${mapPercent()}%  RAHSIA ${hiddenCaches}/1`,ox-1,oy+MH*size+12)
+}
+function atmosphere(){
+ // Alpha-only darkness mask: render into a second canvas to avoid erasing world pixels.
+ lightCtx.clearRect(0,0,W,H);const distanceAlpha=player.flashlight?.36:.51;
+ lightCtx.fillStyle=`rgba(2,7,9,${Math.max(.28,Math.min(.78,distanceAlpha+renderLightLevel))})`;
+ lightCtx.fillRect(0,0,W,H-40);
+ if(player.flashlight){
+  lightCtx.save();lightCtx.globalCompositeOperation='destination-out';
+  const jitter=Math.sin(frame*19)*.7;const x=W*.5+jitter,y=H*.46;
+  const light=lightCtx.createRadialGradient(x,y,6,x,y,185);
+  light.addColorStop(0,'rgba(0,0,0,.96)');light.addColorStop(.30,'rgba(0,0,0,.78)');light.addColorStop(.60,'rgba(0,0,0,.34)');light.addColorStop(1,'rgba(0,0,0,0)');
+  lightCtx.fillStyle=light;lightCtx.fillRect(0,0,W,H-40);lightCtx.restore();
+ }
+ ctx.drawImage(ambianceCanvas,0,0);
+ if(objective.generator){ctx.fillStyle=`rgba(60,126,92,${.015+.014*Math.sin(frame*3)})`;ctx.fillRect(0,0,W,H-40)}
+ if(killPulse>0){ctx.fillStyle=`rgba(249,215,176,${killPulse*.12})`;ctx.fillRect(0,0,W,H-40)}
+ // Deliberate VHS texture and vignette, cheap enough for mobile 480x270 canvas.
+ ctx.fillStyle='#02050735';ctx.fillRect(0,0,16,H-40);ctx.fillRect(W-16,0,16,H-40);
+ ctx.fillStyle='#00000015';for(let y=1;y<H-40;y+=4)ctx.fillRect(0,y,W,1);
+}
+function drawScare(){
+ if(scareTime<=0)return;
+ const opacity=Math.min(.84,scareTime*1.45);const c=W*.5;
+ ctx.save();ctx.globalAlpha=opacity;ctx.fillStyle='#15121d7a';ctx.fillRect(0,0,W,H-40);
+ const size=105+Math.sin((.55-scareTime)*9)*5;
+ ctx.imageSmoothingEnabled=false;ctx.drawImage(enemySpriteFrames.raya[3],c-size*.47,15,size*.94,size*1.2);
+ ctx.fillStyle='#d8cabb';ctx.font='bold 15px monospace';ctx.textAlign='center';ctx.fillText('HANTU RAYA SUDAH BANGKIT',c,H-55);
+ ctx.restore();ctx.textAlign='start';
+}
+function render(){world();atmosphere();weapon();minimap();hud();drawScare()}
+function loop(now){if(!playing)return;const dt=Math.min(.04,Math.max(.005,(now-last)/1000));last=now;update(dt);render();if(playing)requestAnimationFrame(loop)}
+function mobileLook(ev){if(pointer.look!==ev.pointerId)return;const d=ev.clientX-pointer.lastX;pointer.lastX=ev.clientX;player.a+=d*.0055}
+canvas.addEventListener('pointerdown',ev=>{if(!playing)return;if(ev.pointerType==='mouse'){mouseHeld=true;shoot();if(document.pointerLockElement!==canvas)canvas.requestPointerLock?.()}else{const rect=canvas.getBoundingClientRect();if(ev.clientX>rect.left+rect.width*.38){pointer.look=ev.pointerId;pointer.lastX=ev.clientX;try{canvas.setPointerCapture(ev.pointerId)}catch(_){}}}});
+canvas.addEventListener('pointermove',ev=>{if(!playing)return;if(document.pointerLockElement===canvas){player.a+=ev.movementX*.0032}else if(ev.pointerType!=='mouse')mobileLook(ev)});
+canvas.addEventListener('pointerup',ev=>{if(ev.pointerType==='mouse')mouseHeld=false;if(pointer.look===ev.pointerId)pointer.look=null});canvas.addEventListener('pointercancel',()=>{mouseHeld=false;pointer.look=null});
+let joyAnchor={x:0,y:0,r:38};
+function placeJoy(x,y){const j=$('joy'),m=$('mobile').getBoundingClientRect(),size=j.offsetWidth||116,half=size/2,pad=12;const cx=Math.max(pad+half,Math.min(m.width*.52-half-pad,x-m.left)),cy=Math.max(pad+half,Math.min(m.height-half-pad,y-m.top));j.style.left=`${cx-half}px`;j.style.top=`${cy-half}px`;j.style.bottom='auto';joyAnchor={x:cx,y:cy,r:(size*.33)};j.classList.remove('inactive')}
+function setJoy(ev){if(pointer.joy!==ev.pointerId)return;const xx0=(ev.clientX-$('mobile').getBoundingClientRect().left)-joyAnchor.x,yy0=(ev.clientY-$('mobile').getBoundingClientRect().top)-joyAnchor.y;let xx=xx0/joyAnchor.r,yy=yy0/joyAnchor.r,mag=Math.hypot(xx,yy);if(mag>1){xx/=mag;yy/=mag}joy.x=xx;joy.y=yy;$('stick').style.transform=`translate(${xx*joyAnchor.r}px,${yy*joyAnchor.r}px)`}
+$('joyZone').addEventListener('pointerdown',ev=>{if(!playing)return;pointer.joy=ev.pointerId;placeJoy(ev.clientX,ev.clientY);try{$('joyZone').setPointerCapture(ev.pointerId)}catch(_){};setJoy(ev)});
+$('joyZone').addEventListener('pointermove',setJoy);function clearJoy(ev){if(pointer.joy!==ev.pointerId)return;pointer.joy=null;joy.x=joy.y=0;$('stick').style.transform='translate(0,0)';$('joy').classList.add('inactive')}$('joyZone').addEventListener('pointerup',clearJoy);$('joyZone').addEventListener('pointercancel',clearJoy);
+$('resumeCheckpoint').addEventListener('click',restoreCheckpoint);$('continueSaved').addEventListener('click',loadSavedGame);
+$('scareToggle').addEventListener('click',()=>{scareEnabled=!scareEnabled;updateScareToggle()});
+$('fire').addEventListener('pointerdown',ev=>{if(!playing)return;ev.preventDefault();try{$('fire').setPointerCapture(ev.pointerId)}catch(_){};fireHeld=true;shoot()});$('fire').addEventListener('pointerup',()=>fireHeld=false);$('fire').addEventListener('pointercancel',()=>fireHeld=false);$('reload').addEventListener('click',reload);$('use').addEventListener('click',interact);$('torch').addEventListener('click',toggleTorch);document.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>equip(b.dataset.w)));
+document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)mouseHeld=false});document.addEventListener('keydown',ev=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(ev.code))ev.preventDefault();keys.add(ev.code);if(ev.code==='Space')shoot();if(ev.code==='KeyR')reload();if(ev.code==='KeyE'&&!ev.repeat)interact();if(ev.code==='KeyL'&&!ev.repeat)toggleTorch();if(ev.code==='Digit1')equip('parang');if(ev.code==='Digit2')equip('pistol');if(ev.code==='Digit3')equip('shotgun');if(ev.code==='Escape'&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});document.addEventListener('keyup',ev=>keys.delete(ev.code));document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});
+$('start').addEventListener('click',()=>{if(started&&!ended&&!playing){playing=true;last=performance.now();$('menu').classList.add('hidden');try{audio?.resume()}catch(_){}requestAnimationFrame(loop)}else reset()});$('again').addEventListener('click',()=>{reset();$('start').textContent='MASUK KAMPUNG'});
+player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6},reserve:{pistol:42,shotgun:26},reload:0,attack:0,buff:0,shield:0,flashlight:true};updateScareToggle();updateSaveButton();objective={fuses:0,key:false,generator:false,boss:false};enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));$('joy').classList.add('inactive');surveyMap();ctx.fillStyle='#111923';ctx.fillRect(0,0,W,H);render();
+})();
+</script>
+</body></html>
