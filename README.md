@@ -1,43 +1,32 @@
-# PROJECT: TERROR — Hospital Lama (v0.3)
+# PROJECT: TERROR — Hospital Lama (v0.4)
 
-A browser-first, retro pixel FPS set in a haunted Malaysian hospital. Built with original Canvas 2D raycasting, procedural sprites and WebAudio, without external dependencies.
+**Play:** https://lmous57-gif.github.io/Project-Terror/
 
-**Play online:** https://lmous57-gif.github.io/Project-Terror/
+A Malaysian-supernatural retro FPS for browser, built with a standalone HTML/Canvas raycaster. No dependencies or external assets.
 
-## Objective
-
-Collect 3 fius, activate the generator, defeat the Pontianak and reach the exit. Survive Pocong and Toyol on the way.
+## Mission
+Collect three FIUS, activate the wall-mounted generator, defeat the Pontianak and escape through the hospital exit door. Fight Pocong and Toyol.
 
 ## Controls
-
-| Action | Desktop | Android / mobile (landscape) |
-| --- | --- | --- |
-| Move | WASD | Virtual joystick |
-| Look | Mouse or arrow keys | Drag right side |
-| Fire | Click / Space | TEMBAK |
+| Action | Desktop | Mobile (landscape) |
+|---|---|---|
+| Move | WASD | Left joystick |
+| Look | Mouse / arrows | Drag right |
+| Attack | Mouse / Space | TEMBAK |
 | Reload | R | ISI SEMULA |
-| Weapon | 1 Parang / 2 Pistol / 3 Shotgun | Weapon buttons |
-| Flashlight | L | 🔦 LAMPU ON / OFF |
-| Pause | Esc | Switching tabs auto-pauses |
+| Weapons | 1 Parang, 2 Pistol, 3 Shotgun | Weapon buttons |
+| Flashlight | L | LAMPU |
 
-## Equipment
-- **Parang**: unlimited melee.
-- **Pistol**: accurate ranged option.
-- **Shotgun**: heavy close-range damage.
-- **Air Garam**: +60% damage for 14 seconds.
-- **Tangkal Pelindung**: -45% incoming damage for 18 seconds.
+Air Garam: +60% damage (14 seconds). Tangkal Pelindung: -45% incoming damage (18 seconds).
 
-## v0.3 — Malam Berkelip
+## v0.4 — Wall Render Overhaul
+- Hospital signs, lamps, notices, generator and exit are now **attached to actual wall faces** and perspective-rendered during each DDA ray hit, instead of floating camera-facing sprites.
+- East/north faces use corrected UV orientation to keep text readable.
+- Wall attachments inherit occlusion and wall-distance shading.
+- Trolley/pickups share the projected floor baseline; trolley has a contact shadow.
+- Generator status and exit-door appearance reflect mission progress.
+- Landscape mobile flashlight placement refined.
 
-- Flashlight toggle for desktop and Android.
-- Flickering corridor lighting, vignette and pixel/CRT atmosphere.
-- Nearby ghost sounds and Pontianak scream cue.
-- Local hospital dressing: ward / mortuary / exit signs, trolley, fluorescent lights.
-- New Tangkal Pelindung temporary shield.
-- More objective feedback and revised mobile layout.
+The game is served from `index.html` via `.github/workflows/pages.yml`. See `WALL_RENDERING_SPEC.md` for implementation details.
 
-## Development & deployment
-
-The game is a single `index.html` without external assets or build tools. GitHub Pages deploys automatically with `.github/workflows/pages.yml`.
-
-Original source and procedural art; no DOOM proprietary content is included. Headless Chromium testing covers game launch, mobile controls, flashlight, power-up, fuses, generator and game completion. Real-device testing is still recommended.
+QA: Headless Chromium checks cover gameplay completion, mobile controls, sign angle views and changing generator/door states. Physical-device playtesting remains necessary. Code and procedural assets are original (no proprietary DOOM files).
