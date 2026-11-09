@@ -1,30 +1,30 @@
 # Project: Terror — Changelog
 
-## v0.9 — Combat & Doors
-- Animated raycast door sliding, complete before collision allows passage.
-- Wad Rawatan checkpoint and recovery after death.
-- Shotgun/pistol recoil, expanding crosshair and stronger kill hit marker.
-- Door/reload/checkpoint SFX.
-- Integrated previously local-only v0.8 dynamic mobile joystick and fixed shell-icon fire button.
-- Regression-tested story/quest, desktop and simulated mobile multitouch.
+## v1.0 — Survival Update
+- BFS navigation field enables ghosts to follow accessible corridors and pursue around corners, without passing through locked doors.
+- Local browser autosave around every 12 seconds and after key interactions; Continue Saved Game option.
+- Death checkpoint preserved across browser sessions.
+- Brief 0.58-second damage cooldown following a hit; balancing for Toyol and Langsuir.
+- Reduced fog-of-war survey and navigation frequency for mobile performance.
+- Retained fog-of-war, animated doors, dynamic joystick and minimalist fire button.
 
-## v0.8 — Mobile Controls (now included in online v0.9)
-- Dynamic left-screen joystick, fixed bullet button on right.
+## v0.9 — Combat & Doors
+- Sliding doors (open/close), Wad checkpoint, recoil and hit feedback, dynamic joystick and fixed minimalist shoot control.
 
 ## v0.7 — Peta Misteri
-- Fog of war, hidden objective markers and secret cache.
+- Discoverable fog-of-war minimap, hidden objectives, secret cache.
 
 ## v0.6 — Hospital Exploration
-- 3 zones, interactive doors, mortuary key and generator.
+- Three zones, mortuary key, door interactions and generator.
 
 ## v0.5 — The Haunting
-- Langsuir ranged attacks, ghost animations and optional jumpscare.
+- Langsuir ranged curse, sprite animations, optional jumpscare.
 
 ## v0.4 — Wall Render Overhaul
-- Perspective-correct wall signage, lights and generator.
+- Perspective-correct wall-attached signage, lights and generator.
 
 ## v0.3 — Malam Berkelip
-- Flashlight, atmosphere and Tangkal power-up.
+- Flashlight, ambience, Tangkal protection.
 
 ## v0.2 — Hospital Lama
-- Malaysian ghost roster, weapons and fuse mission.
+- Weapons, Malaysian ghosts, generator objective.
