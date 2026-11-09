@@ -1,14 +1,15 @@
-# Project: Terror — Changelog
+# Changelog
 
-## v0.3: Malam Berkelip
-- Toggleable flashlight on desktop and mobile.
-- Flickering lighting and dark horror atmosphere.
-- Audio cues near ghosts and Pontianak scream.
-- Tangkal Pelindung: temporary shield against incoming attacks.
-- Malaysian hospital decorations and Malay objective prompts.
-- Improved mobile button positioning; gameplay regression-tested.
+## v0.4 — Wall Render Overhaul
+- Replaced billboard signage/lamps with wall-face-bound perspective decals.
+- Added wall-face UV orientation, nearest-hit occlusion and wall-relative shading.
+- Converted generator and exit to wall-mounted functional graphics.
+- Grounded floor decorations and pickups; added contact shadow.
+- Updated hospital notice boards, ward signs and lighting fixtures.
+- Validated wall placement and complete mission with Chromium tests.
 
-## v0.2: Hospital Lama
-- Pocong, Toyol, Pontianak; parang, pistol, shotgun.
-- Air Garam boost and medkit / ammo pickups.
-- Three fuses, generator, Pontianak mini-boss, escape.
+## v0.3 — Malam Berkelip
+- Flashlight toggle, flickering lights, ghost audio, Tangkal, environment and mobile polish.
+
+## v0.2 — Hospital Lama
+- Pocong, Toyol, Pontianak, Parang, Pistol, Shotgun, Air Garam, 3 fuses, generator, escape.
