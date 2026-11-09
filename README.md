@@ -1,32 +1,35 @@
-# PROJECT: TERROR — Hospital Lama (v0.4)
+# PROJECT: TERROR — Hospital Lama (v0.5 · The Haunting)
 
-**Play:** https://lmous57-gif.github.io/Project-Terror/
+**[MAIN GAME ONLINE](https://lmous57-gif.github.io/Project-Terror/)**
 
-A Malaysian-supernatural retro FPS for browser, built with a standalone HTML/Canvas raycaster. No dependencies or external assets.
+Retro FPS browser bertemakan hantu Malaysia. Game ini standalone `index.html`, menggunakan HTML5 Canvas 2D raycasting, WebAudio, original procedural pixel sprites dan tidak memerlukan build tools.
 
-## Mission
-Collect three FIUS, activate the wall-mounted generator, defeat the Pontianak and escape through the hospital exit door. Fight Pocong and Toyol.
+## Apa baru v0.5
+- **4 hantu:** Pocong, Toyol, Pontianak (mini-boss), **Langsuir**.
+- **4-frame animasi sprite** untuk setiap hantu: hop, crawl, hair sway/scream dan floating/casting.
+- **Langsuir serang dari jauh:** sumpahan berwarna hijau, dengan amaran sebelum projectile dilepaskan. Projectile dilindungi oleh dinding; boleh dielak.
+- **Jumpscare Pontianak ringan** (sekali setiap misi), boleh OFF/ON di menu. Tiada strobe berkelip.
+- Ghost death-wisps, warna minimap baru dan AI ranged.
+- Semua perbaikan **wall-mounted prop** v0.4 dikekalkan: signage, lampu, generator dan exit melekat pada dinding.
 
-## Controls
-| Action | Desktop | Mobile (landscape) |
-|---|---|---|
-| Move | WASD | Left joystick |
-| Look | Mouse / arrows | Drag right |
-| Attack | Mouse / Space | TEMBAK |
+## Cara main
+
+| Aksi | Desktop | Android Chrome (landscape) |
+| --- | --- | --- |
+| Gerak | W A S D | Joystick kiri |
+| Aim | Mouse / arrows | Seret sebelah kanan |
+| Serang | Klik / Space | TEMBAK |
 | Reload | R | ISI SEMULA |
-| Weapons | 1 Parang, 2 Pistol, 3 Shotgun | Weapon buttons |
-| Flashlight | L | LAMPU |
+| Senjata | 1 Parang, 2 Pistol, 3 Shotgun | Butang senjata |
+| Lampu | L | LAMPU |
+| Pause | ESC | Tukar tab, sambung di menu |
 
-Air Garam: +60% damage (14 seconds). Tangkal Pelindung: -45% incoming damage (18 seconds).
+## Misi Hospital Lama
+Cari **3 fius**, aktifkan generator, kalahkan Pontianak dan lari ke pintu keluar. Air Garam memberikan +60% damage selama 14 saat. Tangkal melindungi daripada 45% damage selama 18 saat.
 
-## v0.4 — Wall Render Overhaul
-- Hospital signs, lamps, notices, generator and exit are now **attached to actual wall faces** and perspective-rendered during each DDA ray hit, instead of floating camera-facing sprites.
-- East/north faces use corrected UV orientation to keep text readable.
-- Wall attachments inherit occlusion and wall-distance shading.
-- Trolley/pickups share the projected floor baseline; trolley has a contact shadow.
-- Generator status and exit-door appearance reflect mission progress.
-- Landscape mobile flashlight placement refined.
+## Technical
+Semua sprite dihasilkan dalam kod semasa loading: atlas empat frame untuk setiap enemy. Sprite art PNG boleh dieksport daripada generator ini, namun **tidak diperlukan** untuk memainkan game.
 
-The game is served from `index.html` via `.github/workflows/pages.yml`. See `WALL_RENDERING_SPEC.md` for implementation details.
+Ujian Chromium desktop + mobile simulasi lulus untuk spawn, empat atlas animasi, Langsuir projectile, jumpscare toggle, ketiga-tiga fius, generator, Pontianak dan tamat misi. QA pada telefon fizikal masih perlu.
 
-QA: Headless Chromium checks cover gameplay completion, mobile controls, sign angle views and changing generator/door states. Physical-device playtesting remains necessary. Code and procedural assets are original (no proprietary DOOM files).
+Game di-deploy dari `main` melalui workflow `.github/workflows/pages.yml`.
