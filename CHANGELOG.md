@@ -1,26 +1,30 @@
 # Project: Terror — Changelog
 
+## v0.9 — Combat & Doors
+- Animated raycast door sliding, complete before collision allows passage.
+- Wad Rawatan checkpoint and recovery after death.
+- Shotgun/pistol recoil, expanding crosshair and stronger kill hit marker.
+- Door/reload/checkpoint SFX.
+- Integrated previously local-only v0.8 dynamic mobile joystick and fixed shell-icon fire button.
+- Regression-tested story/quest, desktop and simulated mobile multitouch.
+
+## v0.8 — Mobile Controls (now included in online v0.9)
+- Dynamic left-screen joystick, fixed bullet button on right.
+
 ## v0.7 — Peta Misteri
-- Fog of war: minimap dibuka berdasarkan lokasi pemain dan line of sight, bukan automatik seluruh level.
-- Dinding dan pintu tertutup block survey; semua kawasan yang ditemui kekal hingga misi restart.
-- Kawasan dilalui dibezakan daripada kawasan baru dilihat.
-- Fius, kunci, generator dan exit tidak bocor lokasi sebelum ditemukan.
-- Radar musuh diganti dengan blip pendek pada jarak dekat apabila line of sight clear.
-- Progress PETA xx% dan RAHSIA 0/1.
-- Stor bekalan rahsia memberikan health/ammo bagi player yang meneroka.
-- QA Chromium desktop/mobile dan quest regression lulus.
+- Fog of war, hidden objective markers and secret cache.
 
 ## v0.6 — Hospital Exploration
-- Tiga zon hospital, pintu interaktif, kunci bilik mayat, GUNA generator.
+- 3 zones, interactive doors, mortuary key and generator.
 
 ## v0.5 — The Haunting
-- Langsuir projectile, ghost sprites empat frame, optional jumpscare.
+- Langsuir ranged attacks, ghost animations and optional jumpscare.
 
 ## v0.4 — Wall Render Overhaul
-- Papan tanda, lampu dan panel betul-betul melekat pada permukaan dinding.
+- Perspective-correct wall signage, lights and generator.
 
 ## v0.3 — Malam Berkelip
-- Flashlight, ghost audio, Tangkal.
+- Flashlight, atmosphere and Tangkal power-up.
 
 ## v0.2 — Hospital Lama
-- Tiga musuh utama, senjata dan misi generator.
+- Malaysian ghost roster, weapons and fuse mission.
