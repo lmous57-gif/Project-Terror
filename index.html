@@ -79,7 +79,7 @@ const DOOR_DEFS=[
  {x:16,y:5,label:'PINTU WAD B',requiresKey:false},
  {x:8,y:10,label:'PINTU BILIK MAYAT',requiresKey:true}
 ];
-let openDoors=new Set(),doorProgress=new Map(),checkpoint=null;
+let openDoors=new Set(),doorProgress=new Map(),closingDoors=new Set(),checkpoint=null;
 const DOOR_AT=new Map(DOOR_DEFS.map(d=>[`${d.x},${d.y}`,d]));
 function tileAt(mx,my){const t=MAP[my]?.[mx]||'1';return (t==='D'||t==='K')&&openDoors.has(`${mx},${my}`)?'.':t}
 const itemSpawns=[
@@ -380,7 +380,7 @@ function tileDiscovered(x,y){return x>=0&&x<MW&&y>=0&&y<MH&&mapSeen[y*MW+x]>0}
 function mapPercent(){return Math.min(100,Math.round(mappedWalkable/MAP_WALKABLE*100))}
 function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0}}
 function reset(){
- started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;openDoors=new Set();doorProgress=new Map();checkpoint=null;visitedZones=new Set();mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];scareTime=0;scareUsed=false;
+ started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];scareTime=0;scareUsed=false;
  player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6},reserve:{pistol:42,shotgun:26},reload:0,attack:0,buff:0,shield:0,flashlight:true};
  surveyMap();enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));
  objective={fuses:0,key:false,generator:false,boss:false};kills=0;shots=0;last=performance.now();startTime=last;frame=0;shotClock=0;flash=0;screenShake=0;hitmark=0;bob=0;
@@ -407,7 +407,7 @@ function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=t
 function getInteractable(){
  if(!playing)return null;
  let pick=null,best=1.35;
- for(const d of DOOR_DEFS){if(openDoors.has(`${d.x},${d.y}`)||doorProgress.has(`${d.x},${d.y}`))continue;
+ for(const d of DOOR_DEFS){if(doorProgress.has(`${d.x},${d.y}`))continue;
   const dist=Math.hypot(player.x-(d.x+.5),player.y-(d.y+.5));
   if(dist<best){pick={kind:'door',door:d};best=dist}
  }
@@ -424,21 +424,42 @@ function saveCheckpoint(){
 }
 function restoreCheckpoint(){
  if(!checkpoint)return;
- const c=checkpoint;player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));items=JSON.parse(JSON.stringify(c.items));objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map();mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable;hiddenCaches=c.hiddenCaches;kills=c.kills;shots=c.shots;spawnedBoss=c.spawnedBoss;
+ const c=checkpoint;player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));items=JSON.parse(JSON.stringify(c.items));objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map();closingDoors=new Set();mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable;hiddenCaches=c.hiddenCaches;kills=c.kills;shots=c.shots;spawnedBoss=c.spawnedBoss;
  projectiles=[];deathWisps=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;playing=true;ended=false;missionWon=false;last=performance.now();
  $('joy').classList.add('inactive');$('menu').classList.add('hidden');$('end').classList.add('hidden');updateWeaponButtons();updateTorchButton();showTip('SAMBUNG DARI WAD RAWATAN',2.8);sound('checkpoint');requestAnimationFrame(loop)
 }
 function advanceDoors(dt){
- for(const [key,progress] of doorProgress){const next=Math.min(1,progress+dt*1.45);doorProgress.set(key,next);
-  if(next>=1){doorProgress.delete(key);openDoors.add(key);surveyMap();sound('door');showTip('PINTU TERBUKA — LALUAN BARU',1.7)}
+ for(const [key,progress] of doorProgress){
+  const closing=closingDoors.has(key);
+  if(closing){const [x,y]=key.split(',').map(Number);
+   // An open door must never solidify around the player or a ghost.
+   if(Math.hypot(player.x-x-.5,player.y-y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-x-.5,e.y-y-.5)<.52)){
+    closingDoors.delete(key);doorProgress.delete(key);showTip('LALUAN PINTU TERHALANG',1.5);continue
+   }
+  }
+  const next=closing?Math.max(0,progress-dt*1.45):Math.min(1,progress+dt*1.45);
+  doorProgress.set(key,next);
+  if((closing&&next<=0)||(!closing&&next>=1)){
+   doorProgress.delete(key);closingDoors.delete(key);
+   if(closing){openDoors.delete(key);showTip('PINTU DITUTUP',1.2)}
+   else{openDoors.add(key);surveyMap();showTip('PINTU TERBUKA — LALUAN BARU',1.7)}
+   sound('door')
+  }
  }
 }
 function interact(){
  const near=getInteractable();if(!near){showTip('TIADA APA UNTUK DIGUNAKAN',1.1);return}
  if(near.kind==='door'){
   const d=near.door;
+  const key=`${d.x},${d.y}`;
+  if(openDoors.has(key)){
+   if(Math.hypot(player.x-d.x-.5,player.y-d.y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-d.x-.5,e.y-d.y-.5)<.52)){
+    showTip('BERUNDUR SEBELUM TUTUP PINTU',1.8);sound('dry');return
+   }
+   doorProgress.set(key,.999);closingDoors.add(key);showTip(`${d.label} SEDANG DITUTUP`,1.5);sound('door');return
+  }
   if(d.requiresKey&&!objective.key){showTip('PINTU MAYAT TERKUNCI — CARI KUNCI',2.8);sound('dry');return}
-  doorProgress.set(`${d.x},${d.y}`,.001);showTip(`${d.label} SEDANG DIBUKA`,1.5);sound('door');return
+  doorProgress.set(key,.001);showTip(`${d.label} SEDANG DIBUKA`,1.5);sound('door');return
  }
  if(objective.fuses!==3){showTip(`GENERATOR PERLUKAN ${3-objective.fuses} FIUS LAGI`,2.5);sound('dry');return}
  objective.generator=true;showTip('GENERATOR HIDUP! PONTIANAK MUNCUL!',3.4);sound('win');
@@ -548,7 +569,7 @@ function update(dt){
  const near=getInteractable();
  if(near&&tipTimer<.15){
   const d=near.door;
-  showTip(near.kind==='generator'?'E / GUNA: GENERATOR':d.requiresKey&&!objective.key?'PERLUKAN KUNCI BILIK MAYAT':`E / GUNA: ${d.label}`,1.1)
+  showTip(near.kind==='generator'?'E / GUNA: GENERATOR':d.requiresKey&&!objective.key?'PERLUKAN KUNCI BILIK MAYAT':`E / GUNA: ${openDoors.has(`${d.x},${d.y}`)?'TUTUP':'BUKA'} ${d.label}`,1.1)
  }
  if(Math.hypot(portal.x-player.x,portal.y-player.y)<.75){
   if(objective.generator&&objective.boss){end(true)}
@@ -557,7 +578,7 @@ function update(dt){
 }
 function world(){const shake=(Math.random()-.5)*screenShake,cy=H*.47+Math.sin(bob)*1.1*moving+shake;
  const flicker=Math.sin(frame*2.4)*.02+(Math.sin(frame*17.2)>.985?.16:0);renderLightLevel=flicker+(objective.generator?-.04:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#10181a');ceiling.addColorStop(1,'#283a36');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#363932');floor.addColorStop(1,'#111511');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#ad704010';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
-for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const tile=tileAt(mx,my);if(tile!=='.'){
+for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const key=`${mx},${my}`,tile=doorProgress.has(key)?MAP[my][mx]:tileAt(mx,my);if(tile!=='.'){
   const progress=doorProgress.get(`${mx},${my}`)||0;
   if((tile==='D'||tile==='K')&&progress>0){const hitD=side===0?sidx-ddx:sidy-ddy;let doorU=side===0?player.y+hitD*ry:player.x+hitD*rx;doorU-=Math.floor(doorU);if((side===0&&rx>0)||(side===1&&ry<0))doorU=1-doorU;
    if(doorU<progress)continue}
