@@ -1,4 +1,23 @@
-# PROJECT: TERROR — Hospital Lama v1.0
+# PROJECT: TERROR — v1.1 · Two-Level Edition
+
+**[Main online](https://lmous57-gif.github.io/Project-Terror/)** · **[Level 02: Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)**
+
+v1.1 adds an entirely new playable Malaysian horror level while keeping Hospital Lama and its existing browser saves.
+
+## Level 02 — Kampung Berhantu (Malam Kedua)
+
+- Explore three areas: **Laman Kampung → Estet Getah → Kawasan Keramat** with moonlit sky, wooden village fences, rubber trees, a timber house and wall-mounted signs.
+- Locate **3 Jalur Pendinding** and the **Kunci Pagar Keramat**. Return to the **Tiang Pendinding** near the start to activate it.
+- Face **Hantu Raya**, a high-HP boss with a separate pixel-art sprite, HP meter and telegraphed area slam. Retreat before the slam lands.
+- Existing enemies Pocong, Toyol, Pontianak and Langsuir can also appear.
+- Retains discoverable minimap, sliding gates, Android dynamic joystick, fixed minimal fire control, guns, power-ups, checkpoint and browser autosave.
+- **Independent saves:** Hospital Lama keeps `project-terror-v1-save`; Kampung uses `project-terror-kampung-v1-save`. Clearing site data may delete either.
+
+**[Level 02 implementation notes](LEVEL_02_DESIGN.md)**
+
+---
+
+## Level 01 — Hospital Lama (v1.0 system)
 
 **[Play online](https://lmous57-gif.github.io/Project-Terror/)**
 
