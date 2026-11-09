@@ -1,23 +1,43 @@
-# PROJECT: TERROR — Hospital Lama
+# PROJECT: TERROR — Hospital Lama (v0.3)
 
-A playable browser-first retro FPS prototype themed around Malaysian supernatural horror.
+A browser-first, retro pixel FPS set in a haunted Malaysian hospital. Built with original Canvas 2D raycasting, procedural sprites and WebAudio, without external dependencies.
 
-## Play
-After GitHub Pages is deployed, visit: https://lmous57-gif.github.io/Project-Terror/
+**Play online:** https://lmous57-gif.github.io/Project-Terror/
+
+## Objective
+
+Collect 3 fius, activate the generator, defeat the Pontianak and reach the exit. Survive Pocong and Toyol on the way.
 
 ## Controls
-- **Android/mobile:** landscape orientation; left virtual joystick to move, drag on right side to look, TEMBAK to fire, ISI SEMULA to reload, and 1/2/3 to switch weapons.
-- **Desktop:** WASD to move, mouse to look, left click or Space to attack, 1/2/3 for Parang/Pistol/Shotgun, R to reload, Escape to pause.
 
-## Mission
-Collect 3 fiuses in Hospital Lama, activate the generator, defeat the Pontianak and reach the exit.
+| Action | Desktop | Android / mobile (landscape) |
+| --- | --- | --- |
+| Move | WASD | Virtual joystick |
+| Look | Mouse or arrow keys | Drag right side |
+| Fire | Click / Space | TEMBAK |
+| Reload | R | ISI SEMULA |
+| Weapon | 1 Parang / 2 Pistol / 3 Shotgun | Weapon buttons |
+| Flashlight | L | 🔦 LAMPU ON / OFF |
+| Pause | Esc | Switching tabs auto-pauses |
 
-Enemies: Pocong, Toyol, Pontianak. Weapons: Parang, pistol, shotgun. Includes Air Garam power-up.
+## Equipment
+- **Parang**: unlimited melee.
+- **Pistol**: accurate ranged option.
+- **Shotgun**: heavy close-range damage.
+- **Air Garam**: +60% damage for 14 seconds.
+- **Tangkal Pelindung**: -45% incoming damage for 18 seconds.
 
-## Deployment
-A GitHub Actions workflow is available at `.github/workflows/pages.yml` to deploy the repository's static root directory to GitHub Pages.
+## v0.3 — Malam Berkelip
 
-If the website isn't live yet, open **Settings → Pages** and ensure **Build and deployment → Source: GitHub Actions**. Check **Actions** for job status.
+- Flashlight toggle for desktop and Android.
+- Flickering corridor lighting, vignette and pixel/CRT atmosphere.
+- Nearby ghost sounds and Pontianak scream cue.
+- Local hospital dressing: ward / mortuary / exit signs, trolley, fluorescent lights.
+- New Tangkal Pelindung temporary shield.
+- More objective feedback and revised mobile layout.
 
-## Provenance
-The standalone game code and procedurally generated placeholder sprites are original, not DOOM source files or WAD assets. Additional character art and audio are planned for future production.
+## Development & deployment
+
+The game is a single `index.html` without external assets or build tools. GitHub Pages deploys automatically with `.github/workflows/pages.yml`.
+
+Original source and procedural art; no DOOM proprietary content is included. Headless Chromium testing covers game launch, mobile controls, flashlight, power-up, fuses, generator and game completion. Real-device testing is still recommended.
