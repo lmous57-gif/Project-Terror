@@ -1,3 +1,13 @@
+## v1.2 — Kampung Malam (Level 02)
+
+The Kampung Berhantu level now has two explorable wooden houses with real sliding doors (Rumah Tok Pawang and Rumah Kebun), original pixel-art interiors, misty outdoor estate lighting, optional synthesized cricket ambience, and a more detailed Hantu Raya boss with a second combat phase. Each house awards a small one-time exploration bonus. Use **BUNYI MALAM** in the menu to toggle ambience.
+
+Play Level 02: https://lmous57-gif.github.io/Project-Terror/kampung.html
+
+Existing Level 01 and independent local saves are preserved. Older Level 02 saves use the same storage key; newly added house cells remain hidden in fog-of-war until discovered. Player positions that overlap new walls are moved to a safe tile without resetting the quest. Testing: source syntax, simulated canvas/gameplay and BFS reachability passed; physical-device QA is pending.
+
+---
+
 # PROJECT: TERROR — v1.1 · Two-Level Edition
 
 **[Main online](https://lmous57-gif.github.io/Project-Terror/)** · **[Level 02: Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)**
