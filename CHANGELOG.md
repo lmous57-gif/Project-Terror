@@ -1,3 +1,10 @@
+## v1.2 — Kampung Malam
+- Built **two enterable wooden houses** with sliding doors, interior props, wall art and rewards.
+- Added low-cost scrolling **pixel mist** and optional **cricket ambience** (WebAudio; lower volume indoors).
+- Reworked Hantu Raya procedural art, added 50%-HP rage phase and a visible ground-slam warning.
+- Preserved Level 01, mission routes and old local Level 02 saves, including fog-of-war compatibility.
+- Passed Node Canvas simulation, quest regression, and map accessibility tests. Real-device QA pending.
+
 # Project: Terror — Changelog
 
 ## v1.1 — Kampung Berhantu (Level 02)
