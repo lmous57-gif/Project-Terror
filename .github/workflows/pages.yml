@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Validate JavaScript and combat controls
+        run: node tests/validate-game.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
