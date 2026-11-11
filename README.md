@@ -1,4 +1,39 @@
-# PROJECT: TERROR — Rahsia Kampung v1.3
+# PROJECT: TERROR — Combat Overhaul v1.4
+
+**Main terus:**
+- [Level 01 — Hospital Lama](https://lmous57-gif.github.io/Project-Terror/)
+- [Level 02 — Rahsia Kampung](https://lmous57-gif.github.io/Project-Terror/kampung.html)
+
+## v1.4 — Combat Overhaul
+
+- **Senjata keempat: SMG**, unlock di zon kedua. Tembakan automatik dengan 24 peluru dalam magazine; reload 1.55 saat. Pilih dengan `4` atau butang mobile.
+- **Bom Garam**: tekan `Q` atau butang `✧`. Stok awal 2, maksima 5, boleh tambah melalui pickup dan stor rahsia. Bom meletup di hadapan pemain; pintu dan dinding menghalang kerosakan di belakangnya.
+- **Ghost affinities**: Pocong lebih lemah terhadap Parang, Toyol terhadap SMG, Pontianak terhadap Shotgun/Garam, Langsuir terhadap Pistol/Garam, Hantu Raya terhadap Garam.
+- **Stun**: Bom Garam menghentikan hantu biasa lebih kurang 1.25 saat, Hantu Raya 0.65 saat.
+- **Hit feedback**: SMG muzzle flash, efek ring garam, sound effect garam serta counter di HUD.
+- **Save compatibility**: item baharu ditambah tanpa mengubah indeks lama; save localStorage sedia ada boleh dipulihkan. Progres Level 01 dan 02 tetap berasingan.
+- **Kekal**: Mak Timah, rumah kayu, Fail Kes 3 bukti, ambience kampung, boss Hantu Raya serta semua objektif terdahulu.
+
+## Kawalan combat
+
+| Action | Desktop | Android landscape |
+| --- | --- | --- |
+| Aim & move | Mouse + WASD | Seret kanan + joystick dinamik kiri |
+| Shoot | Click / Space | Butang peluru fixed kanan |
+| SMG | `4` (selepas dijumpai) | Butang `4 SMG` |
+| Bom Garam | `Q` | Butang `✧` |
+| Reload | `R` | ISI SEMULA |
+| Gunakan / interaksi | `E` | GUNA |
+
+## QA
+
+- 34/34 ujian tempatan Chromium lulus pada engine baseline dua level, termasuk tembakan, reload, affinity, Bom Garam tak tembus pintu, save lama dan jalan misi hingga keluar.
+- Smoke test browser live v1.4: dua level dibuka, SMG sebelum unlock tidak boleh digunakan, Q mengurangkan charge 2→1, Rahsia Kampung/Fail Kes kekal, tiada JS error dilaporkan.
+- Ujian Android fizikal sebenar dan pengimbangan tahap kesukaran jangka panjang masih diperlukan.
+
+---
+
+## Catatan release terdahulu
 
 **Main kedua-dua level:**
 - [Level 01: Hospital Lama](https://lmous57-gif.github.io/Project-Terror/)
