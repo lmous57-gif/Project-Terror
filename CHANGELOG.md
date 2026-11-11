@@ -1,47 +1,21 @@
-## v1.2 — Kampung Malam
-- Built **two enterable wooden houses** with sliding doors, interior props, wall art and rewards.
-- Added low-cost scrolling **pixel mist** and optional **cricket ambience** (WebAudio; lower volume indoors).
-- Reworked Hantu Raya procedural art, added 50%-HP rage phase and a visible ground-slam warning.
-- Preserved Level 01, mission routes and old local Level 02 saves, including fog-of-war compatibility.
-- Passed Node Canvas simulation, quest regression, and map accessibility tests. Real-device QA pending.
-
 # Project: Terror — Changelog
 
-## v1.1 — Kampung Berhantu (Level 02)
-- Published a new standalone playable second level at `kampung.html`, linked from the Hospital Lama main menu and its victory screen.
-- Three Malaysian outdoor-inspired zones: Laman Kampung, Estet Getah, Kawasan Keramat.
-- Moonlit outdoor raycaster sky, timber fences, rubber trees, wooden hut walls and wall-mounted Malay signboards.
-- Collect 3 Jalur Pendinding and Kunci Pagar Keramat; activate the Tiang Pendinding and defeat Hantu Raya before escaping.
-- New Hantu Raya boss: procedural 4-frame sprite, boss HP gauge, 1-second telegraphed slam and dodgeable area damage.
-- Existing Malaysian spirit roster, fog-of-war, gates, checkpoint, autosave, three weapons and Android controls retained.
-- Separate localStorage save key keeps the new level's progress independent of Level 01.
+## v1.3 — Rahsia Kampung
+- Mak Timah: NPC survivor dalam Rumah Tok Pawang dengan dialog berubah selepas tiga bukti dikumpul.
+- Tiga objek bukti interaktif asal: Fail 07 (rumah pertama), kaset Salmah (rumah kedua), batu tanda Bukit Meranti (keramat).
+- Fail Kes dengan navigasi catatan, kawalan J/FAIL, dan pause combat ketika dibaca.
+- Ganjaran sekali untuk mengumpul ketiga-tiga bukti, tanpa mengunci progres misi asal.
+- State cerita disimpan ke save Level 02 sedia ada; save v1.2 yang tiada medan cerita masih boleh dipulihkan.
+- Regression QA Chromium desktop, mobile simulasi, map reachability, save reload dan main quest lulus.
 
+## v1.2 — Kampung Malam
+- Dua rumah kayu boleh dimasuki, kabus estet, ambience cengkerik, Hantu Raya fasa kedua.
+
+## v1.1 — Kampung Berhantu
+- Level 02, kunci, tiga jalur pendinding, Tiang Pendinding dan Hantu Raya.
 
 ## v1.0 — Survival Update
-- BFS navigation field enables ghosts to follow accessible corridors and pursue around corners, without passing through locked doors.
-- Local browser autosave around every 12 seconds and after key interactions; Continue Saved Game option.
-- Death checkpoint preserved across browser sessions.
-- Brief 0.58-second damage cooldown following a hit; balancing for Toyol and Langsuir.
-- Reduced fog-of-war survey and navigation frequency for mobile performance.
-- Retained fog-of-war, animated doors, dynamic joystick and minimalist fire button.
+- Pathfinding hantu, autosave browser dan combat balancing.
 
-## v0.9 — Combat & Doors
-- Sliding doors (open/close), Wad checkpoint, recoil and hit feedback, dynamic joystick and fixed minimalist shoot control.
-
-## v0.7 — Peta Misteri
-- Discoverable fog-of-war minimap, hidden objectives, secret cache.
-
-## v0.6 — Hospital Exploration
-- Three zones, mortuary key, door interactions and generator.
-
-## v0.5 — The Haunting
-- Langsuir ranged curse, sprite animations, optional jumpscare.
-
-## v0.4 — Wall Render Overhaul
-- Perspective-correct wall-attached signage, lights and generator.
-
-## v0.3 — Malam Berkelip
-- Flashlight, ambience, Tangkal protection.
-
-## v0.2 — Hospital Lama
-- Weapons, Malaysian ghosts, generator objective.
+## v0.9 / v0.7 / v0.4
+- Pintu gelongsor dan checkpoint, fog-of-war, peralatan yang melekat pada dinding.

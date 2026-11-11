@@ -1,68 +1,38 @@
-## v1.2 — Kampung Malam (Level 02)
+# PROJECT: TERROR — Rahsia Kampung v1.3
 
-The Kampung Berhantu level now has two explorable wooden houses with real sliding doors (Rumah Tok Pawang and Rumah Kebun), original pixel-art interiors, misty outdoor estate lighting, optional synthesized cricket ambience, and a more detailed Hantu Raya boss with a second combat phase. Each house awards a small one-time exploration bonus. Use **BUNYI MALAM** in the menu to toggle ambience.
+**Main kedua-dua level:**
+- [Level 01: Hospital Lama](https://lmous57-gif.github.io/Project-Terror/)
+- [Level 02: Rahsia Kampung](https://lmous57-gif.github.io/Project-Terror/kampung.html)
 
-Play Level 02: https://lmous57-gif.github.io/Project-Terror/kampung.html
+FPS retro horror Malaysia untuk desktop dan Chrome Android landscape. Game menggunakan HTML5 Canvas 2D raycaster, sprite procedural dan WebAudio tanpa dependency atau aset proprietari DOOM.
 
-Existing Level 01 and independent local saves are preserved. Older Level 02 saves use the same storage key; newly added house cells remain hidden in fog-of-war until discovered. Player positions that overlap new walls are moved to a safe tile without resetting the quest. Testing: source syntax, simulated canvas/gameplay and BFS reachability passed; physical-device QA is pending.
+## v1.3: Misteri Kampung Berhantu
 
----
-
-# PROJECT: TERROR — v1.1 · Two-Level Edition
-
-**[Main online](https://lmous57-gif.github.io/Project-Terror/)** · **[Level 02: Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)**
-
-v1.1 adds an entirely new playable Malaysian horror level while keeping Hospital Lama and its existing browser saves.
-
-## Level 02 — Kampung Berhantu (Malam Kedua)
-
-- Explore three areas: **Laman Kampung → Estet Getah → Kawasan Keramat** with moonlit sky, wooden village fences, rubber trees, a timber house and wall-mounted signs.
-- Locate **3 Jalur Pendinding** and the **Kunci Pagar Keramat**. Return to the **Tiang Pendinding** near the start to activate it.
-- Face **Hantu Raya**, a high-HP boss with a separate pixel-art sprite, HP meter and telegraphed area slam. Retreat before the slam lands.
-- Existing enemies Pocong, Toyol, Pontianak and Langsuir can also appear.
-- Retains discoverable minimap, sliding gates, Android dynamic joystick, fixed minimal fire control, guns, power-ups, checkpoint and browser autosave.
-- **Independent saves:** Hospital Lama keeps `project-terror-v1-save`; Kampung uses `project-terror-kampung-v1-save`. Clearing site data may delete either.
-
-**[Level 02 implementation notes](LEVEL_02_DESIGN.md)**
-
----
-
-## Level 01 — Hospital Lama (v1.0 system)
-
-**[Play online](https://lmous57-gif.github.io/Project-Terror/)**
-
-Browser-first Malaysian supernatural FPS. Original standalone HTML5 Canvas raycaster, procedural sprites and WebAudio, no build dependencies and no proprietary DOOM assets.
-
-## v1.0: Survival Update
-
-- **Smarter ghost pathfinding:** A lightweight breadth-first navigation field helps Pocong, Toyol, Pontianak, and Langsuir follow corridors and pursue around corners after losing line of sight. Closed/locked doors remain impassable.
-- **Browser autosave:** Every ~12 seconds, on pickups, opened/closed doors and important objectives. **SAMBUNG PERMAINAN DISIMPAN** in the main menu restores progress after a browser restart on the same site and device. Previous Wad Rawatan death checkpoint is preserved.
-- **Combat balancing:** 0.58 seconds of brief post-hit protection prevents simultaneous enemies causing instant damage stacks. Toyol attack timing and Langsuir attack damage adjusted.
-- **Android performance:** Fog-of-war exploration scans about every 0.14 seconds; navigation field re-evaluated about every 0.35 seconds (or as player position/doors change).
-- Minimalist right-side bullet fire button and dynamic left-screen joystick retained.
+- **Mak Timah** ialah NPC terselamat dalam **Rumah Tok Pawang**. Dekatkan diri, kemudian tekan **E / GUNA** untuk berbual.
+- Cari **3 petunjuk pilihan** di Kampung Berhantu:
+  1. **Fail 07** di Rumah Tok Pawang.
+  2. **Kaset Jururawat Salmah** di Rumah Kebun.
+  3. **Batu Tanda Bukit Meranti** di Kawasan Keramat (selepas pintu berkunci).
+- Bukti menghubungkan generator Hospital Lama, tiga Jalur Pendinding dan sebuah menara pemancar lama. Mengumpul 3/3 membuka ganjaran sekali sahaja (Tangkal 12s dan 4 peluru shotgun).
+- Buka semula catatan menerusi **J** (desktop) atau butang **FAIL** (mobile). Combat berhenti semasa membaca.
+- Misi asal **tidak berubah**: cari kunci + 3 jalur, aktifkan tiang pendinding, hapuskan Hantu Raya, keluar. Petunjuk cerita bersifat pilihan.
+- Save lama Level 02 dalam Chrome boleh disambung; data cerita yang belum wujud di v1.2 akan bermula kosong. Save Level 01 kekal berasingan.
 
 ## Controls
 
-| Action | Desktop | Chrome Android (landscape) |
+| Aksi | Desktop | Android landscape |
 | --- | --- | --- |
-| Move | WASD | Touch/drag on left half |
-| Aim | Mouse or arrows | Drag on right |
-| Fire | Click or Space | Fixed bullet button on right |
+| Bergerak | WASD | Joystick dinamik kiri |
+| Pandang | Mouse | Seret kanan |
+| Tembak | Klik / Space | Butang peluru minimalist kanan |
+| Guna / bincang / baca | **E** | **GUNA** |
+| Fail kes | **J** | **FAIL** |
 | Reload | R | ISI SEMULA |
-| Doors / generator | E | GUNA |
-| Weapon | 1/2/3 | Weapon buttons |
-| Flashlight | L | LAMPU |
+| Senjata | 1 / 2 / 3 | Butang senjata |
+| Lampu | L | LAMPU |
 
-## Mission
+## Testing dan deployment
 
-Explore **Lobi Utama → Wad Rawatan → Bilik Mayat**. Discover the map, collect a key and three fuses, activate the generator, defeat Pontianak, and escape. Find the secret supply cache. Other enemies: Pocong, Toyol and Langsuir.
+Ujian Chromium desktop dan simulasi Android lulus untuk NPC, bukti boleh dikutip, fail kes, pause semasa membaca, save/reload, save lama, minimap fog-of-war dan kawalan mobile. Ujian laluan grid juga mengesahkan semua lokasi boleh diakses mengikut keadaan pagar. Ujian telefon fizikal masih diperlukan.
 
-## Saves and privacy
-
-Saves use the browser's **localStorage**, not a cloud account. They remain on the same device and browser, and may be deleted if browser site data is cleared. Starting a new game or finishing the mission clears the active save; private browsing may not retain saves. Saves from older builds aren't automatically migrated.
-
-## QA
-
-Chromium tests: full mission, door key gating, death checkpoint, autosave serialized/restored in a fresh page context, AI routing around obstacles, enemy blocked by locked doors, and Android mobile multitouch. Real Android-device playtesting and performance evaluation are still pending.
-
-GitHub Pages deployment is automated by `.github/workflows/pages.yml`.
+Game diterbitkan menggunakan `.github/workflows/pages.yml` melalui GitHub Pages. Rujuk `STORY_DESIGN.md` untuk peta naratif dan reka bentuk interaksi.

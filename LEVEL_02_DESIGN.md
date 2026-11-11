@@ -24,3 +24,12 @@ These are stylized outdoor scenes within a classic raycasting engine, not a full
 - WebAudio crickets are 4 quiet chirps roughly every 4–8 seconds after user interaction, with ON/OFF toggle.
 - Hantu Raya enrages at 50% HP; more readable sprite and ground-slam warning without strobe.
 - Migration from v1.1 retains saves and clears newly created interiors from previously explored minimap cells. Incompatible player spawn geometry is repaired.
+
+## v1.3 — Lore, Mak Timah & evidence
+
+- Rumah Tok Pawang contains survivor Mak Timah at (14.1,3.45) and optional Fail 07 at (12.5,2.5).
+- Rumah Kebun contains optional Salmah cassette at (13.5,7.5).
+- Kawasan Keramat contains Bukit Meranti stone at (10.5,11.5), beyond locked gate.
+- E/GUNA triggers survivor dialogue or note reading; J/FAIL opens in-game case journal.
+- Optional 3/3 evidence grants one-time Tangkal + shotgun reserve. Quest remains un-gated.
+- Existing v1.2 browser saves restore without case fields.
