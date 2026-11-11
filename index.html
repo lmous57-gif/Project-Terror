@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#070a10"><title>PROJECT: TERROR v1.1 — Hospital Lama</title>
+<meta name="theme-color" content="#070a10"><title>PROJECT: TERROR v1.4 — Hospital Lama</title>
 <style>
 :root{color-scheme:dark;--ember:#ff7955;--ink:#070a10;--white:#e8e4d9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05070c;color:var(--white);font-family:Consolas,'Courier New',monospace;overscroll-behavior:none}#shell{position:relative;width:100vw;height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#181a22,#05070c 75%)}#game{display:block;width:min(100vw,177.7778dvh);height:min(100dvh,56.25vw);object-fit:contain;image-rendering:pixelated;touch-action:none;cursor:crosshair;box-shadow:0 0 90px #000}#scan{pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0px,#0000 3px,#0002 4px);mix-blend-mode:multiply;opacity:.35}.overlay{position:absolute;inset:0;background:linear-gradient(145deg,#070a10e8,#0f1217da);display:flex;justify-content:center;align-items:center;padding:22px;text-align:center;z-index:3}.hidden{display:none!important}.modal{width:min(94%,620px);max-height:94%;overflow:auto;border:1px solid #9a584b;padding:clamp(16px,3vw,38px);background:linear-gradient(140deg,#161b26,#07090e);box-shadow:0 0 90px #000a, inset 0 0 45px #f8471011;position:relative}.tag{font-weight:bold;letter-spacing:.35em;color:#ffae8c;font-size:11px}.modal h1{font-size:clamp(29px,6vw,68px);line-height:.98;letter-spacing:.08em;margin:18px 0 14px;text-shadow:3px 4px #783228;color:#f5e5d7}.modal p{font-size:clamp(12px,1.8vw,16px);line-height:1.7;color:#bac4c9}.stats{display:flex;justify-content:center;gap:20px;margin:22px 0;color:#ffa788;font-size:12px}.pill{border:1px solid #47505a;padding:8px 12px}.primary{cursor:pointer;border:0;background:#eb6b44;color:#17100e;font:900 15px Consolas,monospace;letter-spacing:.15em;padding:15px 34px;min-height:44px;box-shadow:5px 5px 0 #743623;touch-action:manipulation}.primary:hover{background:#ff9168}.controls-text{margin-top:20px;font-size:11px;color:#879097;line-height:1.7}.mobileControls{display:none;position:absolute;z-index:2;inset:0;pointer-events:none;touch-action:none}.joy-zone{position:absolute;left:0;top:0;bottom:0;width:52%;pointer-events:auto;touch-action:none}.joystick{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:clamp(35px,14vh,120px);width:116px;height:116px;border:2px solid #ffffff58;border-radius:50%;background:#0b0c12a0;pointer-events:none;touch-action:none;backdrop-filter:blur(2px);opacity:1;transform:scale(1);transition:opacity .12s ease, transform .12s ease}.joystick.inactive{opacity:0;transform:scale(.92)}.joystick::after{content:"";position:absolute;inset:14px;border:1px solid #ffffff1f;border-radius:50%}.stick{position:absolute;left:36px;top:36px;width:42px;height:42px;border:2px solid #ffcfacaa;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffd3b3,#ff795588 72%);transform:translate(0,0)}.fire{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:clamp(40px,15vh,136px);height:78px;width:78px;border-radius:50%;background:#0b0d12a8;border:1px solid #ffffff26;box-shadow:0 8px 24px #00000042;backdrop-filter:blur(2px);pointer-events:auto;touch-action:none;color:white}.fire:active{transform:scale(.96);background:#141923c8;border-color:#ffffff44}.fire-shell{position:absolute;left:50%;top:50%;width:8px;height:28px;transform:translate(-50%,-50%);border:2px solid #f3f6fa;border-top-left-radius:7px;border-top-right-radius:7px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;box-sizing:border-box;opacity:.95}.fire-shell::before{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:8px;height:8px;border:2px solid #f3f6fa;border-bottom:none;border-top-left-radius:6px;border-top-right-radius:6px;background:transparent;box-sizing:border-box}.fire-shell::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:8px;height:2px;background:#f3f6fa;border-radius:2px;opacity:.75}.reload{position:absolute;right:max(32px,env(safe-area-inset-right));bottom:clamp(12px,4vh,40px);background:#17222ecc;border:1px solid #aec2ce77;color:#e6f0fa;padding:10px 13px;pointer-events:auto;touch-action:none;font:800 11px Consolas,monospace}.hint{position:absolute;right:10%;top:22%;font-size:10px;color:#ffffff77;pointer-events:none;letter-spacing:.1em}.tiny{font-size:11px;color:#83909f}@media (pointer:coarse){.mobileControls{display:block}.controls-text .desktop{display:none}}@media (orientation:portrait) and (pointer:coarse){.modal{padding:18px}.modal h1{font-size:clamp(28px,9vw,48px)}.joystick{width:95px;height:95px}.stick{left:29px;top:29px;width:36px;height:36px}.fire{width:68px;height:68px;bottom:14%;right:5%}.reload{bottom:4%;right:6%}.hint{top:32%}.joy-zone{width:56%}}
 .weapons-mobile{position:absolute;left:15%;right:auto;top:48px;display:flex;gap:5px;pointer-events:auto;z-index:3}.weapons-mobile button{font:700 9px monospace;line-height:1.1;border:1px solid #9ca6ac8a;color:#e7d4c6;background:#171c22bb;padding:5px 8px;min-width:56px;touch-action:manipulation}.weapons-mobile button.active{border-color:#f19779;background:#822f2ecc;color:#fff}.tag{color:#eea18d}.modal{border-color:#9c4842}.modal h1{text-shadow:3px 4px #441b21}.primary{background:#d65945}.mobileControls .reload{bottom:2vh}.modal{max-height:96%;overflow-y:auto}@media (pointer:fine){.weapons-mobile{display:none}}@media (pointer:coarse){.weapons-mobile{display:flex}}@media (orientation:portrait) and (pointer:coarse){.weapons-mobile{left:4%;right:auto;top:6px}.weapons-mobile button{min-width:40px;padding:4px 3px;font-size:7px}.fire{bottom:12%}}
@@ -24,13 +24,21 @@
 @media (pointer:coarse) and (orientation:portrait){.torch{right:5%;top:7px;font-size:10px;padding:6px}.weapons-mobile{left:3%;top:7px}}
 .continue-button{display:block;cursor:pointer;min-height:44px;width:min(100%,340px);margin:12px auto;background:#1d302e;border:1px solid #82a99b;color:#defff0;font:bold 12px Consolas,monospace;letter-spacing:.035em;padding:10px 12px}.continue-button:active{background:#325249}.continue-button.hidden{display:none!important}
 .level-select-link{display:block;margin:12px auto 0;max-width:340px;padding:12px 14px;border:1px solid #6d947c;background:#10251de0;color:#e1f3df;text-decoration:none;letter-spacing:.06em;font:700 12px monospace;min-height:44px}.level-select-link:hover,.level-select-link:focus-visible{background:#214231}.level-select-link.hidden{display:none!important}
+
+/* v1.4 combat UI: minimal controls and accessible touch targets */
+.weapons-mobile button[data-w="smg"].locked{opacity:.52;border-style:dashed}
+.salt-button{position:absolute;right:max(113px,calc(90px + env(safe-area-inset-right)));bottom:clamp(51px,17vh,153px);width:54px;height:54px;border-radius:50%;pointer-events:auto;touch-action:manipulation;border:1px solid #d8e8e067;background:#101b20bb;color:#e5faf4;font:bold 11px monospace;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;box-shadow:0 3px 9px #0008}
+.salt-button:active{transform:scale(.94);background:#24413eeb}.salt-button .salt-glyph{font-size:21px;line-height:19px;color:#b5f4e4}.salt-button:disabled{opacity:.4}
+@media(pointer:fine){.salt-button{display:none}}
+@media(pointer:coarse) and (max-height:480px){.weapons-mobile{left:10.5%;top:30px}.weapons-mobile button{min-width:40px;padding:4px 3px}.salt-button{right:max(111px,calc(92px + env(safe-area-inset-right)));bottom:clamp(44px,16vh,110px)}}
+@media(pointer:coarse) and (orientation:portrait){.weapons-mobile{left:2%;top:5px}.weapons-mobile button{min-width:34px;padding:3px 2px;font-size:7px}.salt-button{width:48px;height:48px;right:calc(82px + env(safe-area-inset-right));bottom:13%}}
 </style>
 </head>
 <body><main id="shell">
 <canvas id="game" width="480" height="270" aria-label="Retro first person shooter game"></canvas><div id="scan"></div>
-<section id="menu" class="overlay"><div class="modal"><div class="tag">▣ FAIL SULIT // WAD TERBIAR</div><h1><span style="font-size:.48em;display:block;letter-spacing:.3em;color:#f8d0ba">PROJECT:</span><span style="color:#dc5145">TERROR</span></h1><p>HOSPITAL LAMA — MALAM PERTAMA<br>Tiga zon. Tiga fius. Hantu kini mencari laluan melalui koridor. Peta terbuka bila diteroka dan progres disimpan automatik.</p><div class="stats"><span class="pill">01 HOSPITAL</span><span class="pill">04 JENIS HANTU</span><span class="pill">03 SENJATA</span><span class="pill">v1.1</span></div><button class="primary" id="start">MASUK HOSPITAL</button><a href="./kampung.html" id="level2menu" class="level-select-link">LEVEL 02 — KAMPUNG BERHANTU</a><button class="continue-button hidden" id="continueSaved" type="button">SAMBUNG PERMAINAN DISIMPAN</button><button class="option-toggle" id="scareToggle" type="button" aria-pressed="true">JUMPSCARE RINGAN: ON</button><div class="controls-text"><span class="desktop">WASD bergerak · Mouse pandang · Klik/Space tembak · 1/2/3 senjata · R reload · E buka pintu · L lampu · ESC pause</span><span class="mobile">Sentuh kiri untuk joystick · Seret kanan untuk pandang · butang tembak kanan · pilih senjata · GUNA · ISI · LAMPU</span><br>Misi: TEROKA PETA → KUNCI + 3 FIUS → SIMPAN AUTOMATIK → GENERATOR → PONTIANAK → KELUAR</div></div></section>
+<section id="menu" class="overlay"><div class="modal"><div class="tag">▣ FAIL SULIT // WAD TERBIAR</div><h1><span style="font-size:.48em;display:block;letter-spacing:.3em;color:#f8d0ba">PROJECT:</span><span style="color:#dc5145">TERROR</span></h1><p>HOSPITAL LAMA — MALAM PERTAMA<br>Tiga zon. Tiga fius. Hantu kini mencari laluan melalui koridor. Peta terbuka bila diteroka dan progres disimpan automatik.</p><div class="stats"><span class="pill">01 HOSPITAL</span><span class="pill">04 JENIS HANTU</span><span class="pill">04 SENJATA</span><span class="pill">v1.4</span></div><button class="primary" id="start">MASUK HOSPITAL</button><a href="./kampung.html" id="level2menu" class="level-select-link">LEVEL 02 — KAMPUNG BERHANTU</a><button class="continue-button hidden" id="continueSaved" type="button">SAMBUNG PERMAINAN DISIMPAN</button><button class="option-toggle" id="scareToggle" type="button" aria-pressed="true">JUMPSCARE RINGAN: ON</button><div class="controls-text"><span class="desktop">WASD bergerak · Mouse pandang · Klik/Space tembak · 1/2/3 senjata · R reload · E buka pintu · L lampu · ESC pause · Q Bom Garam · 4 SMG</span><span class="mobile">Sentuh kiri untuk joystick · Seret kanan untuk pandang · butang tembak kanan · pilih senjata · GUNA · ISI · LAMPU · ✧ Bom Garam · 4 SMG</span><br>Misi: TEROKA PETA → KUNCI + 3 FIUS → SIMPAN AUTOMATIK → GENERATOR → PONTIANAK → KELUAR</div></div></section>
 <section id="end" class="overlay hidden"><div class="modal"><div class="tag" id="result-tag">MISSION STATUS</div><h1 id="result-title">SECTOR CLEAR</h1><p id="result-description">The gate is sealed.</p><button id="resumeCheckpoint" class="primary hidden" type="button" style="background:#6fae97;display:block;margin:12px auto">SAMBUNG DARI CHECKPOINT</button><button id="again" class="primary">CUBA LAGI</button><a href="./kampung.html" id="nextLevel" class="level-select-link hidden">TERUS KE LEVEL 02 — KAMPUNG BERHANTU</a></div></section>
-<div class="mobileControls" id="mobile"><div id="joyZone" class="joy-zone" aria-hidden="true"></div><div id="joy" class="joystick inactive"><div id="stick" class="stick"></div></div><div class="hint">SERET KANAN UNTUK PANDANG ↔</div><div class="weapons-mobile"><button data-w="parang">1<br>PARANG</button><button data-w="pistol">2<br>PISTOL</button><button data-w="shotgun" class="active">3<br>SHOTGUN</button></div><button id="fire" class="fire" aria-label="Tembak"><span class="fire-shell" aria-hidden="true"></span></button><button id="reload" class="reload">ISI SEMULA</button><button id="use" class="use" aria-label="Gunakan pintu atau generator">GUNA</button><button id="torch" class="torch" aria-label="Tutup lampu suluh" aria-pressed="true">🔦 LAMPU ON</button></div>
+<div class="mobileControls" id="mobile"><div id="joyZone" class="joy-zone" aria-hidden="true"></div><div id="joy" class="joystick inactive"><div id="stick" class="stick"></div></div><div class="hint">SERET KANAN UNTUK PANDANG ↔</div><div class="weapons-mobile"><button data-w="parang">1<br>PARANG</button><button data-w="pistol">2<br>PISTOL</button><button data-w="shotgun" class="active">3<br>SHOTGUN</button><button data-w="smg" class="locked">4<br>SMG</button></div><button id="fire" class="fire" aria-label="Tembak"><span class="fire-shell" aria-hidden="true"></span></button><button id="salt" class="salt-button" type="button" aria-label="Bom Garam"><span class="salt-glyph" aria-hidden="true">✧</span><span id="saltCount">2</span></button><button id="reload" class="reload">ISI SEMULA</button><button id="use" class="use" aria-label="Gunakan pintu atau generator">GUNA</button><button id="torch" class="torch" aria-label="Tutup lampu suluh" aria-pressed="true">🔦 LAMPU ON</button></div>
 </main>
 <script>
 'use strict';
@@ -72,9 +80,20 @@ const ENEMY_TYPES={
 const WEAPONS={
  parang:{name:'PARANG',damage:2.6,range:1.15,rate:.43,clip:0,reload:0,spread:.22},
  pistol:{name:'PISTOL',damage:1.7,range:11,rate:.31,clip:12,reload:.98,spread:.048},
- shotgun:{name:'SHOTGUN',damage:4.3,range:6,rate:.7,clip:6,reload:1.25,spread:.15}
+ shotgun:{name:'SHOTGUN',damage:4.3,range:6,rate:.7,clip:6,reload:1.25,spread:.15},
+ smg:{name:'SMG',damage:.95,range:9.2,rate:.115,clip:24,reload:1.55,spread:.092}
 };
 
+// Distinct ghost affinities; all weapons retain some effect.
+const AFFINITY={
+ pocong:{parang:1.25,pistol:1,shotgun:1,smg:.83,salt:1.35},
+ toyol:{parang:.95,pistol:.9,shotgun:1,smg:1.35,salt:.95},
+ pontianak:{parang:.8,pistol:1,shotgun:1.2,smg:.87,salt:1.5},
+ langsuir:{parang:.75,pistol:1.25,shotgun:1,smg:1,salt:1.55},
+ raya:{parang:.45,pistol:.9,shotgun:.95,smg:.78,salt:1.55}
+};
+const MAX_SALT=5;
+let saltBursts=[];
 // D: standard access, K: mortuary key required. Opened doors remain open.
 const DOOR_DEFS=[
  {x:7,y:5,label:'PINTU WAD A',requiresKey:false},
@@ -90,7 +109,8 @@ const itemSpawns=[
  {x:3.5,y:9.5,type:'key'},
  {x:8.5,y:1.5,type:'ammo_shell'},{x:14.5,y:8.5,type:'health'},
  {x:3.5,y:12.5,type:'air_garam'},{x:12.5,y:13.5,type:'ammo_bullet'},
- {x:16.5,y:1.5,type:'tangkal'}, {x:2.5,y:8.5,type:'stash',hidden:true}
+ {x:16.5,y:1.5,type:'tangkal'}, {x:2.5,y:8.5,type:'stash',hidden:true},
+ {x:8.5,y:7.5,type:'smg_kit'},{x:14.5,y:12.5,type:'ammo_smg'},{x:13.5,y:3.5,type:'salt_charge'}
 ];
 let projectiles=[],deathWisps=[],scareTime=0,scareUsed=false,scareEnabled=true;
 // A 3-state exploration atlas: 0 unknown, 1 seen, 2 physically visited.
@@ -105,7 +125,7 @@ const ambianceCanvas=document.createElement('canvas');ambianceCanvas.width=W;amb
 let renderLightLevel=0;
 let audio=null;
 function tone(freq,delay,duration,volume,type='sawtooth',endFreq=null){try{if(!audio) return;const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);if(endFreq)o.frequency.exponentialRampToValueAtTime(endFreq,t+duration);g.gain.setValueAtTime(Math.max(.001,volume),t);g.gain.exponentialRampToValueAtTime(.001,t+duration);o.connect(g).connect(audio.destination);o.start(t);o.stop(t+duration+.005)}catch(_){}}
-function sound(name){if(name==='shot'){tone(170,0,.13,.19,'sawtooth',42);tone(78,0,.19,.12,'triangle',35)}else if(name==='hit'){tone(540,0,.08,.075,'square',240)}else if(name==='hurt'){tone(105,0,.22,.1,'sawtooth',45)}else if(name==='pickup'){tone(520,0,.08,.06,'sine',700);tone(700,.08,.1,.06,'sine',960)}else if(name==='dry'){tone(1500,0,.028,.022,'square')}else if(name==='win'){tone(420,0,.18,.06,'triangle',520);tone(620,.19,.3,.08,'triangle',980)}else if(name==='ghost'){tone(210,0,.6,.018,'sine',85);tone(74,.1,.5,.026,'triangle',44)}else if(name==='scream'){tone(960,0,.32,.11,'sawtooth',260);tone(330,.18,.35,.07,'sine',120)}else if(name==='torch'){tone(980,0,.025,.025,'square',740)}else if(name==='shield'){tone(360,0,.16,.08,'sine',920)}else if(name==='door'){tone(155,0,.42,.08,'triangle',62);tone(210,.16,.35,.037,'sawtooth',91)}else if(name==='reload'){tone(310,0,.06,.035,'square',230);tone(440,.29,.065,.03,'square',320)}else if(name==='checkpoint'){tone(540,0,.11,.045,'sine',680);tone(750,.13,.21,.05,'sine',1040)}}
+function sound(name){if(name==='salt'){tone(420,0,.09,.08,'triangle',110);tone(900,.04,.25,.045,'sawtooth',80)}else if(name==='shot'){tone(170,0,.13,.19,'sawtooth',42);tone(78,0,.19,.12,'triangle',35)}else if(name==='hit'){tone(540,0,.08,.075,'square',240)}else if(name==='hurt'){tone(105,0,.22,.1,'sawtooth',45)}else if(name==='pickup'){tone(520,0,.08,.06,'sine',700);tone(700,.08,.1,.06,'sine',960)}else if(name==='dry'){tone(1500,0,.028,.022,'square')}else if(name==='win'){tone(420,0,.18,.06,'triangle',520);tone(620,.19,.3,.08,'triangle',980)}else if(name==='ghost'){tone(210,0,.6,.018,'sine',85);tone(74,.1,.5,.026,'triangle',44)}else if(name==='scream'){tone(960,0,.32,.11,'sawtooth',260);tone(330,.18,.35,.07,'sine',120)}else if(name==='torch'){tone(980,0,.025,.025,'square',740)}else if(name==='shield'){tone(360,0,.16,.08,'sine',920)}else if(name==='door'){tone(155,0,.42,.08,'triangle',62);tone(210,.16,.35,.037,'sawtooth',91)}else if(name==='reload'){tone(310,0,.06,.035,'square',230);tone(440,.29,.065,.03,'square',320)}else if(name==='checkpoint'){tone(540,0,.11,.045,'sine',680);tone(750,.13,.21,.05,'sine',1040)}}
 function rand(seed){let s=seed|0;return ()=>{s=(s*1664525+1013904223)|0;return(s>>>0)/4294967296}}
 function texture(n){
  const c=document.createElement('canvas');c.width=c.height=64;
@@ -258,7 +278,9 @@ const keyImg=sprite(t=>{
  t.fillStyle='#8c642e';t.fillRect(23,36,4,4);t.fillStyle='#e7ba69';t.fillRect(28,36,23,6);
  t.fillRect(43,42,5,11);t.fillRect(35,42,4,8);t.fillStyle='#8e6634';t.fillRect(31,38,16,2)
 });
-const pickupSprite={health:medkit,ammo_shell:ammoImg,ammo_bullet:ammoImg,air_garam:garamImg,fuse:fuseImg,key:keyImg,tangkal:tangkalImg};
+const smgKitImage=document.createElement('canvas');smgKitImage.width=smgKitImage.height=48;
+const smgArt=smgKitImage.getContext('2d');smgArt.fillStyle='#152b2e';smgArt.fillRect(2,16,44,14);smgArt.fillStyle='#96c7bb';smgArt.fillRect(5,19,38,7);smgArt.fillStyle='#c8ebe0';smgArt.fillRect(29,14,10,6);smgArt.fillStyle='#2c403d';smgArt.fillRect(10,27,12,16);smgArt.fillRect(23,27,12,13);
+const pickupSprite={health:medkit,ammo_shell:ammoImg,ammo_bullet:ammoImg,air_garam:garamImg,fuse:fuseImg,key:keyImg,tangkal:tangkalImg,smg_kit:smgKitImage,ammo_smg:ammoImg,salt_charge:garamImg};
 // v0.4: Three distinct categories: wall decals are painted ON the hit wall plane,
 // grounded decorations are floor billboards, and items stay collectible billboards.
 const trolleySprite=sprite(t=>{t.fillStyle='#252e30';t.fillRect(10,48,48,7);t.fillStyle='#667978';t.fillRect(12,47,45,4);t.fillStyle='#b3b9b2';t.fillRect(16,28,39,21);t.fillStyle='#8a8c81';t.fillRect(14,29,38,6);t.fillStyle='#a46b60';t.fillRect(17,38,31,7);t.fillStyle='#353f41';t.fillRect(15,55,5,14);t.fillRect(51,55,5,14);t.fillStyle='#a9aca5';t.fillRect(11,67,13,7);t.fillRect(47,67,13,7)});
@@ -381,11 +403,11 @@ function surveyMap(){
 }
 function tileDiscovered(x,y){return x>=0&&x<MW&&y>=0&&y<MH&&mapSeen[y*MW+x]>0}
 function mapPercent(){return Math.min(100,Math.round(mappedWalkable/MAP_WALKABLE*100))}
-function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0,awareness:0}}
+function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0,awareness:0,stun:0}}
 function reset(){
  try{localStorage.removeItem(SAVE_KEY)}catch(_){};updateSaveButton();
- started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];scareTime=0;scareUsed=false;
- player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6},reserve:{pistol:42,shotgun:26},reload:0,attack:0,buff:0,shield:0,flashlight:true};
+ started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;scareUsed=false;
+ player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};
  surveyMap();enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));
  objective={fuses:0,key:false,generator:false,boss:false};kills=0;shots=0;last=performance.now();startTime=last;frame=0;shotClock=0;flash=0;screenShake=0;hitmark=0;bob=0;
  tip='CARI 3 FIUS DAN KUNCI BILIK MAYAT';tipTimer=4;ambienceClock=5;killPulse=0;keys.clear();fireHeld=false;mouseHeld=false;joy.x=joy.y=0;
@@ -402,8 +424,9 @@ function end(win){playing=false;ended=true;missionWon=win;fireHeld=false;mouseHe
 }
 function showTip(msg,sec=2.2){tip=msg;tipTimer=sec}
 function moveEntity(ent,dx,dy,r=.2){if(free(ent.x+dx,ent.y,r))ent.x+=dx;if(free(ent.x,ent.y+dy,r))ent.y+=dy}
-function updateWeaponButtons(){document.querySelectorAll('[data-w]').forEach(el=>el.classList.toggle('active',el.dataset.w===player.weapon))}
-function equip(w){if(!playing||!WEAPONS[w])return;player.weapon=w;player.reload=0;player.attack=0;showTip(`SENJATA: ${WEAPONS[w].name}`,1.1);updateWeaponButtons();sound('pickup')}
+function updateWeaponButtons(){document.querySelectorAll('[data-w]').forEach(el=>{el.classList.toggle('active',el.dataset.w===player.weapon);if(el.dataset.w==='smg'){el.classList.toggle('locked',!player.smgUnlocked);el.setAttribute('aria-label',player.smgUnlocked?'Pilih SMG':'SMG belum dijumpai')}});updateSaltButton()}
+function updateSaltButton(){const b=$('salt');if(!b||!player)return;b.disabled=player.saltCharges<=0;b.setAttribute('aria-label',`Bom Garam, baki ${player.saltCharges}`);$('saltCount').textContent=String(player.saltCharges)}
+function equip(w){if(!playing||!WEAPONS[w])return;if(w==='smg'&&!player.smgUnlocked){showTip('SMG BELUM DIJUMPAI — TEROKA ZON KEDUA',2);sound('dry');return}player.weapon=w;player.reload=0;player.attack=0;showTip(`SENJATA: ${WEAPONS[w].name}`,1.1);updateWeaponButtons();sound('pickup')}
 function updateTorchButton(){const el=$('torch');el.textContent=player.flashlight?'🔦 LAMPU ON':'🔦 LAMPU OFF';el.classList.toggle('off',!player.flashlight);el.setAttribute('aria-pressed',String(player.flashlight));el.setAttribute('aria-label',player.flashlight?'Tutup lampu suluh':'Buka lampu suluh')}
 function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;updateTorchButton();sound('torch')}
 function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
@@ -425,11 +448,16 @@ function validSnapshot(c){if(!c||typeof c!=='object'||!c.player||!c.objective||!
  if(!Number.isFinite(c.player.x)||!Number.isFinite(c.player.y)||c.player.x<1||c.player.x>=MW-1||c.player.y<1||c.player.y>=MH-1)return false;
  if(!WEAPONS[c.player.weapon]||!c.player.ammo||!c.player.reserve||!Number.isFinite(c.player.hp)||c.player.hp<=0||c.player.hp>100)return false;
  if(!Number.isInteger(c.objective.fuses)||c.objective.fuses<0||c.objective.fuses>3||typeof c.objective.key!=='boolean'||typeof c.objective.generator!=='boolean'||typeof c.objective.boss!=='boolean')return false;
- if(c.enemies.length>60||c.items.length!==itemSpawns.length||c.mapSeen.some(v=>v!==0&&v!==1&&v!==2))return false;
+ if(c.enemies.length>60||(c.items.length<10||c.items.length>itemSpawns.length)||c.mapSeen.some(v=>v!==0&&v!==1&&v!==2))return false;
  const knownDoors=new Set(DOOR_DEFS.map(d=>`${d.x},${d.y}`));if(c.doors.some(k=>!knownDoors.has(k))||c.doorProgress.some(e=>!Array.isArray(e)||!knownDoors.has(e[0])||!Number.isFinite(e[1])||e[1]<0||e[1]>1))return false;
  return true}
-function restoreState(c){player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));items=JSON.parse(JSON.stringify(c.items));objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map(c.doorProgress||[]);closingDoors=new Set(c.closingDoors||[]);mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable||0;hiddenCaches=c.hiddenCaches||0;kills=c.kills||0;shots=c.shots||0;spawnedBoss=!!c.spawnedBoss;scareUsed=!!c.scareUsed;visitedZones=new Set(c.visitedZones||[]);
- checkpoint=null;navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;projectiles=[];deathWisps=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;keys.clear();playing=true;started=true;ended=false;missionWon=false;last=performance.now();startTime=last-Math.max(0,Math.min(86400000,c.elapsed||0));zoneName=player.y<5?'LOBI UTAMA':player.y<10?'WAD RAWATAN':'BILIK MAYAT';
+function restoreState(c){player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));items=JSON.parse(JSON.stringify(c.items));
+ while(items.length<itemSpawns.length)items.push({...itemSpawns[items.length],taken:false});
+ player.ammo.smg??=24;player.reserve.smg??=48;player.smgUnlocked??=false;
+ player.saltCharges=Number.isFinite(player.saltCharges)?Math.max(0,Math.min(MAX_SALT,player.saltCharges)):2;player.saltCooldown=0;
+ enemies.forEach(e=>{if(!Number.isFinite(e.stun))e.stun=0});
+ objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map(c.doorProgress||[]);closingDoors=new Set(c.closingDoors||[]);mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable||0;hiddenCaches=c.hiddenCaches||0;kills=c.kills||0;shots=c.shots||0;spawnedBoss=!!c.spawnedBoss;scareUsed=!!c.scareUsed;visitedZones=new Set(c.visitedZones||[]);
+ checkpoint=null;navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;keys.clear();playing=true;started=true;ended=false;missionWon=false;last=performance.now();startTime=last-Math.max(0,Math.min(86400000,c.elapsed||0));zoneName=player.y<5?'LOBI UTAMA':player.y<10?'WAD RAWATAN':'BILIK MAYAT';
  $('joy').classList.add('inactive');$('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');updateWeaponButtons();updateTorchButton();updateSaveButton();
  try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){};requestAnimationFrame(loop)}
 function persistGame(){if(!playing||player.hp<=0||ended)return false;try{const state={v:SAVE_VERSION,when:Date.now(),game:snapshotGame(),checkpoint:checkpoint?JSON.parse(JSON.stringify(checkpoint)):null};localStorage.setItem(SAVE_KEY,JSON.stringify(state));updateSaveButton();return true}catch(_){return false}}
@@ -492,11 +520,34 @@ function interact(){
  if(!spawnedBoss){enemies.push(makeEnemy('pontianak',17.2,12.6));spawnedBoss=true}persistGame()
 }
 function reload(){const w=player.weapon,def=WEAPONS[w];if(!playing||!def.clip||player.reload>0||player.ammo[w]>=def.clip||player.reserve[w]<=0)return;player.reload=def.reload;showTip('ISI SEMULA...');sound('reload')}
+function damageEnemy(e,rawDamage,source){
+ if(!e||!e.alive)return 0;
+ const multiplier=AFFINITY[e.type]?.[source]??1,damage=rawDamage*multiplier*(player.buff>0?1.6:1);
+ e.hp-=damage;e.flash=.2;hitmark=.25;sound('hit');
+ if(e.hp<=0){e.alive=false;kills++;deathWisps.push({x:e.x,y:e.y,life:.62,type:e.type});killPulse=.3;showTip(`${e.type.toUpperCase()} TUMPAS`);
+  if(e.type==='pontianak'){objective.boss=true;showTip('PONTIANAK TUMPAS! LARI KE KELUAR!',3.5);persistGame()}
+ }
+ return damage
+}
+function throwSalt(){
+ if(!playing||player.saltCooldown>0)return false;
+ if(player.saltCharges<=0){showTip('BOM GARAM HABIS — CARI BEKALAN',1.6);sound('dry');return false}
+ player.saltCharges--;player.saltCooldown=1.2;updateSaltButton();
+ const vx=Math.cos(player.a),vy=Math.sin(player.a);let bx=player.x,by=player.y;
+ for(let k=.12;k<=2.45;k+=.12){const x=player.x+vx*k,y=player.y+vy*k;if(isWall(x,y))break;bx=x;by=y}
+ saltBursts.push({x:bx,y:by,ttl:.5});sound('salt');screenShake=Math.max(screenShake,2);showTip('BOM GARAM MELETUP — HANTU TERGANGGU',1.3);
+ for(const e of enemies){if(!e.alive)continue;const d=Math.hypot(e.x-bx,e.y-by);
+  if(d>2.15||!lineOfSight(bx,by,e.x,e.y))continue;
+  damageEnemy(e,4.25*Math.max(.6,1-d/5),'salt');
+  if(e.alive){e.stun=Math.max(e.stun||0,e.type==='raya'?.65:1.25);e.ai='chase';e.charge=0;e.dash=0}
+ }
+ projectiles=projectiles.filter(p=>Math.hypot(p.x-bx,p.y-by)>2.15||!lineOfSight(bx,by,p.x,p.y));persistGame();return true
+}
 function shoot(){
  if(!playing||player.reload>0||shotClock>0)return;
  const w=player.weapon,def=WEAPONS[w];
  if(def.clip&&player.ammo[w]<=0){sound('dry');shotClock=.19;reload();return}
- if(def.clip)player.ammo[w]--;shots++;shotClock=def.rate;player.attack=.3;screenShake=w==='shotgun'?4:w==='pistol'?1.6:2.2;flash=w==='shotgun'?.11:.04;
+ if(def.clip)player.ammo[w]--;shots++;shotClock=def.rate;player.attack=.3;screenShake=w==='shotgun'?4:w==='pistol'?1.6:w==='smg'?1.1:2.2;flash=w==='shotgun'?.11:w==='smg'?.025:.04;
  sound(w==='parang'?'hit':'shot');
  let target=null,best=Infinity;
  for(const e of enemies){if(!e.alive)continue;
@@ -504,9 +555,7 @@ function shoot(){
   const size=def.spread+.15/Math.max(1,dist);
   if(dist<=def.range&&Math.abs(da)<size&&dist<best&&lineOfSight(player.x,player.y,e.x,e.y)){target=e;best=dist}
  }
- if(target){let dmg=def.damage*(w==='shotgun'?Math.max(.42,1-best/8):1)*(player.buff>0?1.6:1);target.hp-=dmg;target.flash=.18;hitmark=.25;sound('hit');
-  if(target.hp<=0){target.alive=false;kills++;deathWisps.push({x:target.x,y:target.y,life:.62,type:target.type});killPulse=.3;showTip(`${target.type.toUpperCase()} TUMPAS`);if(target.type==='pontianak'){objective.boss=true;showTip('PONTIANAK TUMPAS! LARI KE KELUAR!',3.5);persistGame()}}
- }
+ if(target){const base=def.damage*(w==='shotgun'?Math.max(.42,1-best/8):1);damageEnemy(target,base,w)}
  if(def.clip&&player.ammo[w]===0&&player.reserve[w]>0)reload()
 }
 function lineOfSight(ax,ay,bx,by){const dist=Math.hypot(bx-ax,by-ay);for(let d=.13;d<dist-.23;d+=.14){const x=ax+(bx-ax)*d/dist,y=ay+(by-ay)*d/dist;if(isWall(x,y))return false}return true}
@@ -529,7 +578,7 @@ function updateProjectiles(dt){
 }
 
 function updateEnemy(e,dt){
- const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;
+ const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;if(e.stun>0){e.stun=Math.max(0,e.stun-dt);e.flash=Math.max(e.flash,.06);return}
  const dx=player.x-e.x,dy=player.y-e.y,d=Math.hypot(dx,dy),safeD=Math.max(.08,d),visible=d<9&&lineOfSight(e.x,e.y,player.x,player.y);
  if(visible)e.awareness=5;else{e.awareness=Math.max(0,(e.awareness||0)-dt);if(d<5.6)e.awareness=Math.max(e.awareness,2.0);if(e.awareness>0&&d<9)chaseAroundWalls(e,dt,spec.speed*(e.type==='langsuir'?.82:1));return}
  if(e.type==='langsuir'){
@@ -565,14 +614,17 @@ function pickup(i){
  else if(i.type==='health'){const gained=Math.min(100-player.hp,35);player.hp+=gained;showTip(`+${gained} KESIHATAN`)}
  else if(i.type==='air_garam'){player.buff=14;showTip('AIR GARAM AKTIF — DAMAGE +60%',3)}
  else if(i.type==='tangkal'){player.shield=18;showTip('TANGKAL AKTIF — SERANGAN -45%',3)}
- else if(i.type==='stash'){hiddenCaches++;player.hp=Math.min(100,player.hp+25);player.reserve.pistol+=12;player.reserve.shotgun+=6;showTip('STOR RAHSIA DIJUMPAI! +NYAWA +PELURU',3.1)}
+ else if(i.type==='stash'){hiddenCaches++;player.hp=Math.min(100,player.hp+25);player.reserve.pistol+=12;player.reserve.shotgun+=6;if(player.smgUnlocked)player.reserve.smg+=24;player.saltCharges=Math.min(MAX_SALT,player.saltCharges+1);updateSaltButton();showTip('STOR RAHSIA DIJUMPAI! +NYAWA +PELURU',3.1)}
  else if(i.type==='ammo_bullet'){player.reserve.pistol+=18;showTip('+18 PELURU PISTOL')}
  else if(i.type==='ammo_shell'){player.reserve.shotgun+=10;showTip('+10 PELURU SHOTGUN')}
+ else if(i.type==='smg_kit'){player.smgUnlocked=true;player.ammo.smg=24;player.reserve.smg=Math.max(48,player.reserve.smg);showTip('SMG DIJUMPAI — TEKAN 4 UNTUK PILIH',3.1);updateWeaponButtons()}
+ else if(i.type==='ammo_smg'){player.reserve.smg+=48;showTip('+48 PELURU SMG')}
+ else if(i.type==='salt_charge'){player.saltCharges=Math.min(MAX_SALT,player.saltCharges+2);showTip('+2 BOM GARAM');updateSaltButton()}
  i.taken=true;sound('pickup');persistGame()
 }
 function update(dt){
  frame+=dt;advanceDoors(dt);hurtCooldown=Math.max(0,hurtCooldown-dt);saveClock+=dt;surveyClock-=dt;scareTime=Math.max(0,scareTime-dt);shotClock=Math.max(0,shotClock-dt);flash=Math.max(0,flash-dt);hitmark=Math.max(0,hitmark-dt);
- screenShake=Math.max(0,screenShake-dt*22);tipTimer=Math.max(0,tipTimer-dt);killPulse=Math.max(0,killPulse-dt);player.attack=Math.max(0,player.attack-dt);player.buff=Math.max(0,player.buff-dt);player.shield=Math.max(0,player.shield-dt);
+ screenShake=Math.max(0,screenShake-dt*22);tipTimer=Math.max(0,tipTimer-dt);killPulse=Math.max(0,killPulse-dt);player.attack=Math.max(0,player.attack-dt);player.buff=Math.max(0,player.buff-dt);player.shield=Math.max(0,player.shield-dt);player.saltCooldown=Math.max(0,(player.saltCooldown||0)-dt);for(const b of saltBursts)b.ttl-=dt;saltBursts=saltBursts.filter(b=>b.ttl>0);
  ambienceClock-=dt;if(ambienceClock<=0){const nearest=enemies.reduce((best,e)=>e.alive?Math.min(best,Math.hypot(e.x-player.x,e.y-player.y)):best,100);if(nearest<6)sound('ghost');ambienceClock=3.5+Math.random()*4}
  if(player.reload>0){player.reload-=dt;if(player.reload<=0){const w=player.weapon,def=WEAPONS[w],take=Math.min(def.clip-player.ammo[w],player.reserve[w]);player.ammo[w]+=Math.max(0,take);player.reserve[w]-=Math.max(0,take);player.reload=0;showTip('SENJATA SIAP')}}
  let forward=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-joy.y;
@@ -649,6 +701,11 @@ function weapon(){
  }else if(w==='pistol'){
   p('#16171f',17,-19,65,46);p('#393f4c',31,-61,43,49);p('#a1a8a9',35,-60,38,10);p('#262c35',46,-63,23,16);p('#626b6c',32,-34,43,7);p('#6f3c33',50,-9,22,33);p('#a35c43',53,-4,15,24);
   if(player.attack>.14){p('#ffe3a4',43,-102,20,29);p('#fc963d',35,-89,36,18)}
+ }else if(w==='smg'){
+  p('#101820',15,-22,71,35);p('#384b50',24,-45,47,26);p('#a0b5ad',28,-46,42,7);
+  p('#182a31',40,-61,14,18);p('#677b77',42,-61,10,8);p('#627a75',69,-39,34,9);
+  p('#202b2f',35,-8,18,30);p('#425452',48,-4,22,17);
+  if(player.attack>.17){p('#ffde9c',93,-67,17,24);p('#f69b57',97,-74,9,20)}
  }else{
   p('#17141b',13,-33,69,54);p('#414650',24,-48,43,51);p('#79868d',29,-48,34,8);p('#252d3b',38,-58,17,33);p('#a6a3a0',40,-66,13,23);p('#242532',32,-14,34,31);p('#6f3537',20,4,54,12);p('#b05b49',36,4,20,9);p('#d0d8d7',43,-67,7,9);
   if(player.attack>.16){p('#ffebaa',36,-95,22,26);p('#ffa74c',27,-88,40,18);p('#ff7c27',38,-111,18,27)}
@@ -667,7 +724,8 @@ function hud(){
  if(hitmark>0){ctx.save();ctx.globalAlpha=Math.min(1,hitmark*5);ctx.strokeStyle=killPulse>0?'#ff7762':'#fff1cf';ctx.lineWidth=killPulse>0?2.3:1.5;ctx.beginPath();for(let sx of [-1,1])for(let sy of [-1,1]){ctx.moveTo(c+sx*4,q+sy*4);ctx.lineTo(c+sx*(killPulse>0?12:9),q+sy*(killPulse>0?12:9))}ctx.stroke();ctx.restore()}
  if(tipTimer>0){ctx.font='bold 9px monospace';let tw=ctx.measureText(tip).width;ctx.fillStyle='#03070ce9';ctx.fillRect(W/2-tw/2-8,34,tw+16,18);ctx.fillStyle='#ffd1a3';ctx.fillText(tip,W/2-tw/2,46)}
  if(player.reload>0){ctx.font='bold 10px monospace';ctx.fillStyle='#ffedc6';ctx.fillText('ISI SEMULA...',W/2-38,H-64)}
- ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // HOSPITAL LAMA  v1.1',10,14);
+ ctx.fillStyle='#adf7da';ctx.font='bold 9px monospace';ctx.fillText(`✧ GARAM ${player.saltCharges}`,W-95,14);
+ ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // HOSPITAL LAMA  v1.4',10,14);
  if(player.buff>0){ctx.fillStyle='#c9f6f6';ctx.font='bold 9px monospace';ctx.fillText(`AIR GARAM ${Math.ceil(player.buff)}s`,12,29)}
  else if(objective.generator){ctx.fillStyle='#bce9c9';ctx.font='bold 9px monospace';ctx.fillText(objective.boss?'KELUAR SUDAH TERBUKA':'BOSS: PONTIANAK',12,29)}
  if(player.shield>0){ctx.fillStyle='#f6cf8d';ctx.font='bold 9px monospace';ctx.fillText(`TANGKAL ${Math.ceil(player.shield)}s`,12,player.buff>0?41:29)}
@@ -734,7 +792,12 @@ function drawScare(){
  ctx.fillStyle='#d8cabb';ctx.font='bold 15px monospace';ctx.textAlign='center';ctx.fillText('JANGAN PANDANG BELAKANG',c,H-55);
  ctx.restore();ctx.textAlign='start';
 }
-function render(){world();atmosphere();weapon();minimap();hud();drawScare()}
+function drawSaltBurst(){if(!saltBursts.length)return;ctx.save();for(const b of saltBursts){
+ const dx=b.x-player.x,dy=b.y-player.y,d=Math.hypot(dx,dy),rel=Math.atan2(Math.sin(Math.atan2(dy,dx)-player.a),Math.cos(Math.atan2(dy,dx)-player.a));
+ if(Math.abs(rel)>FOV*.6||d<.1)continue;const xx=W/2+Math.tan(rel)/Math.tan(FOV/2)*(W/2),yy=H*.48,rad=Math.min(100,70/Math.max(.7,d))*(1-b.ttl/.85);
+ ctx.globalAlpha=Math.max(0,Math.min(.7,b.ttl*1.4));ctx.strokeStyle='#b9ffea';ctx.lineWidth=3;ctx.beginPath();ctx.arc(xx,yy,Math.max(3,rad),0,Math.PI*2);ctx.stroke()
+ }ctx.restore()}
+function render(){world();atmosphere();drawSaltBurst();weapon();minimap();hud();drawScare()}
 function loop(now){if(!playing)return;const dt=Math.min(.04,Math.max(.005,(now-last)/1000));last=now;update(dt);render();if(playing)requestAnimationFrame(loop)}
 function mobileLook(ev){if(pointer.look!==ev.pointerId)return;const d=ev.clientX-pointer.lastX;pointer.lastX=ev.clientX;player.a+=d*.0055}
 canvas.addEventListener('pointerdown',ev=>{if(!playing)return;if(ev.pointerType==='mouse'){mouseHeld=true;shoot();if(document.pointerLockElement!==canvas)canvas.requestPointerLock?.()}else{const rect=canvas.getBoundingClientRect();if(ev.clientX>rect.left+rect.width*.38){pointer.look=ev.pointerId;pointer.lastX=ev.clientX;try{canvas.setPointerCapture(ev.pointerId)}catch(_){}}}});
@@ -747,10 +810,10 @@ $('joyZone').addEventListener('pointerdown',ev=>{if(!playing)return;pointer.joy=
 $('joyZone').addEventListener('pointermove',setJoy);function clearJoy(ev){if(pointer.joy!==ev.pointerId)return;pointer.joy=null;joy.x=joy.y=0;$('stick').style.transform='translate(0,0)';$('joy').classList.add('inactive')}$('joyZone').addEventListener('pointerup',clearJoy);$('joyZone').addEventListener('pointercancel',clearJoy);
 $('resumeCheckpoint').addEventListener('click',restoreCheckpoint);$('continueSaved').addEventListener('click',loadSavedGame);
 $('scareToggle').addEventListener('click',()=>{scareEnabled=!scareEnabled;updateScareToggle()});
-$('fire').addEventListener('pointerdown',ev=>{if(!playing)return;ev.preventDefault();try{$('fire').setPointerCapture(ev.pointerId)}catch(_){};fireHeld=true;shoot()});$('fire').addEventListener('pointerup',()=>fireHeld=false);$('fire').addEventListener('pointercancel',()=>fireHeld=false);$('reload').addEventListener('click',reload);$('use').addEventListener('click',interact);$('torch').addEventListener('click',toggleTorch);document.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>equip(b.dataset.w)));
-document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)mouseHeld=false});document.addEventListener('keydown',ev=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(ev.code))ev.preventDefault();keys.add(ev.code);if(ev.code==='Space')shoot();if(ev.code==='KeyR')reload();if(ev.code==='KeyE'&&!ev.repeat)interact();if(ev.code==='KeyL'&&!ev.repeat)toggleTorch();if(ev.code==='Digit1')equip('parang');if(ev.code==='Digit2')equip('pistol');if(ev.code==='Digit3')equip('shotgun');if(ev.code==='Escape'&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});document.addEventListener('keyup',ev=>keys.delete(ev.code));document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});
+$('fire').addEventListener('pointerdown',ev=>{if(!playing)return;ev.preventDefault();try{$('fire').setPointerCapture(ev.pointerId)}catch(_){};fireHeld=true;shoot()});$('fire').addEventListener('pointerup',()=>fireHeld=false);$('fire').addEventListener('pointercancel',()=>fireHeld=false);$('salt').addEventListener('click',throwSalt);$('reload').addEventListener('click',reload);$('use').addEventListener('click',interact);$('torch').addEventListener('click',toggleTorch);document.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>equip(b.dataset.w)));
+document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)mouseHeld=false});document.addEventListener('keydown',ev=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(ev.code))ev.preventDefault();keys.add(ev.code);if(ev.code==='Space')shoot();if(ev.code==='KeyR')reload();if(ev.code==='KeyQ'&&!ev.repeat)throwSalt();if(ev.code==='KeyE'&&!ev.repeat)interact();if(ev.code==='KeyL'&&!ev.repeat)toggleTorch();if(ev.code==='Digit1')equip('parang');if(ev.code==='Digit2')equip('pistol');if(ev.code==='Digit3')equip('shotgun');if(ev.code==='Digit4')equip('smg');if(ev.code==='Escape'&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});document.addEventListener('keyup',ev=>keys.delete(ev.code));document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});
 $('start').addEventListener('click',()=>{if(started&&!ended&&!playing){playing=true;last=performance.now();$('menu').classList.add('hidden');try{audio?.resume()}catch(_){}requestAnimationFrame(loop)}else reset()});$('again').addEventListener('click',()=>{reset();$('start').textContent='MASUK HOSPITAL'});
-player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6},reserve:{pistol:42,shotgun:26},reload:0,attack:0,buff:0,shield:0,flashlight:true};updateScareToggle();updateSaveButton();objective={fuses:0,key:false,generator:false,boss:false};enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));$('joy').classList.add('inactive');surveyMap();ctx.fillStyle='#111923';ctx.fillRect(0,0,W,H);render();
+player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};updateScareToggle();updateSaveButton();updateWeaponButtons();objective={fuses:0,key:false,generator:false,boss:false};enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));$('joy').classList.add('inactive');surveyMap();ctx.fillStyle='#111923';ctx.fillRect(0,0,W,H);render();
 })();
 </script>
 </body></html>
