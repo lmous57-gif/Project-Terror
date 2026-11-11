@@ -1,5 +1,14 @@
 # Project: Terror — Changelog
 
+## v1.4 — Combat Overhaul
+- SMG slot keempat; unlock melalui pickup di zon kedua, ammo baharu di zon ketiga.
+- Bom Garam (Q/✧) dengan radius AoE, line-of-sight, stok, cooldown, animasi ring dan stun.
+- Damage affinity berlainan untuk Pocong, Toyol, Pontianak, Langsuir dan Hantu Raya.
+- Legacy save migration menerima tambahan pickup/inventori tanpa padam data pemain.
+- Minimal mobile combat control dan arahan dikemaskini.
+- 34/34 QA Chromium tempatan lulus, serta smoke test live untuk dua level.
+- Semua kandungan v1.3 Rahsia Kampung dikekalkan.
+
 ## v1.3 — Rahsia Kampung
 - Mak Timah: NPC survivor dalam Rumah Tok Pawang dengan dialog berubah selepas tiga bukti dikumpul.
 - Tiga objek bukti interaktif asal: Fail 07 (rumah pertama), kaset Salmah (rumah kedua), batu tanda Bukit Meranti (keramat).
