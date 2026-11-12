@@ -1,3 +1,13 @@
+# PROJECT: TERROR v1.8 — Bukit Meranti / Level 03
+
+**Play:** [Level 01 Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Level 02 Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Level 03 Bukit Meranti](https://lmous57-gif.github.io/Project-Terror/bukit.html) · [40-weapon collection](https://lmous57-gif.github.io/Project-Terror/arsenal.html)
+
+**New third playable level:** hilltop abandoned transmitter, rocky/forest/industrial zones, **SMG unlock in Bilik Teknikal**, 3 frequency modules, gate key, three optional Fail 08 case files, Juruteknik Din and **Penanggal** boss (projectile curses + close diving strike). Mystery Box anti-freeze regression tests are retained; saves for all three levels remain separate, while weapons carry between them.
+
+Read [LEVEL_03_DESIGN.md](./LEVEL_03_DESIGN.md) for story and technical gameplay scope. Physical Android playtesting is still needed.
+
+---
+
 # PROJECT: TERROR v1.7 — Pre-Level-03 Polish
 
 **Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)
