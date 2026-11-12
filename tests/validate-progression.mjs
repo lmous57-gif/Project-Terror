@@ -23,8 +23,8 @@ const chosen=arm.roll([]);
 assert.ok(arm.byId[chosen.id]);
 const saved=arm.write({base:['parang','pistol'],bonus:[chosen.id],cleared:[1]});
 assert.equal(saved.bonus[0],chosen.id);assert.equal(arm.read().cleared[0],1);
-for(const page of ['index.html','kampung.html','bukit.html']){
- const html=readFileSync(page,'utf8'),stage=page==='index.html'?1:page==='kampung.html'?2:3;
+for(const page of ['index.html','kampung.html','bukit.html','loji.html']){
+ const html=readFileSync(page,'utf8'),stage=page==='index.html'?1:page==='kampung.html'?2:page==='bukit.html'?3:4;
  assert.ok(html.includes('<script src="./weapon-art.js"></script>'),page+': sprite workshop script');
  assert.ok(html.indexOf('<script src="./arsenal.js"></script>')<html.indexOf('<script>\n'));
  const a=html.indexOf('<script>\n'),b=html.indexOf('</script>',a);
@@ -37,4 +37,4 @@ for(const page of ['index.html','kampung.html','bukit.html']){
  const cells=page==='index.html'?[[2,2],[15,1]]:page==='kampung.html'?[[2,2],[8,3]]:[[2,2],[8,3],[12,7]];
  for(const [x,y] of cells)assert.equal(rows[y][x],'.',page+': pickup spawned inside wall');
 }
-console.log('PASS: 40 unique mystery weapons, fourteen perks, persistent catalog, three-level integration, level pickup locations and JS syntax');
+console.log('PASS: 40 unique mystery weapons, fourteen perks, persistent catalog, four-level integration, level pickup locations and JS syntax');
