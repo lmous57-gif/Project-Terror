@@ -1,11 +1,12 @@
-/* PROJECT: TERROR v1.9 — read-only campaign overview.
+/* PROJECT: TERROR v2.0 — read-only campaign overview.
    All save writes remain owned by the individual mission engines. */
 (function(g){
 'use strict';
 const missions=[
  {id:1,name:'HOSPITAL LAMA',night:'MALAM PERTAMA',file:'index.html',boss:'PONTIANAK',objective:'3 fius · generator · keluar',saveKey:'project-terror-v1-save'},
  {id:2,name:'KAMPUNG BERHANTU',night:'MALAM KEDUA',file:'kampung.html',boss:'HANTU RAYA',objective:'3 jalur · tiang pendinding · keluar',saveKey:'project-terror-kampung-v1-save'},
- {id:3,name:'BUKIT MERANTI',night:'MALAM KETIGA',file:'bukit.html',boss:'PENANGGAL',objective:'3 modul · pemancar · keluar',saveKey:'project-terror-bukit-v1-save'}
+ {id:3,name:'BUKIT MERANTI',night:'MALAM KETIGA',file:'bukit.html',boss:'PENANGGAL',objective:'3 modul · pemancar · keluar',saveKey:'project-terror-bukit-v1-save'},
+ {id:4,name:'LOJI AIR HITAM',night:'MALAM KEEMPAT',file:'loji.html',boss:'ORANG MINYAK',objective:'3 injap · konsol pam · jeti',saveKey:'project-terror-loji-v1-save'}
 ];
 function safeSave(key){
  try{
@@ -35,11 +36,11 @@ function setText(id,value){const el=document.getElementById(id);if(el)el.textCon
 function render(){
  if(!document.getElementById('campaign'))return;
  const data=progress();
- setText('clearedCount',data.cleared.length+' / 3');
+ setText('clearedCount',data.cleared.length+' / 4');
  setText('bonusCount',data.bonus.length+' / 40');
  setText('baseCount',data.base.length+' / 4');
  const bar=document.getElementById('overallBar');
- if(bar)bar.style.width=Math.round(data.cleared.length/3*100)+'%';
+ if(bar)bar.style.width=Math.round(data.cleared.length/4*100)+'%';
  const list=document.getElementById('missionList');
  if(list){
   list.textContent='';
