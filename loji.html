@@ -483,7 +483,7 @@ function generatorDecal(on){return decalCanvas(112,128,(t,w,h)=>{
  t.fillStyle='#e9e0c5';t.font='bold 12px monospace';t.textAlign='center';t.fillText('PAM AIR',56,25);
  t.fillStyle='#829a94';t.fillRect(19,40,74,25);t.fillStyle=on?'#9bf2bd':'#3f4847';t.fillRect(25,45,62,15);
  t.fillStyle='#1f292b';for(let x of [23,43,63]){t.fillRect(x,79,15,23);t.fillStyle=on?'#6ceb9a':'#a64d3d';t.fillRect(x+3,82,9,8);t.fillStyle='#1f292b'}
- t.fillStyle='#dec6a3';t.font='bold 10px monospace';t.fillText(on?'AKTIF':'3 MODUL',56,116);
+ t.fillStyle='#dec6a3';t.font='bold 10px monospace';t.fillText(on?'AKTIF':'3 INJAP',56,116);
  t.fillStyle='#a8aa8d';for(let x of [8,99])for(let y of [7,115])t.fillRect(x,y,5,5)
 })}
 function doorDecal(open){return decalCanvas(128,192,(t,w,h)=>{
@@ -497,14 +497,14 @@ function doorDecal(open){return decalCanvas(128,192,(t,w,h)=>{
  t.fillStyle='#272f2d';t.fillRect(13,180,102,8)
 })}
 const wallArt={
- wad:signDecal('BUKIT','MERANTI','#5e7e8c'),
+ wad:signDecal('LOJI','AIR HITAM','#5e7e8c'),
  mayat:signDecal('TAKUNGAN','PINTU KUNCI','#8c4c50'),
- rawatan:signDecal('RADIO','STESEN LAMA','#577d8f'),
+ rawatan:signDecal('PAM AIR','SALURAN','#577d8f'),
  kecemasan:signDecal('AWAS','ORANG MINYAK','#ac5552'),
  rumah1:signDecal('PONDOK','RADIO','#6d8086'),
  rumah2:signDecal('BILIK','TEKNIKAL','#577c81'),
  dalam1:signDecal('BAHAYA','VOLTAN TINGGI','#986b50'),
- keluar:signDecal('KELUAR','TURUN BUKIT','#51846a'),
+ keluar:signDecal('JETI','KELUAR LOJI','#51846a'),
  lamp:lampDecal(),notice:noticeDecal(),
  genOff:generatorDecal(false),genOn:generatorDecal(true),
  doorLocked:doorDecal(false),doorOpen:doorDecal(true)
@@ -588,8 +588,8 @@ function reset(){oilDamageCooldown=0;
 }
 function end(win){closeCase();playing=false;ended=true;missionWon=win;fireHeld=false;mouseHeld=false;try{document.exitPointerLock?.()}catch(_){};
  $('result-tag').textContent=win?'MISI SELESAI':'MISI GAGAL';
- $('result-title').textContent=win?'ISYARAT DIMATIKAN':'KAU TEWAS';
- $('result-description').textContent=win?`Orang Minyak tewas! Loji terkawal dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.${caseFound.size===3?' FAIL 09 membuka rahsia siaran — kisah Salmah belum tamat.':''}`:`${kills} hantu ditumpaskan. Cuba lagi untuk hidupkan generator dan cari jalan keluar.`;
+ $('result-title').textContent=win?'PAM AIR BERFUNGSI':'KAU TEWAS';
+ $('result-description').textContent=win?`Orang Minyak tewas! Loji terkawal dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.${caseFound.size===3?' Fail 09 mengesahkan Salmah pernah menyekat sesuatu di bawah loji.':''}`:`${kills} hantu ditumpaskan. Cuba lagi untuk menghidupkan pam dan cari jeti.`;
  $('resumeCheckpoint').classList.toggle('hidden',win||!checkpoint);$('end').classList.remove('hidden');if(win){try{localStorage.removeItem(SAVE_KEY)}catch(_){};sound('win')}updateSaveButton()
 }
 function showTip(msg,sec=2.2){tip=msg;tipTimer=sec}
@@ -600,7 +600,7 @@ function equip(w){if(!playing||!WEAPONS[w])return;if(w==='smg'&&!player.smgUnloc
 function updateTorchButton(){const el=$('torch');el.textContent=player.flashlight?'🔦 LAMPU ON':'🔦 LAMPU OFF';el.classList.toggle('off',!player.flashlight);el.setAttribute('aria-pressed',String(player.flashlight));el.setAttribute('aria-label',player.flashlight?'Tutup lampu suluh':'Buka lampu suluh')}
 function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;updateTorchButton();sound('torch')}
 function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
-function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('ORANG MINYAK TELAH BANGKIT...',1.25)}
+function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('ADA SESUATU KELUAR DARI AIR HITAM...',1.25)}
 function npcDialogue(){return caseFound.size===3?
  'Rahman menunjuk pada air hitam yang berputar melawan aliran.\n\n“Pemancar di bukit cuma pengunci. Bila dimatikan, apa yang dikurung di bawah loji mula keluar. Salmah pernah cuba kunci benda itu. Orang Minyak takut lampu UV, tapi ia hilang seketika sebelum menerkam.”\n\n“Buka tiga injap pembendung, hidupkan konsol pam dan lari ke jeti selepas Orang Minyak ditewaskan.”':
  'Pengawal Rahman bersembunyi di pos kawalan.\n\n“Bila Bukit Meranti senyap, air di sini jadi hitam. Cari Lampu Suluh UV dalam Bilik Penapis. Cahaya itu melemahkan makhluk berminyak.”\n\n“Cari Fail 09, pita rakaman dan plat protokol dekat takungan. Tiga injap dan kunci perlu untuk hidupkan pam.”'}
@@ -608,7 +608,7 @@ function availablePages(){const pages=[];if(npcSpoken)pages.push({id:'mak',title
 function showCasePage(){const pages=availablePages();casePage=Math.max(0,Math.min(casePage,pages.length-1));const page=pages[casePage];$('caseTitle').textContent=page.title;$('caseText').textContent=page.body;$('caseCount').textContent=`${caseFound.size}/3 BUKTI · ${casePage+1}/${pages.length}`;$('casePrev').disabled=casePage===0;$('caseNext').disabled=casePage===pages.length-1}
 function openCase(id){if(!playing)return;const pages=availablePages(),index=pages.findIndex(p=>p.id===id);casePage=index>=0?index:0;caseOpen=true;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;$('joy').classList.add('inactive');try{document.exitPointerLock?.()}catch(_){}$('caseOverlay').classList.remove('hidden');showCasePage()}
 function closeCase(){if(!caseOpen)return;caseOpen=false;$('caseOverlay').classList.add('hidden');last=performance.now()}
-function collectCase(entry){if(!caseFound.has(entry.id)){caseFound.add(entry.id);sound('pickup');if(caseFound.size===3&&!caseRewarded){caseRewarded=true;player.shield=Math.max(player.shield,12);player.reserve.shotgun+=4;showTip('FAIL 07 LENGKAP — TANGKAL +4 PELURU',3.2)}persistGame()}openCase(entry.id)}
+function collectCase(entry){if(!caseFound.has(entry.id)){caseFound.add(entry.id);sound('pickup');if(caseFound.size===3&&!caseRewarded){caseRewarded=true;player.shield=Math.max(player.shield,12);player.reserve.shotgun+=4;showTip('FAIL 09 LENGKAP — TANGKAL +4 PELURU',3.2)}persistGame()}openCase(entry.id)}
 function getInteractable(){
  if(!playing||caseOpen)return null;
  let pick=null,best=1.45;
@@ -983,7 +983,7 @@ function hud(){
  if(player.buff>0){ctx.fillStyle='#c9f6f6';ctx.font='bold 9px monospace';ctx.fillText(`AIR GARAM ${Math.ceil(player.buff)}s`,12,29)}
  else if(objective.generator){ctx.fillStyle='#bce9c9';ctx.font='bold 9px monospace';ctx.fillText(objective.boss?'LALUAN SUDAH TERBUKA':'BOSS: ORANG MINYAK',12,29)}
  if(player.shield>0){ctx.fillStyle='#f6cf8d';ctx.font='bold 9px monospace';ctx.fillText(`TANGKAL ${Math.ceil(player.shield)}s`,12,player.buff>0?41:29)}
- const mission=objective.boss?'MENUJU LALUAN BUKIT':objective.generator?'HAPUSKAN ORANG MINYAK':objective.fuses===3?'GUNA KONSOL PAM AIR':!objective.key?'CARI KUNCI PINTU TAKUNGAN':`MODUL ${objective.fuses}/3 · TAKUNGAN TERBUKA`;
+ const mission=objective.boss?'MENUJU LALUAN BUKIT':objective.generator?'HAPUSKAN ORANG MINYAK':objective.fuses===3?'GUNA KONSOL PAM AIR':!objective.key?'CARI KUNCI PINTU TAKUNGAN':`INJAP ${objective.fuses}/3 · TAKUNGAN TERBUKA`;
  ctx.font='bold 9px monospace';ctx.fillStyle='#d6c0a8';ctx.fillText(mission,Math.max(10,Math.floor(W/2-ctx.measureText(mission).width/2)),H-48);
  ctx.fillStyle='#b2e6bd';ctx.fillText((houseName||zoneName)+(objective.key?' | KUNCI ✓':' | KUNCI ?'),10,53);ctx.fillStyle='#e6c79b';ctx.font='bold 9px monospace';ctx.fillText(`FAIL KES ${caseFound.size}/3  ·  J`,10,65);
  const orangminyak=enemies.find(e=>e.alive&&e.type==='orangminyak');
