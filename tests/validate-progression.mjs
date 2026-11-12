@@ -34,7 +34,7 @@ for(const page of ['index.html','kampung.html']){
  const mapSource=html.match(/const MAP=\[([\s\S]*?)\];/)?.[1]||'';
  const rows=[...mapSource.matchAll(/'([123.DK]+)'/g)].map(m=>m[1]);
  assert.ok(rows.length>=15,page+' map rows missing');
- const cells=page==='index.html'?[[2,2],[15,1]]:[[2,2],[14,7]];
+ const cells=page==='index.html'?[[2,2],[15,1]]:[[2,2],[8,3]];
  for(const [x,y] of cells)assert.equal(rows[y][x],'.',page+': pickup spawned inside wall');
 }
 console.log('PASS: 40 unique mystery weapons, fourteen perks, persistent catalog, two-level integration, level pickup locations and JS syntax');
