@@ -1017,7 +1017,36 @@ weapon=function(){
  return coreWeapon();
 };
 const coreHud=hud;
-hud=function(){coreHud();if(ARM.byId[player.weapon]){ctx.fillStyle='#f8d39a';ctx.font='bold 8px monospace';ctx.fillText(ARM.byId[player.weapon].tier.toUpperCase(),180,H-28)}};
+hud=function(){
+ coreHud();
+ const bonus=ARM.byId[player.weapon];
+ if(bonus){ctx.fillStyle='#f8d39a';ctx.font='bold 8px monospace';ctx.fillText(bonus.tier.toUpperCase(),180,H-28)}
+ if(player.reload>0&&WEAPONS[player.weapon]?.reload>0){
+  const pct=Math.max(0,Math.min(1,1-player.reload/WEAPONS[player.weapon].reload));
+  ctx.fillStyle='#121b22';ctx.fillRect(W/2-49,H-57,98,6);
+  ctx.fillStyle='#f1c995';ctx.fillRect(W/2-48,H-56,96*pct,4);
+ }
+ if(boxSpin){
+  const passed=boxSpin.total-boxSpin.time;
+  const entry=ARM.catalog[Math.floor(passed*20)%ARM.catalog.length];
+  ctx.fillStyle='#08121cef';ctx.fillRect(W/2-111,75,222,51);
+  ctx.strokeStyle='#c9a56d';ctx.strokeRect(W/2-111,75,222,51);
+  ctx.font='bold 10px monospace';ctx.fillStyle='#e9c78c';
+  ctx.fillText('✦ MYSTERY BOX ✦',W/2-52,88);
+  ctx.font='bold 9px monospace';ctx.fillStyle='#eef4e9';
+  const label=entry.name.length>26?entry.name.slice(0,25)+'…':entry.name;
+  ctx.fillText(label,W/2-ctx.measureText(label).width/2,102);
+  ctx.fillStyle='#2a3037';ctx.fillRect(W/2-91,113,182,5);
+  ctx.fillStyle='#d4ad68';ctx.fillRect(W/2-90,114,180*Math.min(1,passed/boxSpin.total),3);
+ }else{
+  const nearby=getInteractable();
+  if(nearby?.kind==='mystery_box'){
+   ctx.fillStyle='#0a141deb';ctx.fillRect(W/2-96,H-94,192,18);
+   ctx.fillStyle='#ffe0a6';ctx.font='bold 9px monospace';
+   ctx.fillText('E / GUNA : BUKA MYSTERY BOX',W/2-83,H-82);
+  }
+ }
+};
 document.addEventListener('keydown',ev=>{if(!playing||ev.repeat)return;if(ev.code==='Digit0')equip('fist');if(ev.code==='Digit5')equip('bonus')});
 campaignPlayer(false); const p0=items.find(i=>i.type==='pistol_unlock');if(p0)p0.taken=true;
 
