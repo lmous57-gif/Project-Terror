@@ -1036,6 +1036,23 @@ if(typeof window.setInterval==='function'){
  },1700)
 }
 
+// Opt-in on-device telemetry: append ?debug=1 to troubleshoot a real Android freeze.
+if(window.location?.search?.includes('debug=1')){
+ const badge=document.createElement('pre');
+ badge.id='pt-debug-hud';
+ badge.style.cssText='position:absolute;z-index:15;right:8px;top:69px;padding:8px;background:#061017dc;border:1px solid #65a9b0;color:#b7eee4;font:11px monospace;white-space:pre;pointer-events:none;max-width:55vw;text-align:left';
+ $('shell').appendChild(badge);
+ window.__ptDebug=()=>({playing,x:player?.x,y:player?.y,joyX:joy.x,joyY:joy.y,keys:[...keys],pendingFrame,lastRenderedAt,frameErrors:loopErrorCount});
+ window.setInterval?.(()=>{
+  const now=performance.now();
+  badge.textContent='PT INPUT DEBUG\n'+
+   'PLAY '+playing+'  FRAME '+Math.floor(lastRenderedAt)+'\n'+
+   'RAF '+(pendingFrame?'YES':'NO')+'  AGE '+Math.floor(now-lastRenderedAt)+'ms\n'+
+   'POS '+(player?.x||0).toFixed(2)+','+(player?.y||0).toFixed(2)+'\n'+
+   'JOY '+joy.x.toFixed(2)+','+joy.y.toFixed(2)+'  KEY '+[...keys].join(',')+'\n'+
+   'ERRORS '+loopErrorCount;
+ },350)
+}
 function mobileLook(ev){if(pointer.look!==ev.pointerId)return;const d=ev.clientX-pointer.lastX;pointer.lastX=ev.clientX;player.a+=d*.0055}
 canvas.addEventListener('pointerdown',ev=>{if(!playing)return;if(ev.pointerType==='mouse'){mouseHeld=true;shoot();if(document.pointerLockElement!==canvas)canvas.requestPointerLock?.()}else{const rect=canvas.getBoundingClientRect();if(ev.clientX>rect.left+rect.width*.38){pointer.look=ev.pointerId;pointer.lastX=ev.clientX;try{canvas.setPointerCapture(ev.pointerId)}catch(_){}}}});
 canvas.addEventListener('pointermove',ev=>{if(!playing)return;if(document.pointerLockElement===canvas){player.a+=ev.movementX*.0032}else if(ev.pointerType!=='mouse')mobileLook(ev)});
