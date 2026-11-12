@@ -801,7 +801,7 @@ function update(dt){
  if(fireHeld||mouseHeld)shoot();
  for(const e of enemies){if(e.alive){updateEnemy(e,dt);if(!playing)return}}
  updateProjectiles(dt);if(!playing)return;for(const w of deathWisps)w.life-=dt;deathWisps=deathWisps.filter(w=>w.life>0);
- for(const i of items){if(!i.taken&&Math.hypot(i.x-player.x,i.y-player.y)<.57)pickup(i)}
+ for(const i of items){if(!i.taken&&i.type!=='mystery_box'&&Math.hypot(i.x-player.x,i.y-player.y)<.57)pickup(i)}
  // Houses use real walls and doors; first entry gives a small, one-time exploration reward.
  const currentHouse=activeHouse();if(currentHouse){houseName=currentHouse.name;
   if(!housesVisited.has(currentHouse.id)){housesVisited.add(currentHouse.id);player.hp=Math.min(100,player.hp+8);player.reserve.pistol+=5;showTip(`${currentHouse.name} — BEKALAN +NYAWA +PELURU`,3.0);sound('pickup');persistGame()}
@@ -1063,6 +1063,28 @@ const coreReset=reset;
 reset=function(){coreReset();pistolDropStarted=false;campaignPlayer(false);const drop=items.find(i=>i.type==='pistol_unlock');if(drop)drop.taken=true;showTip(STAGE===1?'MULA TANGAN KOSONG — CARI PARANG':'LEVEL 02 — CARI SHOTGUN',3.8)};
 const coreRestore=restoreState;
 restoreState=function(c){coreRestore(c);campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
+/* v1.7 Mystery Box: deliberate E / GUNA instead of accidental walk-over */
+let boxSpin=null, selectedMysteryId=null;
+const previousGetInteractable=getInteractable;
+getInteractable=function(){
+ const base=previousGetInteractable();
+ if(!playing||boxSpin||base?.kind==='case'||base?.kind==='npc')return base;
+ let best=1.2,found=null;
+ for(const item of items){
+  if(item.taken||item.type!=='mystery_box')continue;
+  const dist=Math.hypot(player.x-item.x,player.y-item.y);
+  if(dist<best&&lineOfSight(player.x,player.y,item.x,item.y)){found={kind:'mystery_box',item};best=dist}
+ }
+ return found||base;
+};
+const previousInteract=interact;
+interact=function(){
+ const target=getInteractable();
+ if(target?.kind!=='mystery_box')return previousInteract();
+ if(boxSpin)return;
+ boxSpin={item:target.item,gun:ARM.roll(ARM.read().bonus),time:1.55,total:1.55};
+ showTip('MYSTERY BOX: CABUTAN BERMULA...',1.5);sound('pickup');
+};
 const corePickup=pickup;
 pickup=function(i){
  if(i.type==='smg_kit'){i.type='salt_charge';return corePickup(i)}
@@ -1071,7 +1093,7 @@ pickup=function(i){
   equip(id);showTip('JUMPA '+WEAPONS[id].name+' — SENJATA KINI DIMILIKI',3.5);sound('pickup');persistGame();return
  }
  if(i.type==='mystery_box'){
-  const meta=ARM.read(),gun=ARM.roll(meta.bonus);
+  const meta=ARM.read(),gun=(selectedMysteryId&&ARM.byId[selectedMysteryId])||ARM.roll(meta.bonus);
   i.taken=true;grantWeapon(gun.id,false);equip(gun.id);
   showTip('MYSTERY BOX ['+gun.tier.toUpperCase()+'] '+gun.name,4.3);
   sound('win');persistGame();return
