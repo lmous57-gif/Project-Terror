@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090b11">
-<title>PROJECT: TERROR — Pusat Misi v1.9</title>
+<title>PROJECT: TERROR — Pusat Misi v2.0</title>
 <style>
 :root{color-scheme:dark;--bg:#090b11;--panel:#141920;--panel2:#1b222b;--ink:#f1e8d6;--muted:#aeb6bb;--line:#3e4851;--red:#e66758;--gold:#dabc80;--green:#8ac5a0}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 87% 0%,#38212b 0,transparent 48%),linear-gradient(#090b11,#0e1218);color:var(--ink);font-family:Consolas,'Courier New',monospace;line-height:1.5}
@@ -26,7 +26,7 @@ h1 span{color:var(--red)}
 .progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .35s}
 .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}
 .section-head h2{font-size:15px;letter-spacing:.18em;margin:0}.section-head span{font-size:11px;color:var(--muted)}
-.mission-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mission-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .mission{position:relative;min-height:310px;display:flex;flex-direction:column;background:linear-gradient(165deg,#202631,#11151c);border:1px solid #47505a;padding:18px;overflow:hidden}
 .mission:before{content:"";position:absolute;right:-24px;top:27px;width:118px;height:118px;border:1px solid #ffffff12;transform:rotate(45deg)}
 .mission.is-cleared{border-color:#50846b}
@@ -54,14 +54,14 @@ h1 span{color:var(--red)}
 <body>
 <main id="campaign">
  <div class="topline"><span>▣ FAIL KEMPEN // TERHAD</span><a href="./index.html">↶ HOSPITAL LAMA</a></div>
- <header class="header"><div class="eyebrow">SURVIVAL HORROR · MALAYSIA · v1.9</div><h1>PROJECT: <span>TERROR</span></h1><p class="subtitle">PUSAT MISI — Tiga malam. Tiga lokasi. Satu siaran misteri. Pilih misi atau buka semula simpanan daripada peranti ini.</p></header>
+ <header class="header"><div class="eyebrow">SURVIVAL HORROR · MALAYSIA · v2.0</div><h1>PROJECT: <span>TERROR</span></h1><p class="subtitle">PUSAT MISI — Empat malam. Empat lokasi. Satu siaran misteri. Pilih misi atau buka semula simpanan daripada peranti ini.</p></header>
  <section class="metrics" aria-label="Progress kempen">
-  <div class="metric"><strong id="clearedCount">0 / 3</strong><span>MISI SELESAI</span></div>
+  <div class="metric"><strong id="clearedCount">0 / 4</strong><span>MISI SELESAI</span></div>
   <div class="metric"><strong id="baseCount">0 / 4</strong><span>SENJATA UTAMA</span></div>
   <div class="metric"><strong id="bonusCount">0 / 40</strong><span>SENJATA MISTERI</span></div>
  </section>
  <div class="progress" aria-label="Kemajuan misi"><div id="overallBar"></div></div>
- <div class="section-head"><h2>01 / PILIH MISI</h2><span>LEVEL 01—03</span></div>
+ <div class="section-head"><h2>01 / PILIH MISI</h2><span>LEVEL 01—04</span></div>
  <section id="missionList" class="mission-list" aria-label="Pilihan misi">
   <p>MEMBACA FAIL KEMPEN...</p>
  </section>
