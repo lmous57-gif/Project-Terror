@@ -76,7 +76,8 @@ assert.doesNotThrow(()=>level.shoot(),'SMG firing should work');
 assert.doesNotThrow(()=>level.render(),'SMG first-person sprite should render');
 const box=state.items.find(i=>i.type==='mystery_box'&&!i.taken);
 assert.ok(box,'One Mystery Box at Level 03');
-level.go(box.x,box.y);level.expireTip();
+level.go(box.x,box.y);level.update(.02); // zone-entry tip may take priority on first frame
+level.expireTip();
 assert.doesNotThrow(()=>level.update(.02),'No freeze in Level03 proximity trigger');
 assert.equal(box.taken,false,'Box cannot open from walking on it');
 assert.ok(level.currentTip().includes('MYSTERY BOX'),'Safe box interaction hint');
