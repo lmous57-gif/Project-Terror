@@ -1155,6 +1155,14 @@ const coreUpdate=update;
 update=function(dt){
  coreUpdate(dt);
  if(!playing)return;
+ if(boxSpin){
+  boxSpin.time-=dt;
+  if(boxSpin.time<=0){
+   selectedMysteryId=boxSpin.gun.id;
+   const box=boxSpin.item;boxSpin=null;
+   try{pickup(box)}finally{selectedMysteryId=null}
+  }
+ }
  effectTick+=dt;
  if(effectTick>.1){const step=effectTick;effectTick=0;for(const e of enemies){if(!e.alive||!e.suffering)continue;const t=Math.min(step,e.suffering.ttl);e.suffering.ttl-=t;extraDamage(e,e.suffering.dps*t);if(e.suffering.ttl<=0)delete e.suffering}}
 };
