@@ -11,9 +11,9 @@ function fakeCanvas(){
  return {width:480,height:270,getContext:()=>ctx,style:{},getBoundingClientRect:()=>({left:0,top:0,width:480,height:270}),setPointerCapture:noop,requestPointerLock:noop,addEventListener:noop};
 }
 function prepare(file){
- const window={},nodeMap=new Map(),canvas=fakeCanvas(),useEvents=new Map();
+ const window={},nodeMap=new Map(),canvas=fakeCanvas(),useEvents=new Map(),joyEvents=new Map();
  const classes=()=>({add:noop,remove:noop,toggle:noop,contains:()=>false});
- const element=id=>{if(id==='game')return canvas;if(!nodeMap.has(id))nodeMap.set(id,{id,style:{},dataset:{},classList:classes(),textContent:'',disabled:false,offsetWidth:116,addEventListener:(type,fn)=>{if(id==='use')useEvents.set(type,fn)},setAttribute:noop,getBoundingClientRect:()=>({left:0,top:0,width:480,height:270})});return nodeMap.get(id)};
+ const element=id=>{if(id==='game')return canvas;if(!nodeMap.has(id))nodeMap.set(id,{id,style:{},dataset:{},classList:classes(),textContent:'',disabled:false,offsetWidth:116,addEventListener:(type,fn)=>{if(id==='use')useEvents.set(type,fn);if(id==='joyZone')joyEvents.set(type,fn)},setAttribute:noop,getBoundingClientRect:()=>({left:0,top:0,width:480,height:270})});return nodeMap.get(id)};
  const buttons=['fist','parang','pistol','shotgun','smg','bonus'].map(w=>({...element('btn_'+w),dataset:{w}}));
  const document={getElementById:element,createElement:()=>fakeCanvas(),querySelectorAll:sel=>sel==='[data-w]'?buttons:[],addEventListener:noop,exitPointerLock:noop,hidden:false,pointerLockElement:null};
  const context=createContext({window,document,localStorage,performance:{now:()=>10240},requestAnimationFrame:noop,console,Date,Math,Uint8Array,Uint8ClampedArray,Int16Array});
@@ -26,7 +26,7 @@ function prepare(file){
  assert.ok(js.lastIndexOf(marker)>0);
  const injected=js.slice(0,js.lastIndexOf(marker))+'\nwindow.__qa={reset,pickup,damageEnemy,equip,shoot,update,render,loop,keys,joy,getInteractable,interact,restoreState,snapshotGame,go:(x,y)=>{player.x=x;player.y=y},spin:()=>boxSpin,state:()=>({player,items,enemies,objective,STAGE,WEAPONS})};'+js.slice(js.lastIndexOf(marker));
  new Script(injected,{filename:file+':instrumented'}).runInContext(context);
- return Object.assign(window.__qa,{clickUse:()=>{assert.ok(useEvents.get('click'),'Mobile GUNA click handler missing');useEvents.get('click')()}});
+ return Object.assign(window.__qa,{clickUse:()=>{assert.ok(useEvents.get('click'),'Mobile GUNA click handler missing');useEvents.get('click')()},joyEvent:(type,event)=>{assert.ok(joyEvents.get(type),'Missing joy event '+type);joyEvents.get(type)(event)}});
 }
 const hospital=prepare('index.html');
 hospital.reset();
@@ -39,6 +39,18 @@ hospital.keys.delete('KeyW');
 assert.ok(Math.hypot(h.player.x-startX,h.player.y-startY)>.003,'Movement must change player position and render a frame');
 hospital.joy.y=-.9;hospital.loop(10310);hospital.joy.y=0;
 assert.ok(h.player.x>startX+.03,'Joystick must advance player');
+const pointerBefore=h.player.x;
+hospital.joyEvent('pointerdown',{pointerId:77,clientX:75,clientY:179});
+hospital.joyEvent('pointermove',{pointerId:77,clientX:76,clientY:118});
+hospital.update(.04);
+assert.ok(h.player.x>pointerBefore+.02,'Android joystick pointer drag must advance player');
+hospital.joyEvent('pointerup',{pointerId:77,clientX:76,clientY:118});
+const fallbackBefore=h.player.x;
+hospital.joyEvent('touchstart',{changedTouches:[{identifier:4,clientX:77,clientY:175}],cancelable:true,preventDefault:noop});
+hospital.joyEvent('touchmove',{touches:[{identifier:4,clientX:77,clientY:119}],cancelable:true,preventDefault:noop});
+hospital.update(.04);
+assert.ok(h.player.x>fallbackBefore+.02,'Android native touch fallback must advance player');
+hospital.joyEvent('touchend',{changedTouches:[{identifier:4,clientX:77,clientY:119}]});
 
 assert.ok(!h.player.ownedWeapons.includes('pistol')&&!h.player.ownedWeapons.includes('shotgun'));
 let parang=h.items.find(i=>i.type==='parang_unlock'&&!i.taken);
