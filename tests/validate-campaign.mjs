@@ -13,7 +13,7 @@ new Script(source).runInContext(ctx);
 const app=window.PT_CAMPAIGN;
 assert.ok(app,'Campaign API loaded');
 let state=app.progress();
-assert.equal(state.missions.length,3);
+assert.equal(state.missions.length,4);
 assert.equal(state.cleared.length,0);
 assert.equal(state.bonus.length,0);
 assert.ok(state.missions.every(m=>!m.save));
@@ -26,22 +26,24 @@ assert.equal(app.safeSave('project-terror-v1-save').hasCheckpoint,true);
 values.set('project-terror-kampung-v1-save',JSON.stringify({v:999,game:{}}));
 assert.equal(app.safeSave('project-terror-kampung-v1-save'),null,'Wrong version ignored');
 const bonus=window.PT_ARMORY.catalog[0].id;
-window.PT_ARMORY.write({base:['parang','smg'],bonus:[bonus],cleared:[1,3,3]});
+window.PT_ARMORY.write({base:['parang','smg'],bonus:[bonus],cleared:[1,3,4,4]});
 state=app.progress();
-assert.deepEqual(Array.from(state.cleared),[1,3]);
+assert.deepEqual(Array.from(state.cleared),[1,3,4]);
 assert.equal(state.base.length,2);
 assert.equal(state.bonus.length,1);
 assert.equal(state.missions[0].cleared,true);
 assert.equal(state.missions[1].cleared,false);
 assert.equal(state.missions[0].save.fuses,2);
 assert.equal(state.missions[2].cleared,true);
+assert.equal(state.missions[3].cleared,true);
+assert.equal(state.missions[3].saveKey,'project-terror-loji-v1-save');
 assert.equal(values.size,3,'Hub reads but does not overwrite existing saves');
 const html=readFileSync('campaign.html','utf8');
 assert.ok(html.includes('campaign.js')&&html.includes('arsenal.js'));
 assert.ok(html.includes('id="missionList"')&&html.includes('id="clearedCount"'));
-for(const [file,id] of [['index.html',1],['kampung.html',2],['bukit.html',3]]){
+for(const [file,id] of [['index.html',1],['kampung.html',2],['bukit.html',3],['loji.html',4]]){
  const page=readFileSync(file,'utf8');
  assert.ok(page.includes('href="./campaign.html"'),file+' menu must link to hub');
  assert.ok(page.includes('id="end"'),file+' should retain victory overlay');
 }
-console.log('PASS: v1.9 mission hub, three save namespaces, malformed save isolation, shared arsenal and level links');
+console.log('PASS: v2.0 mission hub, four save namespaces, malformed save isolation, shared arsenal and level links');
