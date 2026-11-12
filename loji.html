@@ -198,24 +198,26 @@ function updateAmbientToggle(){const b=$('ambientToggle');b.textContent=`BUNYI A
 function rand(seed){let s=seed|0;return ()=>{s=(s*1664525+1013904223)|0;return(s>>>0)/4294967296}}
 function texture(n){
  const c=document.createElement('canvas');c.width=c.height=64;
- const t=c.getContext('2d'),r=rand(962+n*531);t.imageSmoothingEnabled=false;
- t.fillStyle=n===1?'#333847':n===2?'#172a28':'#35434b';t.fillRect(0,0,64,64);
- if(n===1){ // fractured mountain rock
-  for(let y=0;y<64;y+=12)for(let x=0;x<64;x+=15){
-   const d=r()*34|0;t.fillStyle='rgb('+(46+d)+','+(51+d)+','+(62+d)+')';
-   t.fillRect(x+(r()*4|0),y,13,9);t.fillStyle='#17232c';t.fillRect(x,y+9,12,2)
+ const t=c.getContext('2d'),r=rand(2291+n*674);t.imageSmoothingEnabled=false;
+ t.fillStyle=n===1?'#27343b':n===2?'#283a38':'#354348';t.fillRect(0,0,64,64);
+ if(n===1){ // Stained brick of an abandoned water pumping station
+  for(let y=0;y<64;y+=11)for(let x=0;x<64;x+=15){
+   const offset=(y/11|0)%2?7:0,k=r()*24|0;
+   t.fillStyle='rgb('+(49+k)+','+(63+k)+','+(65+k)+')';
+   t.fillRect(x+offset-2,y,13,9);t.fillStyle='#101f29';t.fillRect(x+offset-2,y+9,13,2)
   }
-  for(let k=0;k<10;k++){t.fillStyle='#738589';t.fillRect(r()*60|0,r()*61|0,1+(r()*5|0),2)}
- }else if(n===2){ // rainforest ferns and roots
-  t.fillStyle='#101f24';t.fillRect(0,0,64,64);
-  for(let k=0;k<17;k++){const x=r()*62|0,y=r()*61|0;t.fillStyle=k%2?'#29533e':'#3a5e46';t.fillRect(x,y,8+(r()*15|0),4+(r()*11|0))}
-  for(let x=3;x<64;x+=18){t.fillStyle='#282b27';t.fillRect(x,0,7,64);t.fillStyle='#707059';t.fillRect(x+2,0,2,64)}
- }else{ // technical facility concrete and warning stripe
-  t.fillStyle='#3d5055';t.fillRect(0,0,64,64);
-  for(let y=0;y<64;y+=16){t.fillStyle='#202e39';t.fillRect(0,y,64,2)}
-  for(let x=0;x<64;x+=21){t.fillStyle='#879899';t.fillRect(x,1,2,61)}
-  t.fillStyle='#a35442';t.fillRect(0,50,64,6);t.fillStyle='#dcba83';t.fillRect(0,50,64,2);
-  for(let k=0;k<24;k++){t.fillStyle='#1c293055';t.fillRect(r()*64|0,r()*64|0,2+(r()*5|0),1+(r()*6|0))}
+  for(let k=0;k<20;k++){t.fillStyle=r()>.48?'#293c38':'#62786b';t.fillRect(r()*64|0,r()*64|0,2+(r()*3|0),6+(r()*6|0))}
+ }else if(n===2){ // Oily water pipes
+  t.fillStyle='#1b3134';t.fillRect(0,0,64,64);
+  for(let x=6;x<64;x+=21){t.fillStyle='#1c282c';t.fillRect(x,0,13,64);t.fillStyle='#76817b';t.fillRect(x+2,0,2,64);t.fillStyle='#624335';t.fillRect(x+10,0,2,64)}
+  for(let y=10;y<64;y+=23){t.fillStyle='#654435';t.fillRect(0,y,64,6);t.fillStyle='#bb8062';t.fillRect(0,y+2,64,2)}
+  for(let k=0;k<22;k++){t.fillStyle='#0c161b';t.fillRect(r()*64|0,r()*64|0,2+(r()*5|0),3+(r()*5|0))}
+ }else{ // Pump room tiles
+  t.fillStyle='#617574';t.fillRect(0,0,64,64);
+  for(let x=0;x<64;x+=16){t.fillStyle='#24373b';t.fillRect(x,0,2,64)}
+  for(let y=0;y<64;y+=16){t.fillStyle='#20353a';t.fillRect(0,y,64,2)}
+  for(let k=0;k<33;k++){t.fillStyle=k%3?'#334a4a':'#8a5f4c';t.fillRect(r()*64|0,r()*64|0,3+(r()*7|0),2+(r()*6|0))}
+  t.fillStyle='#b38a5e';t.fillRect(0,51,64,4);t.fillStyle='#e1c28a';t.fillRect(0,51,64,1)
  }
  return c
 }
@@ -284,21 +286,18 @@ const langsuirSprite=sprite(t=>{
 });
 distressSprite(langsuirSprite,1573,56);
 const orangminyakSprite=sprite(t=>{
- const p=(color,x,y,w,h)=>{t.fillStyle=color;t.fillRect(x,y,w,h)};
- // Floating severed head and hanging organs: independent Orang Minyak silhouette.
- p('#0e111d',13,7,41,42);p('#252238',9,16,48,27);
- p('#4e3045',15,9,34,17);p('#705065',20,13,25,7);
- p('#b39a8e',21,20,25,31);p('#e2c4ab',24,24,19,20);
- p('#282030',23,27,7,5);p('#282030',36,27,8,5);
- p('#8de0de',25,29,5,3);p('#8de0de',38,29,5,3);
- p('#843747',29,38,12,4);p('#4e1a31',30,40,11,4);
- p('#4d2034',17,46,30,11);p('#b44f66',23,50,16,9);
- for(const [x,y,xx,yy] of [[22,53,17,71],[34,56,30,78],[45,53,52,74],[39,55,44,79]]){
-  t.strokeStyle='#842b44';t.lineWidth=4;t.beginPath();t.moveTo(x,y);t.lineTo(xx,yy);t.stroke()
- }
- p('#a43d59',13,66,13,7);p('#83334a',30,66,9,12);p('#c06a77',43,66,12,8);
- for(let i=0;i<7;i++)p(i%2?'#12121e':'#34263b',10+i*7,7+i%3*2,6,13);
- p('#f3dfce',30,20,7,2);
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ // Tar-covered crouched human silhouette with bright eyes and dripping oil.
+ p('#080d13',18,10,31,30);p('#0a0c11',12,36,44,37);
+ p('#12171b',20,7,28,33);p('#22282a',23,11,22,24);p('#080b11',16,30,34,30);
+ p('#1a2428',12,39,13,29);p('#142025',44,37,13,30);
+ p('#303b3d',16,42,4,27);p('#27383a',49,41,3,23);
+ p('#0a1116',23,54,12,25);p('#0b1317',38,56,12,23);
+ p('#304646',26,11,3,14);p('#50615d',44,21,3,13);
+ p('#f17b55',27,25,5,3);p('#f17b55',40,25,5,3);
+ p('#992f35',31,35,11,3);p('#efaa82',34,36,5,2);
+ p('#1f343a',16,62,4,14);p('#2a4a4a',47,64,4,13);
+ for(const [x,y] of [[13,74],[27,77],[39,76],[53,73],[18,67]])p('#202f31',x,y,3,4);
 });
 distressSprite(orangminyakSprite,4308,34);
 function animatedFrames(base,type){
@@ -325,8 +324,9 @@ function animatedFrames(base,type){
    t.fillStyle='#3e2530';t.fillRect(11+shift,58-f,3,14);t.fillRect(55+shift,60-f,2,12);
    if(f===3){t.fillStyle='#531823';t.fillRect(29+shift,34,10,9);t.fillStyle='#f9eee1';t.fillRect(31+shift,35,2,5);t.fillRect(36+shift,35,2,5)}
   }else if(type==='orangminyak'){
-   t.drawImage(base,shift,[0,-2,0,2][f],64,80);
-   if(f===3){t.fillStyle='#f97b45';t.fillRect(26+shift,19,8,6);t.fillRect(38+shift,19,8,6);t.fillStyle='#c38952';t.fillRect(10,64,48,5)}
+   t.drawImage(base,shift,[0,1,-2,-4][f],64,80);
+   t.fillStyle='#1c3338';t.fillRect((f%2?10:50)+shift,60,3,12);
+   if(f===3){t.fillStyle='#fa724a';t.fillRect(26+shift,25,7,5);t.fillRect(39+shift,25,7,5);t.fillStyle='#172f32';t.fillRect(9,66,47,4)}
   }else if(type==='langsuir'){
    t.drawImage(base,shift,[-2,0,-4,-1][f],64,80);
    t.fillStyle='#0d141c';t.fillRect(8+shift,17+f*2,4,34);t.fillRect(54+shift,19-f,3,35);
@@ -355,7 +355,13 @@ const curseSprite=sprite(t=>{
 
 const medkit=sprite(t=>{t.fillStyle='#18222e';t.fillRect(11,30,42,38);t.fillStyle='#aebbc1';t.fillRect(13,32,38,33);t.fillStyle='#d8e6e8';t.fillRect(18,27,28,7);t.fillStyle='#ad3c45';t.fillRect(29,39,7,21);t.fillRect(22,46,21,7);t.fillStyle='#617786';t.fillRect(16,59,33,5)});
 const ammoImg=sprite(t=>{t.fillStyle='#261d23';t.fillRect(11,31,42,31);t.fillStyle='#b27b43';t.fillRect(13,32,38,27);t.fillStyle='#efb765';t.fillRect(17,34,30,5);t.fillStyle='#583d29';t.fillRect(17,51,30,4);t.fillStyle='#1a2935';t.fillRect(28,42,8,9)});
-const portalImg=sprite(t=>{t.fillStyle='#3b2260';t.fillRect(11,3,42,75);t.fillStyle='#b87df9';t.fillRect(13,5,38,73);t.fillStyle='#452278';t.fillRect(18,11,28,67);t.fillStyle='#8150bc';t.fillRect(24,17,16,55);t.fillStyle='#eab4fc';t.fillRect(28,25,8,36);t.fillStyle='#6e458e';t.fillRect(8,4,5,75);t.fillRect(51,4,5,75)});
+const portalImg=sprite(t=>{ // Ferry dock's rescue beacon
+ t.fillStyle='#1c2830';t.fillRect(13,51,42,25);t.fillStyle='#6f7d79';t.fillRect(14,55,40,5);
+ t.fillStyle='#4d6664';t.fillRect(27,20,12,37);t.fillStyle='#c7ae7c';t.fillRect(29,16,8,26);
+ t.fillStyle='#d1d5be';t.fillRect(21,5,24,18);t.fillStyle='#f4d7a0';t.fillRect(25,8,16,12);
+ t.fillStyle='#bf5d4d';t.fillRect(18,53,29,6);t.fillStyle='#26353d';t.fillRect(18,64,29,7)
+});
+
 const fuseImg=sprite(t=>{t.fillStyle='#493c31';t.fillRect(22,24,22,46);t.fillStyle='#daa369';t.fillRect(25,25,16,42);t.fillStyle='#eed4a6';t.fillRect(27,26,12,9);t.fillStyle='#a0433e';t.fillRect(28,39,10,20);t.fillStyle='#e7e7e1';t.fillRect(29,30,8,5)});
 const garamImg=sprite(t=>{t.fillStyle='#2b3a42';t.fillRect(22,25,22,43);t.fillStyle='#9cd1d3';t.fillRect(24,32,18,32);t.fillStyle='#eaf8f0';t.fillRect(26,45,14,13);t.fillStyle='#f2c79a';t.fillRect(27,22,12,12);t.fillStyle='#3e656a';t.fillRect(29,23,8,4)});
 const sealImg=sprite(t=>{ // Frequency-cutout electronics module
@@ -368,7 +374,14 @@ const sealImg=sprite(t=>{ // Frequency-cutout electronics module
  t.fillStyle='#e7b16e';for(let x=20;x<45;x+=6)t.fillRect(x,66,3,7);
  t.fillStyle='#d84e4b';t.fillRect(39,24,5,5);
 });
-const generatorImg=sprite(t=>{t.fillStyle='#181e20';t.fillRect(9,27,46,48);t.fillStyle='#57615c';t.fillRect(13,31,39,40);t.fillStyle='#9a5041';t.fillRect(17,38,30,7);t.fillStyle='#191a1e';t.fillRect(18,52,25,13);t.fillStyle='#93e0b6';t.fillRect(21,56,4,5);t.fillStyle='#ddba76';t.fillRect(30,56,4,5);t.fillStyle='#cc6e69';t.fillRect(39,56,4,5)});
+const generatorImg=sprite(t=>{ // Hydraulic pump console
+ t.fillStyle='#1b242c';t.fillRect(9,28,47,49);t.fillStyle='#60746e';t.fillRect(12,29,42,43);
+ t.fillStyle='#2a3d40';t.fillRect(16,35,35,26);t.fillStyle='#81c8a9';t.fillRect(20,40,13,9);
+ t.fillStyle='#b88e61';t.fillRect(36,38,11,11);t.fillStyle='#d6a46e';t.fillRect(35,55,16,4);
+ t.fillStyle='#b64843';t.fillRect(19,55,6,6);t.fillStyle='#afc3ae';t.fillRect(28,55,4,6);
+ t.fillStyle='#364c4a';t.fillRect(10,69,44,7)
+});
+
 const tangkalImg=sprite(t=>{t.fillStyle='#6e4b2d';t.fillRect(21,21,24,45);t.fillStyle='#d6b477';t.fillRect(23,18,20,44);t.fillStyle='#9e4e3b';t.fillRect(26,22,14,31);t.fillStyle='#ead8b2';t.fillRect(30,25,6,23);t.fillStyle='#eebf84';t.fillRect(28,36,10,3);t.fillStyle='#776044';t.fillRect(26,52,14,9);t.fillStyle='#e5f9cd';t.fillRect(29,27,3,4)});
 const keyImg=sprite(t=>{
  t.fillStyle='#cda965';t.fillRect(18,33,11,11);t.fillStyle='#f6d690';t.fillRect(20,35,7,7);
@@ -400,10 +413,12 @@ const pickupSprite={health:medkit,ammo_shell:ammoImg,ammo_bullet:ammoImg,air_gar
 // v0.4: Three distinct categories: wall decals are painted ON the hit wall plane,
 // grounded decorations are floor billboards, and items stay collectible billboards.
 const trolleySprite=sprite(t=>{t.fillStyle='#252e30';t.fillRect(10,48,48,7);t.fillStyle='#667978';t.fillRect(12,47,45,4);t.fillStyle='#b3b9b2';t.fillRect(16,28,39,21);t.fillStyle='#8a8c81';t.fillRect(14,29,38,6);t.fillStyle='#a46b60';t.fillRect(17,38,31,7);t.fillStyle='#353f41';t.fillRect(15,55,5,14);t.fillRect(51,55,5,14);t.fillStyle='#a9aca5';t.fillRect(11,67,13,7);t.fillRect(47,67,13,7)});
-const rubberTree=sprite(t=>{
- t.fillStyle='#332f27';t.fillRect(26,25,13,52);t.fillStyle='#85755a';t.fillRect(30,25,4,49);
- for(const [x,y,w,h] of [[13,8,39,16],[7,20,52,15],[12,2,35,19],[21,0,22,18]]){t.fillStyle='#1d4933';t.fillRect(x,y,w,h);t.fillStyle='#386646';t.fillRect(x+3,y+2,w-7,5)}
- t.fillStyle='#557e50';t.fillRect(12,23,9,5);t.fillRect(39,11,8,7);
+const rustPipe=sprite(t=>{
+ t.fillStyle='#192b30';t.fillRect(25,9,15,67);t.fillStyle='#72877f';t.fillRect(28,12,4,61);
+ t.fillStyle='#995a43';t.fillRect(22,12,20,8);t.fillRect(21,49,23,8);
+ t.fillStyle='#2a3534';t.fillRect(10,13,48,8);t.fillStyle='#9e7758';t.fillRect(11,15,46,3);
+ t.fillStyle='#1b2229';t.fillRect(7,66,51,10);t.fillStyle='#536a66';t.fillRect(10,68,44,4);
+ t.fillStyle='#d3b27b';t.fillRect(33,14,4,5);
 });
 const batuSprite=sprite(t=>{
  t.fillStyle='#323a31';t.fillRect(15,31,36,46);t.fillStyle='#77806a';t.fillRect(19,26,29,42);t.fillStyle='#aaa991';t.fillRect(23,31,21,21);
@@ -424,12 +439,17 @@ const antennaSprite=sprite(t=>{
  t.fillStyle='#a5b3b5';t.fillRect(10,68,44,8);
  t.fillStyle='#e25a57';t.fillRect(30,3,7,7);
 });
+const oilPatchSprite=sprite(t=>{
+ t.fillStyle='#0d171c';t.fillRect(5,67,55,9);t.fillStyle='#1b292a';t.fillRect(9,63,49,11);
+ t.fillStyle='#263c3d';t.fillRect(18,60,34,8);t.fillStyle='#698787';t.fillRect(15,65,15,2);
+ t.fillStyle='#7c694d';t.fillRect(37,63,12,2);t.fillStyle='#253c40';t.fillRect(12,72,35,3);
+});
 const floorDecorations=[
- {x:7.5,y:2.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
- {x:17.5,y:3.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
- {x:18.5,y:6.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
- {x:18.5,y:9.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
- {x:8.5,y:12.5,img:batuSprite,scale:.8,grounded:true,kind:'floor'},
+ {x:7.5,y:2.5,img:rustPipe,scale:1.12,grounded:true,kind:'floor'},
+ {x:17.5,y:3.5,img:rustPipe,scale:1.15,grounded:true,kind:'floor'},
+ {x:18.5,y:6.5,img:rustPipe,scale:1.10,grounded:true,kind:'floor'},
+ {x:18.5,y:9.5,img:rustPipe,scale:1.10,grounded:true,kind:'floor'},
+ {x:7.5,y:12.5,img:batuSprite,scale:.8,grounded:true,kind:'floor'},
  {x:12.5,y:3.5,img:antennaSprite,scale:.75,grounded:true,kind:'floor'},
  {x:12.5,y:8.5,img:cupboardSprite,scale:.66,grounded:true,kind:'floor'}
 ];
@@ -580,8 +600,8 @@ function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;u
 function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
 function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('ORANG MINYAK TELAH BANGKIT...',1.25)}
 function npcDialogue(){return caseFound.size===3?
- 'Pengawal Rahman memandang lampu merah pam air. \n\n“Salmah bukan di takungan ini. Ia meminjam nama Salmah untuk memanggil orang masuk. Tiga modul itu memutuskan frekuensi, tetapi makhluk yang bergantung pada frekuensi akan muncul di kaki takungan.”\n\n“Bila lampu padam, jangan tunggu. Tewaskan Orang Minyak dan cari laluan turun bukit.”':
- 'Pengawal Rahman bersembunyi di Pondok Radio. Radio berkeriut tanpa bekalan elektrik.\n\n“Sejak Hantu Raya hilang di kampung, pam air memanggil nama orang mati. Senjata yang kami simpan — SMG — ada dalam Bilik Teknikal, di zon kedua.”\n\n“Cari log pam air di sini, pita rakaman di Bilik Teknikal dan plat amaran di kaki takungan. Ambil tiga modul dan kunci untuk hentikan siaran.”'}
+ 'Rahman menunjuk pada air hitam yang berputar melawan aliran.\n\n“Pemancar di bukit cuma pengunci. Bila dimatikan, apa yang dikurung di bawah loji mula keluar. Salmah pernah cuba kunci benda itu. Orang Minyak takut lampu UV, tapi ia hilang seketika sebelum menerkam.”\n\n“Buka tiga injap pembendung, hidupkan konsol pam dan lari ke jeti selepas Orang Minyak ditewaskan.”':
+ 'Pengawal Rahman bersembunyi di pos kawalan.\n\n“Bila Bukit Meranti senyap, air di sini jadi hitam. Cari Lampu Suluh UV dalam Bilik Penapis. Cahaya itu melemahkan makhluk berminyak.”\n\n“Cari Fail 09, pita rakaman dan plat protokol dekat takungan. Tiga injap dan kunci perlu untuk hidupkan pam.”'}
 function availablePages(){const pages=[];if(npcSpoken)pages.push({id:'mak',title:'SAKSI — PENGAWAL RAHMAN',body:npcDialogue()});for(const c of CASES)if(caseFound.has(c.id))pages.push(c);if(!pages.length)pages.push({id:'empty',title:'FAIL KES — MASIH KOSONG',body:'Belum ada bukti. Cari log di Pondok Radio, pita dalam Bilik Teknikal dan plat amaran di kaki takungan.\n\nTekan E / GUNA untuk membaca. Tekan J untuk buka Fail Kes.'});return pages}
 function showCasePage(){const pages=availablePages();casePage=Math.max(0,Math.min(casePage,pages.length-1));const page=pages[casePage];$('caseTitle').textContent=page.title;$('caseText').textContent=page.body;$('caseCount').textContent=`${caseFound.size}/3 BUKTI · ${casePage+1}/${pages.length}`;$('casePrev').disabled=casePage===0;$('caseNext').disabled=casePage===pages.length-1}
 function openCase(id){if(!playing)return;const pages=availablePages(),index=pages.findIndex(p=>p.id===id);casePage=index>=0?index:0;caseOpen=true;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;$('joy').classList.add('inactive');try{document.exitPointerLock?.()}catch(_){}$('caseOverlay').classList.remove('hidden');showCasePage()}
@@ -1191,6 +1211,12 @@ pickupSprite.pistol_unlock=smgKitImage;
 pickupSprite.shotgun_unlock=smgKitImage;
 pickupSprite.smg_unlock=smgKitImage;
 pickupSprite.mystery_box=sprite(t=>{t.fillStyle='#281c39';t.fillRect(8,26,48,42);t.fillStyle='#d2a55b';t.fillRect(8,24,48,9);t.fillRect(8,56,48,9);t.fillStyle='#7653a3';t.fillRect(13,33,38,23);t.fillStyle='#ffe19b';t.font='bold 29px monospace';t.fillText('?',25,55)});
+pickupSprite.uv_unlock=sprite(t=>{
+ t.fillStyle='#131f26';t.fillRect(16,31,42,18);t.fillStyle='#4c6871';t.fillRect(18,33,34,14);
+ t.fillStyle='#b3d2d4';t.fillRect(44,34,13,12);t.fillStyle='#6b45a0';t.fillRect(47,36,9,8);
+ t.fillStyle='#1e2939';t.fillRect(21,45,14,23);t.fillStyle='#9dc2cd';t.fillRect(24,47,6,16);
+ t.fillStyle='#b782db';t.fillRect(9,37,9,5);t.fillRect(5,35,4,9);
+});
 let pistolDropStarted=false, effectTick=0;
 function ownedArsenal(){return Array.isArray(player?.ownedWeapons)?player.ownedWeapons:[]}
 function ownsWeapon(w){return w==='fist'||ownedArsenal().includes(w)}
@@ -1267,6 +1293,11 @@ interact=function(){
 };
 const corePickup=pickup;
 pickup=function(i){
+ if(i.type==='uv_unlock'){
+  i.taken=true;grantWeapon('bonus_20',false);equip('bonus_20');
+  showTip('LAMPU SULUH UV UNLOCK — MELEMAHKAN ORANG MINYAK!',3.8);
+  sound('pickup');persistGame();return
+ }
  if(i.type==='smg_kit'){i.type='salt_charge';return corePickup(i)}
  if(i.type==='parang_unlock'||i.type==='pistol_unlock'||i.type==='shotgun_unlock'||i.type==='smg_unlock'){
   const id=i.type.replace('_unlock','');i.taken=true;grantWeapon(id,false);
@@ -1319,7 +1350,7 @@ damageEnemy=function(enemy,raw,source){
  const alive=enemy.alive, dealt=coreDamage(enemy,raw,source);
  if(alive&&!enemy.alive)onToyolDown(enemy);
  if(!gun||!alive)return dealt;
- if(perk==='stun'&&enemy.alive)enemy.stun=Math.max(enemy.stun||0,1.1);
+ if(perk==='stun'&&enemy.alive)enemy.stun=Math.max(enemy.stun||0,enemy.type==='orangminyak'?.33:1.1);
  if(perk==='push'&&enemy.alive){const a=Math.atan2(enemy.y-player.y,enemy.x-player.x);moveEnemy(enemy,Math.cos(a)*.42,Math.sin(a)*.42)}
  if((perk==='burn'||perk==='poison'||perk==='bleed')&&enemy.alive)enemy.suffering={ttl:perk==='burn'?2.3:3.4,dps:perk==='burn'?1.45:1.04};
  if(perk==='heal')player.hp=Math.min(100,player.hp+Math.max(.7,dealt*.3));
