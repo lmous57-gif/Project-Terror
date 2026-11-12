@@ -3,7 +3,7 @@
 ## Unlock milestones
 - **Level 01 · Hospital Lama**: starts with **fists** on a new campaign. Collect a **parang** close to spawn; defeating the first **Toyol** creates a **pistol drop**. Find the level's single **Mystery Box** to unlock one bonus weapon.
 - **Level 02 · Kampung Berhantu**: collect the **shotgun** near the starting route. Previously earned core/bonus weapon unlocks carry forward using origin-scoped browser storage; find this level's one Mystery Box.
-- **Level 03 (not yet built)**: designated **SMG unlock**. Existing players with SMG in older saves are grandfathered in rather than losing access.
+- **Level 03 · Bukit Meranti (playable)**: SMG pickup in Bilik Teknikal. Existing players with SMG in older saves keep their access.
 - New game begins with fists equipped. Bonus weapons are never pre-equipped until found. Returning players can still access previously earned unlocks.
 
 ## Controls
@@ -16,7 +16,7 @@
 - Rarity weights are applied **per remaining weapon**, so category-wide odds depend on how many of each rarity remain.
 - Effects: crit, piercing, area splash, knockback, burn, stun, chain, poison, bleed, ricochet, healing, random chaos, curse, or rapid standard hit.
 - Each Mystery Box is available once per level run, and unopened/collected status is part of the normal level save. Unlock collection persists across both pages via `pt-campaign-armory-v1` on the same origin.
-- The game currently has **two playable levels**, not a released SMG Level 03. Forty unique names/stat combinations are playable through procedural weapon renderers; **forty bespoke sprite/animation sets are future art work**.
+- The game currently has **three playable levels**; Level 03 contains the SMG unlock. Forty unique names/stat combinations are playable through procedural weapon renderers; **forty bespoke sprite/animation sets are future art work**.
 - Static syntax, registry/rarity, runtime level unlocks, Toyol drop, box reward, save and cross-level carry checks run in GitHub Actions before Pages deploys.
 
 ## The 40 Mystery Box rewards
