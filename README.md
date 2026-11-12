@@ -1,3 +1,15 @@
+# PROJECT: TERROR v1.6 — Weapon Art Revamp
+
+**Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)
+
+**40 original pixel-weapon models now look different.** Bonus-weapon rewards preserve their saved IDs and mechanics but have more grounded names and recognizably different first-person sprites. Each has idle, attack/cast, recover and reload poses. This includes a true lantern, wavy keris, open spellbook, revolver cylinder and distinctive rifles rather than a recolored generic gun.
+
+**Production preview:** [Weapon Sprite Workshop](https://lmous57-gif.github.io/Project-Terror/weapon-gallery.html) (shows all 40 and allows pose switching). The in-game [Mystery Box archive](https://lmous57-gif.github.io/Project-Terror/arsenal.html) still hides undiscovered rewards.
+
+See [WEAPON_ART_DIRECTION.md](./WEAPON_ART_DIRECTION.md) for full specification. All sprites are authored in JavaScript/Canvas 2D without external assets.
+
+---
+
 # PROJECT: TERROR — Weapon Progression v1.5
 
 **Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Arkib 40 Senjata](https://lmous57-gif.github.io/Project-Terror/arsenal.html)
