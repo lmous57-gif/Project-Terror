@@ -897,9 +897,9 @@ function onToyolDown(enemy){
  showTip('TOYOL JATUHKAN PISTOL! AMBIL SENJATA',3.3);persistGame()
 }
 const coreReset=reset;
-reset=function(){coreReset();pistolDropStarted=false;campaignPlayer(false);const drop=items.find(i=>i.type==='pistol_unlock');if(drop)drop.taken=true;showTip(STAGE===1?'MULA TANGAN KOSONG — CARI PARANG':'LEVEL 02 — CARI SHOTGUN',3.8)};
+reset=function(){boxSpin=null;selectedMysteryId=null;coreReset();pistolDropStarted=false;campaignPlayer(false);const drop=items.find(i=>i.type==='pistol_unlock');if(drop)drop.taken=true;showTip(STAGE===1?'MULA TANGAN KOSONG — CARI PARANG':'LEVEL 02 — CARI SHOTGUN',3.8)};
 const coreRestore=restoreState;
-restoreState=function(c){coreRestore(c);campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
+restoreState=function(c){boxSpin=null;selectedMysteryId=null;coreRestore(c);campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
 /* v1.7 Mystery Box: deliberate E / GUNA instead of accidental walk-over */
 let boxSpin=null, selectedMysteryId=null;
 const previousGetInteractable=getInteractable;
