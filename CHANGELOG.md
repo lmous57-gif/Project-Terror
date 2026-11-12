@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.7 — Pre-Level-03 Polish (2026-11-12)
+- Mystery Box needs explicit E / GUNA, with a timed prize roulette and consistent selected reward.
+- Fixed stale mobile GUNA handler so the new interaction works on touch devices.
+- One-line horizontally scrollable mobile weapon slots replace overlapping rows.
+- Added reload progress bar and class-specific sound synthesis for bonus weapons.
+- Repositioned Kampung Mystery Box away from optional cassette and migrated older unopened box saves.
+- Reset/resume clears stale roulette state to prevent duplicate or orphaned rewards.
+- Strengthened runtime regression testing for two-level box interactions and progression.
+
+---
+
 ## v1.6 — Weapon Art Revamp (November 2026)
 - Replaced 40 generic Mystery Box weapon labels with a coherent roster, retaining original IDs and saved unlocks.
 - Created `weapon-art.js`: unique pixel silhouettes for all 40 rewards and four animation poses each.
