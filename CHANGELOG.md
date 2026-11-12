@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.0 — Loji Air Hitam / Level 04 (2026-11-12)
+- New playable Level 04 with original water-plant wall textures, altered map geometry, floor props, night skyline and dedicated save key.
+- Three valves, reservoir key, pump console, dock exit, Pengawal Rahman and Fail 09 case evidence.
+- Guaranteed UV flashlight (`bonus_20`) unlock; works with global weapon inventory without expanding or duplicating the 40-weapon catalog.
+- New Orang Minyak pixel sprite with vanish/dash/recover AI, enraged phase, UV weakness and salt interrupts.
+- Three oil patches reduce walking speed and deal periodic damage; reset on reload/new game.
+- Campaign Hub upgraded to four stages; Level 04 navigation from existing levels and weapons archive.
+- CI validates all four levels and dedicated runtime tests including near Mystery Box freeze regression; prior saves remain untouched.
+
+---
+
 ## v1.9 — Campaign Hub (2026-11-12)
 - Pusat Misi responsif baharu di `campaign.html`, dengan statistik tiga level dan kemajuan 40 bonus senjata.
 - Baca clear-status, unlock senjata utama dan kehadiran checkpoint daripada localStorage tanpa mengubah save.
