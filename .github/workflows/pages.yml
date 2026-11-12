@@ -29,6 +29,8 @@ jobs:
         run: node tests/validate-progression.mjs
       - name: Test level unlocks and Mystery Box engine runtime
         run: node tests/qa-progress-runtime.mjs
+      - name: Test Bukit Meranti Level 03 complete gameplay and freeze regression
+        run: node tests/qa-level03.mjs
       - name: Validate 40 unique pixel weapon sprites and 160 poses
         run: node tests/validate-weapon-art.mjs
       - name: Configure Pages
