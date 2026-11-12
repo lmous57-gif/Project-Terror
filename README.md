@@ -1,3 +1,11 @@
+# PROJECT: TERROR v1.9 — Campaign Hub
+
+**Pusat Misi:** [Buka Campaign Hub](https://lmous57-gif.github.io/Project-Terror/campaign.html) · [Level 01](https://lmous57-gif.github.io/Project-Terror/) · [Level 02](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Level 03](https://lmous57-gif.github.io/Project-Terror/bukit.html)
+
+v1.9 menambah hub responsif yang menyatukan pemilihan tiga level, status tamat, simpanan/checkpoint mengikut level, senjata utama yang telah diperoleh dan koleksi 40 senjata Mystery Box. Hub **read-only**: ia tidak menukar atau menghapuskan save. Untuk sambung permainan, masuk ke halaman level melalui hub dan tekan butang **SAMBUNG** dalam menu level. Data masih di `localStorage` browser/peranti yang sama (tiada cloud sync). Ujian `tests/validate-campaign.mjs` memastikan parse simpanan rosak tidak crash, armory dan status clear dibaca betul serta link hub wujud di semua menu.
+
+---
+
 # PROJECT: TERROR v1.8 — Bukit Meranti / Level 03
 
 **Play:** [Level 01 Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Level 02 Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Level 03 Bukit Meranti](https://lmous57-gif.github.io/Project-Terror/bukit.html) · [40-weapon collection](https://lmous57-gif.github.io/Project-Terror/arsenal.html)
