@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.8 — Level 03 Bukit Meranti (2026-11-12)
+- Third playable level with new hilltop transmitter map, rocky cliff, jungle and concrete facility textures.
+- Story continues from Fail 07: Juruteknik Din, 3 optional Fail 08 evidence files, 3 signal modules and a keyed tower approach.
+- SMG is a collectible unlock in the technical building and persists through the shared 40-weapon arsenal.
+- Penanggal: new pixel sprite, ranged telegraphed curse and close diving attack, enrages below half health.
+- One Mystery Box with deliberate E/GUNA and near-box freeze regression; distinct Level03 save namespace.
+- Level navigation linked from Hospital and Kampung menus and Kampung victory overlay.
+- Automated full mission runtime/SMG/boss/reload/box tests gate GitHub Pages publication.
+
+---
+
 ## v1.7 — Pre-Level-03 Polish (2026-11-12)
 - Mystery Box needs explicit E / GUNA, with a timed prize roulette and consistent selected reward.
 - Fixed stale mobile GUNA handler so the new interaction works on touch devices.
