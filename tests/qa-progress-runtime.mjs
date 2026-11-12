@@ -24,7 +24,7 @@ function prepare(file){
  const js=html.slice(begin+8,end);
  const marker='\n})();';
  assert.ok(js.lastIndexOf(marker)>0);
- const injected=js.slice(0,js.lastIndexOf(marker))+'\nwindow.__qa={reset,pickup,damageEnemy,equip,shoot,update,render,loop,keys,joy,getInteractable,interact,restoreState,snapshotGame,go:(x,y)=>{player.x=x;player.y=y},spin:()=>boxSpin,state:()=>({player,items,enemies,objective,STAGE,WEAPONS})};'+js.slice(js.lastIndexOf(marker));
+ const injected=js.slice(0,js.lastIndexOf(marker))+'\nwindow.__qa={reset,pickup,damageEnemy,equip,shoot,update,render,loop,keys,joy,getInteractable,interact,restoreState,snapshotGame,go:(x,y)=>{player.x=x;player.y=y},expireTip:()=>{tipTimer=0},currentTip:()=>tip,spin:()=>boxSpin,state:()=>({player,items,enemies,objective,STAGE,WEAPONS})};'+js.slice(js.lastIndexOf(marker));
  new Script(injected,{filename:file+':instrumented'}).runInContext(context);
  return Object.assign(window.__qa,{clickUse:()=>{assert.ok(useEvents.get('click'),'Mobile GUNA click handler missing');useEvents.get('click')()},joyEvent:(type,event)=>{assert.ok(joyEvents.get(type),'Missing joy event '+type);joyEvents.get(type)(event)}});
 }
@@ -66,7 +66,10 @@ assert.ok(h.player.ownedWeapons.includes('pistol'));
 const mystery=h.items.find(i=>i.type==='mystery_box'&&!i.taken);
 assert.ok(mystery);
 hospital.go(mystery.x,mystery.y);
-hospital.update(.02);
+hospital.expireTip(); // trigger contextual interaction hint on this exact frame
+assert.doesNotThrow(()=>hospital.update(.02),'Hospital must not crash near Mystery Box when tip expires');
+assert.ok(hospital.currentTip().includes('MYSTERY BOX'),'Hospital prompt must identify Mystery Box, not a door');
+assert.doesNotThrow(()=>hospital.render(),'Hospital render must stay active near box');
 assert.equal(mystery.taken,false,'Walking over box must not consume it');
 assert.equal(hospital.getInteractable()?.kind,'mystery_box');
 hospital.clickUse();
@@ -100,7 +103,10 @@ assert.equal(k.player.weapon,'shotgun');
 assert.ok(k.player.ownedWeapons.includes('shotgun'));
 const box2=k.items.find(i=>i.type==='mystery_box'&&!i.taken);
 assert.ok(box2);village.go(box2.x,box2.y);
-village.update(.02);
+village.expireTip(); // previously caused TypeError: door is undefined
+assert.doesNotThrow(()=>village.update(.02),'Kampung must not crash near Mystery Box when tip expires');
+assert.ok(village.currentTip().includes('MYSTERY BOX'),'Kampung prompt must identify Mystery Box');
+assert.doesNotThrow(()=>village.render(),'Kampung must render when player is adjacent to box');
 assert.equal(box2.taken,false,'Kampung box must not auto-open');
 assert.equal(village.getInteractable()?.kind,'mystery_box','Box interaction not blocked by Fail Kes');
 village.clickUse();
@@ -112,4 +118,4 @@ assert.equal(k.player.weapon,kampungPrize);
 assert.ok(k.WEAPONS[k.player.weapon].bonus);
 assert.notEqual(k.player.weapon,bonus,'No duplicate if unowned rewards remain');
 assert.equal(JSON.parse(storage.get('pt-campaign-armory-v1')).bonus.length,2);
-console.log('PASS: start fists, parang, Toyol drop, E/GUNA roulette for 2 Mystery Boxes, no walk-over pickups, cross-level save and shotgun');
+console.log('PASS: near-box interaction hint without TypeError on BOTH levels, render stays active, start fists, parang, Toyol drop, E/GUNA roulette for 2 Mystery Boxes, no walk-over pickups, cross-level save and shotgun');
