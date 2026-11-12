@@ -401,13 +401,20 @@ const cupboardSprite=sprite(t=>{
  t.fillStyle='#1c1814';t.fillRect(8,24,51,52);t.fillStyle='#74553d';t.fillRect(11,24,47,50);t.fillStyle='#3f3227';t.fillRect(14,30,41,40);t.fillStyle='#967954';t.fillRect(17,34,35,34);
  t.fillStyle='#59432d';t.fillRect(32,32,3,40);t.fillStyle='#d6af62';t.fillRect(28,49,3,6);t.fillRect(37,49,3,6);t.fillStyle='#2a211b';t.fillRect(14,68,42,5);
 });
+const antennaSprite=sprite(t=>{
+ t.fillStyle='#1d2730';t.fillRect(29,6,7,69);
+ t.fillStyle='#8e9da5';t.fillRect(32,9,2,64);
+ for(let k=0;k<5;k++){t.fillStyle=k%2?'#718792':'#465b62';t.fillRect(15,15+k*11,35,3)}
+ t.fillStyle='#a5b3b5';t.fillRect(10,68,44,8);
+ t.fillStyle='#e25a57';t.fillRect(30,3,7,7);
+});
 const floorDecorations=[
  {x:7.5,y:2.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
  {x:17.5,y:3.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
  {x:18.5,y:6.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
  {x:18.5,y:9.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
  {x:8.5,y:12.5,img:batuSprite,scale:.8,grounded:true,kind:'floor'},
- {x:12.5,y:3.5,img:pelitaSprite,scale:.44,grounded:true,kind:'floor'},
+ {x:12.5,y:3.5,img:antennaSprite,scale:.75,grounded:true,kind:'floor'},
  {x:12.5,y:8.5,img:cupboardSprite,scale:.66,grounded:true,kind:'floor'}
 ];
 
@@ -452,14 +459,14 @@ function doorDecal(open){return decalCanvas(128,192,(t,w,h)=>{
  t.fillStyle='#272f2d';t.fillRect(13,180,102,8)
 })}
 const wallArt={
- wad:signDecal('KAMPUNG','JALAN LAMA','#496d48'),
- mayat:signDecal('MENARA','JANGAN MASUK','#7e433c'),
- rawatan:signDecal('STESEN PEMANCAR','LALUAN SUNYI','#54765a'),
- kecemasan:signDecal('AWAS','PENANGGAL','#8d5844'),
- rumah1:signDecal('RUMAH','TOK PAWANG','#846640'),
- rumah2:signDecal('RUMAH','KEBUN','#6a6347'),
- dalam1:signDecal('PESANAN','JANGAN MASUK','#846640'),
- keluar:signDecal('KELUAR','KE JALAN BUKIT','#51846a'),
+ wad:signDecal('BUKIT','MERANTI','#5e7e8c'),
+ mayat:signDecal('MENARA','PINTU KUNCI','#8c4c50'),
+ rawatan:signDecal('RADIO','STESEN LAMA','#577d8f'),
+ kecemasan:signDecal('AWAS','PENANGGAL','#ac5552'),
+ rumah1:signDecal('PONDOK','RADIO','#6d8086'),
+ rumah2:signDecal('BILIK','TEKNIKAL','#577c81'),
+ dalam1:signDecal('BAHAYA','VOLTAN TINGGI','#986b50'),
+ keluar:signDecal('KELUAR','TURUN BUKIT','#51846a'),
  lamp:lampDecal(),notice:noticeDecal(),
  genOff:generatorDecal(false),genOn:generatorDecal(true),
  doorLocked:doorDecal(false),doorOpen:doorDecal(true)
@@ -544,7 +551,7 @@ function reset(){
 function end(win){closeCase();playing=false;ended=true;missionWon=win;fireHeld=false;mouseHeld=false;try{document.exitPointerLock?.()}catch(_){};
  $('result-tag').textContent=win?'MISI SELESAI':'MISI GAGAL';
  $('result-title').textContent=win?'ISYARAT DIMATIKAN':'KAU TEWAS';
- $('result-description').textContent=win?`Penanggal dihalau! Bukit selamat dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.${caseFound.size===3?' FAIL 07 menunjuk ke pemancar Bukit Meranti — misteri belum tamat.':''}`:`${kills} hantu ditumpaskan. Cuba lagi untuk hidupkan generator dan cari jalan keluar.`;
+ $('result-description').textContent=win?`Penanggal dihalau! Bukit selamat dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.${caseFound.size===3?' FAIL 08 membuka rahsia siaran — kisah Salmah belum tamat.':''}`:`${kills} hantu ditumpaskan. Cuba lagi untuk hidupkan generator dan cari jalan keluar.`;
  $('resumeCheckpoint').classList.toggle('hidden',win||!checkpoint);$('end').classList.remove('hidden');if(win){try{localStorage.removeItem(SAVE_KEY)}catch(_){};sound('win')}updateSaveButton()
 }
 function showTip(msg,sec=2.2){tip=msg;tipTimer=sec}
@@ -665,7 +672,7 @@ function damageEnemy(e,rawDamage,source){
  const multiplier=AFFINITY[e.type]?.[source]??1,damage=rawDamage*multiplier*(player.buff>0?1.6:1);
  e.hp-=damage;e.flash=.2;hitmark=.25;sound('hit');
  if(e.hp<=0){e.alive=false;kills++;deathWisps.push({x:e.x,y:e.y,life:.62,type:e.type});killPulse=.3;showTip(`${e.type.toUpperCase()} TUMPAS`);
-  if(e.type==='penanggal'){objective.boss=true;showTip('PENANGGAL TUMPAS! LARI KE LALUAN BUKIT!',3.5);persistGame()}
+  if(e.type==='penanggal'){objective.boss=true;showTip('PENANGGAL TUMPAS! TURUN BUKIT SEKARANG!',3.5);persistGame()}
  }
  return damage
 }
@@ -843,11 +850,11 @@ function update(dt){
  }
 }
 function world(){const shake=(Math.random()-.5)*screenShake,cy=H*.47+Math.sin(bob)*1.1*moving+shake;
- const flicker=Math.sin(frame*1.4)*.009;renderLightLevel=flicker-.12+(objective.generator?-.025:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#050d23');ceiling.addColorStop(.72,'#102b33');ceiling.addColorStop(1,'#24443c');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);const moonX=((1.95-player.a%(Math.PI*2))*42+W*2)%(W*2);ctx.fillStyle='#d1d8c2';ctx.beginPath();ctx.arc(moonX,cy*.25,8,0,Math.PI*2);ctx.fill();
+ const flicker=Math.sin(frame*1.4)*.009;renderLightLevel=flicker-.12+(objective.generator?-.025:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#090d1d');ceiling.addColorStop(.72,'#17242f');ceiling.addColorStop(1,'#334653');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);const moonX=((1.95-player.a%(Math.PI*2))*42+W*2)%(W*2);ctx.fillStyle='#d1d8c2';ctx.beginPath();ctx.arc(moonX,cy*.25,8,0,Math.PI*2);ctx.fill();
  const towerX=((1.5-player.a%(Math.PI*2))*52+W*3)%(W*2);
  ctx.strokeStyle='#27333c';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(towerX-16,cy);ctx.lineTo(towerX,cy*.12);ctx.lineTo(towerX+16,cy);ctx.stroke();
  ctx.strokeStyle='#75888b';ctx.lineWidth=1;for(let i=0;i<5;i++){const h=cy*.24+i*cy*.14;ctx.beginPath();ctx.moveTo(towerX-16+i*3.3,h);ctx.lineTo(towerX+16-i*3.3,h);ctx.stroke()}
- ctx.fillStyle=Math.sin(frame*2.5)>0?'#fe6b5b':'#5e333a';ctx.fillRect(towerX-3,cy*.1,6,6);let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263b27');floor.addColorStop(1,'#101c13');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
+ ctx.fillStyle=Math.sin(frame*2.5)>0?'#fe6b5b':'#5e333a';ctx.fillRect(towerX-3,cy*.1,6,6);let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263035');floor.addColorStop(1,'#0f1c22');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
 for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const key=`${mx},${my}`,tile=doorProgress.has(key)?MAP[my][mx]:tileAt(mx,my);if(tile!=='.'){
   const progress=doorProgress.get(`${mx},${my}`)||0;
   if((tile==='D'||tile==='K')&&progress>0){const hitD=side===0?sidx-ddx:sidy-ddy;let doorU=side===0?player.y+hitD*ry:player.x+hitD*rx;doorU-=Math.floor(doorU);if((side===0&&rx>0)||(side===1&&ry<0))doorU=1-doorU;
