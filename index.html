@@ -671,8 +671,14 @@ function update(dt){
  if(!checkpoint&&zoneName==='WAD RAWATAN'&&player.y>5.35&&player.y<9.65)saveCheckpoint()
  const near=getInteractable();
  if(near&&tipTimer<.15){
-  const d=near.door;
-  showTip(near.kind==='generator'?'E / GUNA: GENERATOR':d.requiresKey&&!objective.key?'PERLUKAN KUNCI BILIK MAYAT':`E / GUNA: ${openDoors.has(`${d.x},${d.y}`)?'TUTUP':'BUKA'} ${d.label}`,1.1)
+  let prompt='';
+  if(near.kind==='mystery_box')prompt='E / GUNA: BUKA MYSTERY BOX';
+  else if(near.kind==='generator')prompt='E / GUNA: GENERATOR';
+  else if(near.kind==='door'&&near.door){
+   const d=near.door;
+   prompt=d.requiresKey&&!objective.key?'PERLUKAN KUNCI BILIK MAYAT':`E / GUNA: ${openDoors.has(`${d.x},${d.y}`)?'TUTUP':'BUKA'} ${d.label}`;
+  }
+  if(prompt)showTip(prompt,1.1)
  }
  if(Math.hypot(portal.x-player.x,portal.y-player.y)<.75){
   if(objective.generator&&objective.boss){end(true)}
