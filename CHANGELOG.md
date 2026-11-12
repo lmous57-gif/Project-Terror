@@ -1,4 +1,15 @@
-# Project: Terror — Changelog
+# Changelog
+
+## v1.5 — Weapon Progression & Mystery Box (Nov 12, 2026)
+- Level 01 bermula dengan fists, pickup parang dan pistol drop selepas Toyol pertama tumbang.
+- Level 02 pickup shotgun; SMG direserve untuk Level 03 yang belum dibangunkan.
+- 40 bonus weapons yang boleh digunakan, 6 combat archetypes, 4 rarities dan 14 kesan serangan.
+- Satu Mystery Box setiap level, roll tidak duplicate selagi masih ada senjata yang belum dikumpulkan.
+- Inventory/bonus slot untuk keyboard dan mobile, arkib koleksi 0/40 dan cross-level persistent unlocks.
+- Migrasi save lama dan automated JS + runtime gameplay regression checks.
+
+---
+
 
 ## v1.4 — Combat Overhaul
 - SMG slot keempat; unlock melalui pickup di zon kedua, ammo baharu di zon ketiga.
