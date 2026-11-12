@@ -1093,7 +1093,7 @@ function clearTouchJoy(ev){
  for(const t of ev.changedTouches||[])if(t.identifier===joyTouchId){releaseJoy();break}
 }
 joyZoneEl.addEventListener('touchend',clearTouchJoy);joyZoneEl.addEventListener('touchcancel',clearTouchJoy);
-window.addEventListener('blur',()=>{if(joyPointerId!==null||joyTouchId!==null)releaseJoy()});
+window.addEventListener?.('blur',()=>{if(joyPointerId!==null||joyTouchId!==null)releaseJoy()});
 if(typeof navigator!=='undefined'&&(navigator.maxTouchPoints>0||'ontouchstart' in window))
  document.documentElement?.classList?.add('pt-has-touch');
 $('resumeCheckpoint').addEventListener('click',restoreCheckpoint);$('continueSaved').addEventListener('click',loadSavedGame);
