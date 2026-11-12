@@ -557,9 +557,9 @@ function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;u
 function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
 function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('PENANGGAL TELAH BANGKIT...',1.25)}
 function npcDialogue(){return caseFound.size===3?
- 'Juruteknik Din menatap helaian fail yang kau kumpulkan.\n\n“Salmah tak pernah hilang di hospital itu. Dia cuba menutup laluan dari menara Bukit Meranti. Hantu Penanggal cuma penjaga jalan. Jika kau teruskan, jangan hidupkan pemancar tanpa tahu siapa yang menunggunya.”':
- 'Juruteknik Din berlindung di Rumah Tok Pawang. Tangannya menggigil sambil memegang radio rosak.\n\n“Dulu Jururawat Salmah datang dari Hospital Lama dengan tiga jalur pendinding. Lepas generator hidup, suara Salmah kedengaran dari menara — sedangkan dia masih di dalam wad.\n\nCari fail di rumah ini, kaset di Rumah Kebun dan batu tanda dekat keramat. Itu yang tinggal.”'}
-function availablePages(){const pages=[];if(npcSpoken)pages.push({id:'mak',title:'SAKSI — JURUTEKNIK DIN',body:npcDialogue()});for(const c of CASES)if(caseFound.has(c.id))pages.push(c);if(!pages.length)pages.push({id:'empty',title:'FAIL KES — MASIH KOSONG',body:'Belum ada bukti. Cari catatan di rumah kayu, kaset dalam kebun dan batu tanda di kawasan keramat.\n\nDekati objek yang berkilau dan tekan E / GUNA. Tekan J atau FAIL untuk membaca catatan semula.'});return pages}
+ 'Juruteknik Din memandang lampu merah pemancar. \n\n“Salmah bukan di menara ini. Ia meminjam nama Salmah untuk memanggil orang masuk. Tiga modul itu memutuskan frekuensi, tetapi makhluk yang bergantung pada frekuensi akan muncul di kaki menara.”\n\n“Bila lampu padam, jangan tunggu. Tewaskan Penanggal dan cari laluan turun bukit.”':
+ 'Juruteknik Din bersembunyi di Pondok Radio. Radio berkeriut tanpa bekalan elektrik.\n\n“Sejak Hantu Raya hilang di kampung, pemancar memanggil nama orang mati. Senjata yang kami simpan — SMG — ada dalam Bilik Teknikal, di zon kedua.”\n\n“Cari log pemancar di sini, pita rakaman di Bilik Teknikal dan plat amaran di kaki menara. Ambil tiga modul dan kunci untuk hentikan siaran.”'}
+function availablePages(){const pages=[];if(npcSpoken)pages.push({id:'mak',title:'SAKSI — JURUTEKNIK DIN',body:npcDialogue()});for(const c of CASES)if(caseFound.has(c.id))pages.push(c);if(!pages.length)pages.push({id:'empty',title:'FAIL KES — MASIH KOSONG',body:'Belum ada bukti. Cari log di Pondok Radio, pita dalam Bilik Teknikal dan plat amaran di kaki menara.\n\nTekan E / GUNA untuk membaca. Tekan J untuk buka Fail Kes.'});return pages}
 function showCasePage(){const pages=availablePages();casePage=Math.max(0,Math.min(casePage,pages.length-1));const page=pages[casePage];$('caseTitle').textContent=page.title;$('caseText').textContent=page.body;$('caseCount').textContent=`${caseFound.size}/3 BUKTI · ${casePage+1}/${pages.length}`;$('casePrev').disabled=casePage===0;$('caseNext').disabled=casePage===pages.length-1}
 function openCase(id){if(!playing)return;const pages=availablePages(),index=pages.findIndex(p=>p.id===id);casePage=index>=0?index:0;caseOpen=true;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;$('joy').classList.add('inactive');try{document.exitPointerLock?.()}catch(_){}$('caseOverlay').classList.remove('hidden');showCasePage()}
 function closeCase(){if(!caseOpen)return;caseOpen=false;$('caseOverlay').classList.add('hidden');last=performance.now()}
@@ -710,7 +710,7 @@ function updateProjectiles(dt){
   for(let k=0;k<steps&&p.ttl>0;k++){
    p.x+=p.vx*dt/steps;p.y+=p.vy*dt/steps;
    if(isWall(p.x,p.y)){p.ttl=0;break}
-   if(Math.hypot(p.x-player.x,p.y-player.y)<.32){p.ttl=0;if(damagePlayer(9))return;showTip('ELAK SUMPAHAN LANGSUIR!',1.6);break}
+   if(Math.hypot(p.x-player.x,p.y-player.y)<.32){p.ttl=0;if(damagePlayer(9))return;showTip('ELAK SUMPAHAN HANTU!',1.6);break}
   }
   p.phase+=dt*7;p.ttl-=dt
  }
@@ -721,16 +721,36 @@ function updateEnemy(e,dt){
  const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;if(e.stun>0){e.stun=Math.max(0,e.stun-dt);e.flash=Math.max(e.flash,.06);return}
  const dx=player.x-e.x,dy=player.y-e.y,d=Math.hypot(dx,dy),safeD=Math.max(.08,d),visible=d<9&&lineOfSight(e.x,e.y,player.x,player.y);
  if(e.type==='penanggal'){
-  const enraged=e.hp<=spec.hp*.5;if(enraged&&!e.rage){e.rage=true;showTip('PENANGGAL MURKA! HENTAKAN LEBIH PANTAS',2.4);sound('scream')}
+  const enraged=e.hp<=spec.hp*.5;
+  if(enraged&&!e.rage){e.rage=true;showTip('PENANGGAL MENGAMUK! SUMPAHAN LEBIH LAJU',2.4);sound('scream')}
+  // Long-distance spirit attack: visible tell -> flying curse projectile.
+  if(e.ai==='cast'){
+   e.charge-=dt;e.flash=Math.max(e.flash,.07);
+   if(e.charge<=0){castCurse(e,dx,dy,d);e.ai='recover';e.charge=e.rage?.30:.50;showTip('SUMPAHAN PENANGGAL DILEPASKAN — ELAK!',1.25)}
+   return
+  }
+  // Close-range telegraph, fast lunge, and enforced recovery.
   if(e.ai==='slam'){
-   e.charge-=dt;e.flash=.12;
-   if(e.charge<=0){e.ai='recover';e.charge=e.rage?.55:.70;screenShake=Math.max(screenShake,6);sound('scream');if(d<1.85&&visible)damagePlayer(spec.damage);showTip('HENTAKAN PENANGGAL!',1.1)}
+   e.charge-=dt;e.flash=.14;
+   if(e.charge<=0){
+    e.ai='recover';e.charge=e.rage?.46:.69;
+    screenShake=Math.max(screenShake,5);sound('scream');
+    if(d<1.60&&visible)damagePlayer(spec.damage);
+    showTip('SERANGAN PENANGGAL — BERUNDUR!',1.2)
+   }
    return
   }
   if(e.ai==='recover'){e.charge-=dt;if(e.charge<=0)e.ai='chase';return}
   if(!visible){if(d<11)chaseAroundWalls(e,dt,spec.speed);return}
-  if(d>1.55)moveEnemy(e,dx/safeD*dt*(spec.speed+(e.rage?.16:0)),dy/safeD*dt*(spec.speed+(e.rage?.16:0)));
-  else if(e.attack<=0){e.ai='slam';e.charge=e.rage?.78:1.0;e.attack=e.rage?2.5:3.1;showTip('PENANGGAL NAK HENTAK! UNDUR!',2.0);sound('ghost')}
+  if(e.attack<=0&&d>2.65&&d<8.2){
+   e.ai='cast';e.charge=e.rage?.64:.95;e.attack=e.rage?2.1:2.8;
+   showTip('PENANGGAL MENGUMPUL SUMPAHAN — BERLINDUNG!',1.7);sound('ghost');return
+  }
+  if(d>1.40)moveEnemy(e,dx/safeD*dt*(spec.speed+(e.rage?.17:0)),dy/safeD*dt*(spec.speed+(e.rage?.17:0)));
+  else if(e.attack<=0){
+   e.ai='slam';e.charge=e.rage?.58:.83;e.attack=e.rage?2.1:2.7;
+   showTip('PENANGGAL MENERKAM! UNDUR!',1.7);sound('scream')
+  }
   return
  }
  if(visible)e.awareness=5;else{e.awareness=Math.max(0,(e.awareness||0)-dt);if(d<5.6)e.awareness=Math.max(e.awareness,2.0);if(e.awareness>0&&d<9)chaseAroundWalls(e,dt,spec.speed*(e.type==='langsuir'?.82:1));return}
@@ -865,11 +885,11 @@ for(const s of sprites){let xx=s.x-player.x,yy=s.y-player.y,tx=inv*(dy*xx-dx*yy)
 }
 }
 function penanggalGroundWarning(){
- const boss=enemies.find(e=>e.alive&&e.type==='penanggal'&&e.ai==='slam');if(!boss)return;
+ const boss=enemies.find(e=>e.alive&&e.type==='penanggal'&&(e.ai==='slam'||e.ai==='cast'));if(!boss)return;
  const dist=Math.max(.35,Math.hypot(boss.x-player.x,boss.y-player.y));if(dist>4.2)return;
  ctx.save();ctx.globalAlpha=.25+(1-Math.min(1,boss.charge))*.25;
  ctx.strokeStyle='#ffc278';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(W*.5,H*.55,Math.max(18,110/dist),Math.max(6,21/dist),0,0,Math.PI*2);ctx.stroke();
- ctx.fillStyle='#ffd8a7';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('⚠ HENTAKAN — UNDUR!',W*.5,85);ctx.restore();ctx.textAlign='start'
+ ctx.fillStyle='#ffd8a7';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('⚠ SUMPAHAN — ELAK!',W*.5,85);ctx.restore();ctx.textAlign='start'
 }
 function weapon(){
  ctx.save();let strike=player.attack>0?Math.sin(Math.PI*Math.max(0,Math.min(1,1-player.attack/.3))):0;let recoil=strike*(player.weapon==='shotgun'?27:player.weapon==='pistol'?14:9);
