@@ -898,7 +898,7 @@ function hud(){
  if(tipTimer>0){ctx.font='bold 9px monospace';let tw=ctx.measureText(tip).width;ctx.fillStyle='#03070ce9';ctx.fillRect(W/2-tw/2-8,34,tw+16,18);ctx.fillStyle='#ffd1a3';ctx.fillText(tip,W/2-tw/2,46)}
  if(player.reload>0){ctx.font='bold 10px monospace';ctx.fillStyle='#ffedc6';ctx.fillText('ISI SEMULA...',W/2-38,H-64)}
  ctx.fillStyle='#adf7da';ctx.font='bold 9px monospace';ctx.fillText(`✧ GARAM ${player.saltCharges}`,W-95,14);
- ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // KAMPUNG BERHANTU  v1.4',10,14);
+ ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // KAMPUNG BERHANTU  v1.5',10,14);
  if(player.buff>0){ctx.fillStyle='#c9f6f6';ctx.font='bold 9px monospace';ctx.fillText(`AIR GARAM ${Math.ceil(player.buff)}s`,12,29)}
  else if(objective.generator){ctx.fillStyle='#bce9c9';ctx.font='bold 9px monospace';ctx.fillText(objective.boss?'LALUAN SUDAH TERBUKA':'BOSS: HANTU RAYA',12,29)}
  if(player.shield>0){ctx.fillStyle='#f6cf8d';ctx.font='bold 9px monospace';ctx.fillText(`TANGKAL ${Math.ceil(player.shield)}s`,12,player.buff>0?41:29)}
