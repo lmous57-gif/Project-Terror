@@ -137,6 +137,8 @@ const AFFINITY={
  orangminyak:{parang:.65,pistol:.93,shotgun:1.18,smg:1.02,salt:1.55,bonus_20:1.85}
 };
 const MAX_SALT=5;
+const OIL_PATCHES=[{x:5.5,y:3.5},{x:8.5,y:7.5},{x:15.5,y:11.5}];
+let oilDamageCooldown=0;
 let saltBursts=[];
 // D: standard access, K: mortuary key required. Opened doors remain open.
 const DOOR_DEFS=[{"x":7,"y":5,"label":"PINTU SALURAN","requiresKey":false},{"x":17,"y":5,"label":"GERBANG PAM","requiresKey":false},{"x":8,"y":10,"label":"PINTU TAKUNGAN","requiresKey":true},{"x":11,"y":2,"label":"POS PENGAWAL","requiresKey":false},{"x":15,"y":3,"label":"PINTU BELAKANG","requiresKey":false},{"x":10,"y":7,"label":"BILIK PENAPIS","requiresKey":false},{"x":15,"y":8,"label":"PINTU SERVIS","requiresKey":false}];
@@ -572,7 +574,7 @@ function surveyMap(){
 function tileDiscovered(x,y){return x>=0&&x<MW&&y>=0&&y<MH&&mapSeen[y*MW+x]>0}
 function mapPercent(){return Math.min(100,Math.round(mappedWalkable/MAP_WALKABLE*100))}
 function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0,awareness:0,stun:0}}
-function reset(){
+function reset(){oilDamageCooldown=0;
  try{localStorage.removeItem(SAVE_KEY)}catch(_){};updateSaveButton();
  started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;caseFound=new Set();npcSpoken=false;caseRewarded=false;caseOpen=false;casePage=0;$('caseOverlay').classList.add('hidden');openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;scareUsed=false;
  player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};
@@ -764,36 +766,32 @@ function updateEnemy(e,dt){
  const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;if(e.stun>0){e.stun=Math.max(0,e.stun-dt);e.flash=Math.max(e.flash,.06);return}
  const dx=player.x-e.x,dy=player.y-e.y,d=Math.hypot(dx,dy),safeD=Math.max(.08,d),visible=d<9&&lineOfSight(e.x,e.y,player.x,player.y);
  if(e.type==='orangminyak'){
-  const enraged=e.hp<=spec.hp*.5;
-  if(enraged&&!e.rage){e.rage=true;showTip('ORANG MINYAK MENGAMUK! SUMPAHAN LEBIH LAJU',2.4);sound('scream')}
-  // Long-distance spirit attack: visible tell -> flying curse projectile.
-  if(e.ai==='cast'){
-   e.charge-=dt;e.flash=Math.max(e.flash,.07);
-   if(e.charge<=0){castCurse(e,dx,dy,d);e.ai='recover';e.charge=e.rage?.30:.50;showTip('SUMPAHAN ORANG MINYAK DILEPASKAN — ELAK!',1.25)}
+  if(e.hp<=spec.hp*.5&&!e.rage){e.rage=true;showTip('ORANG MINYAK MENGAMUK — TERKAMAN MAKIN LAJU!',2.2);sound('scream')}
+  if(e.ai==='vanish'){
+   e.charge-=dt;e.flash=.02;
+   if(e.charge<=0){
+    e.ai='dash';e.dash=e.rage?.66:.59;
+    const ax=player.x-e.x,ay=player.y-e.y,len=Math.max(.1,Math.hypot(ax,ay));
+    e.dx=ax/len;e.dy=ay/len;e.hitRun=false;
+    showTip('ORANG MINYAK MENERKAM — ELAK KE TEPI!',1.2);sound('scream')
+   }
    return
   }
-  // Close-range telegraph, fast lunge, and enforced recovery.
-  if(e.ai==='slam'){
-   e.charge-=dt;e.flash=.14;
-   if(e.charge<=0){
-    e.ai='recover';e.charge=e.rage?.46:.69;
-    screenShake=Math.max(screenShake,5);sound('scream');
-    if(d<1.60&&visible)damagePlayer(spec.damage);
-    showTip('SERANGAN ORANG MINYAK — BERUNDUR!',1.2)
-   }
+  if(e.ai==='dash'){
+   moveEnemy(e,e.dx*dt*(e.rage?4.6:3.65),e.dy*dt*(e.rage?4.6:3.65),.18);
+   e.dash-=dt;
+   if(!e.hitRun&&Math.hypot(e.x-player.x,e.y-player.y)<.9){e.hitRun=true;damagePlayer(spec.damage)}
+   if(e.dash<=0){e.ai='recover';e.charge=e.rage?.44:.72}
    return
   }
   if(e.ai==='recover'){e.charge-=dt;if(e.charge<=0)e.ai='chase';return}
   if(!visible){if(d<11)chaseAroundWalls(e,dt,spec.speed);return}
-  if(e.attack<=0&&d>2.65&&d<8.2){
-   e.ai='cast';e.charge=e.rage?.64:.95;e.attack=e.rage?2.1:2.8;
-   showTip('ORANG MINYAK MENGUMPUL SUMPAHAN — BERLINDUNG!',1.7);sound('ghost');return
+  if(e.attack<=0&&d<7.2){
+   e.ai='vanish';e.charge=e.rage?.56:.95;e.attack=e.rage?1.9:2.55;
+   showTip('BAYANG HITAM HILANG... BERSEDIA!',1.4);sound('ghost');return
   }
-  if(d>1.40)moveEnemy(e,dx/safeD*dt*(spec.speed+(e.rage?.17:0)),dy/safeD*dt*(spec.speed+(e.rage?.17:0)));
-  else if(e.attack<=0){
-   e.ai='slam';e.charge=e.rage?.58:.83;e.attack=e.rage?2.1:2.7;
-   showTip('ORANG MINYAK MENERKAM! UNDUR!',1.7);sound('scream')
-  }
+  if(d>1.05)moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);
+  else if(e.attack<=0){e.ai='vanish';e.charge=.45;e.attack=1.7}
   return
  }
  if(visible)e.awareness=5;else{e.awareness=Math.max(0,(e.awareness||0)-dt);if(d<5.6)e.awareness=Math.max(e.awareness,2.0);if(e.awareness>0&&d<9)chaseAroundWalls(e,dt,spec.speed*(e.type==='langsuir'?.82:1));return}
@@ -849,7 +847,14 @@ function update(dt){
  let strafe=(keys.has('KeyD')?1:0)-(keys.has('KeyA')?1:0)+joy.x;
  let magnitude=Math.hypot(forward,strafe);
  if(keys.has('ArrowLeft'))player.a-=dt*1.9;if(keys.has('ArrowRight'))player.a+=dt*1.9;
- const move=dt*2.6;
+ const inOil=OIL_PATCHES.some(p=>Math.hypot(p.x-player.x,p.y-player.y)<.72);
+ oilDamageCooldown=Math.max(0,oilDamageCooldown-dt);
+ if(inOil&&oilDamageCooldown<=0){
+  oilDamageCooldown=3;
+  if(damagePlayer(4))return;
+  showTip('LANTAI BERMINYAK — GERAK PERLAHAN, ELAK TAKUNGAN!',1.6)
+ }
+ const move=dt*(inOil?1.35:2.6);
  if(magnitude>.05){forward/=Math.max(1,magnitude);strafe/=Math.max(1,magnitude);const cos=Math.cos(player.a),sin=Math.sin(player.a);
   moveEntity(player,(forward*cos-strafe*sin)*move,(forward*sin+strafe*cos)*move);bob+=dt*10;moving=1
  }else moving=Math.max(0,moving-dt*5);
@@ -888,9 +893,13 @@ function update(dt){
 function world(){const shake=(Math.random()-.5)*screenShake,cy=H*.47+Math.sin(bob)*1.1*moving+shake;
  const flicker=Math.sin(frame*1.4)*.009;renderLightLevel=flicker-.12+(objective.generator?-.025:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#090d1d');ceiling.addColorStop(.72,'#17242f');ceiling.addColorStop(1,'#334653');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);const moonX=((1.95-player.a%(Math.PI*2))*42+W*2)%(W*2);ctx.fillStyle='#d1d8c2';ctx.beginPath();ctx.arc(moonX,cy*.25,8,0,Math.PI*2);ctx.fill();
  const towerX=((1.5-player.a%(Math.PI*2))*52+W*3)%(W*2);
- ctx.strokeStyle='#27333c';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(towerX-16,cy);ctx.lineTo(towerX,cy*.12);ctx.lineTo(towerX+16,cy);ctx.stroke();
- ctx.strokeStyle='#75888b';ctx.lineWidth=1;for(let i=0;i<5;i++){const h=cy*.24+i*cy*.14;ctx.beginPath();ctx.moveTo(towerX-16+i*3.3,h);ctx.lineTo(towerX+16-i*3.3,h);ctx.stroke()}
- ctx.fillStyle=Math.sin(frame*2.5)>0?'#fe6b5b':'#5e333a';ctx.fillRect(towerX-3,cy*.1,6,6);let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263035');floor.addColorStop(1,'#0f1c22');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
+ // Low water tower, cross pipes and flood light in the distance.
+ ctx.fillStyle='#26353a';ctx.fillRect(towerX-31,cy*.39,62,cy*.55);
+ ctx.fillStyle='#506463';ctx.fillRect(towerX-26,cy*.37,52,7);
+ ctx.fillStyle='#1d3336';ctx.fillRect(towerX-38,cy*.52,9,cy*.48);ctx.fillRect(towerX+29,cy*.52,9,cy*.48);
+ ctx.strokeStyle='#829089';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(towerX-42,cy*.51);ctx.lineTo(towerX+41,cy*.51);ctx.stroke();
+ ctx.fillStyle=Math.sin(frame*3)>0?'#ff8266':'#814d4a';ctx.fillRect(towerX-4,cy*.33,8,5);
+ let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263035');floor.addColorStop(1,'#0f1c22');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
 for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const key=`${mx},${my}`,tile=doorProgress.has(key)?MAP[my][mx]:tileAt(mx,my);if(tile!=='.'){
   const progress=doorProgress.get(`${mx},${my}`)||0;
   if((tile==='D'||tile==='K')&&progress>0){const hitD=side===0?sidx-ddx:sidy-ddy;let doorU=side===0?player.y+hitD*ry:player.x+hitD*rx;doorU-=Math.floor(doorU);if((side===0&&rx>0)||(side===1&&ry<0))doorU=1-doorU;
@@ -901,12 +910,14 @@ for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py
  const texX=Math.max(0,Math.min(63,(uv*64)|0));ctx.drawImage(textures[wall]||textures[1],texX,0,1,64,col*STEP,top,STEP+1,height);paintWallAttachments(mx,my,side,rx,ry,wallX,top,height,col);let shade=Math.min(.92,dist*.047+(side?.14:0)+.06+renderLightLevel);ctx.fillStyle=`rgba(7,10,19,${shade})`;ctx.fillRect(col*STEP,top,STEP+1,height);if(top+height<H){ctx.fillStyle='#05070a15';ctx.fillRect(col*STEP,top+height,STEP+1,Math.min(H-top-height,2))}}
 const sprites=[];
 for(const e of enemies)if(e.alive){
- const bobbing=e.type==='pocong'?Math.sin(e.phase*2)*.035:e.type==='pontianak'?-.11+Math.sin(e.phase)*.06:e.type==='langsuir'?-.22+Math.sin(e.phase*1.3)*.085:e.type==='orangminyak'?-0.12+Math.sin(e.phase*.7)*.025:Math.sin(e.phase*3)*.02;
+ if(e.type==='orangminyak'&&e.ai==='vanish'&&Math.sin(frame*24)>-.48)continue;
+ const bobbing=e.type==='pocong'?Math.sin(e.phase*2)*.035:e.type==='pontianak'?-.11+Math.sin(e.phase)*.06:e.type==='langsuir'?-.22+Math.sin(e.phase*1.3)*.085:e.type==='orangminyak'?Math.sin(e.phase*1.3)*.025:Math.sin(e.phase*3)*.02;
  const pose=(e.ai==='dash'||e.ai==='cast'||e.ai==='slam')?3:Math.floor(e.phase*1.15)%4;
  sprites.push({x:e.x,y:e.y,bob:bobbing,img:enemySpriteFrames[e.type][pose],scale:ENEMY_TYPES[e.type].scale,glow:e.flash>0||e.ai==='cast'||e.rage,grounded:true})}
  for(const p of projectiles)sprites.push({x:p.x,y:p.y,bob:-.1,img:curseSprite,scale:.22,glow:true,grounded:false,kind:'curse'});
  for(const w of deathWisps)sprites.push({x:w.x,y:w.y,bob:-.11-(.62-w.life)*.65,img:curseSprite,scale:.25+(.62-w.life)*.22,glow:true,grounded:false,kind:'wisp'});
 for(const i of items)if(!i.taken&&(!i.hidden||(Math.hypot(i.x-player.x,i.y-player.y)<1.6&&lineOfSight(player.x,player.y,i.x,i.y))))sprites.push({x:i.x,y:i.y,img:i.type==='stash'?ammoImg:pickupSprite[i.type],scale:.45,glow:i.type==='air_garam'||i.type==='tangkal',grounded:true,kind:'pickup'});
+for(const pool of OIL_PATCHES)sprites.push({x:pool.x,y:pool.y,img:oilPatchSprite,scale:.40,glow:false,grounded:true,kind:'floor'});
 for(const prop of floorDecorations)sprites.push({...prop,glow:false});
 sprites.push({x:SURVIVOR.x,y:SURVIVOR.y,img:survivorSprite,scale:.77,grounded:true,kind:'npc',glow:false});
 for(const c of CASES)if(!caseFound.has(c.id))sprites.push({x:c.x,y:c.y,img:caseSprites[c.type],scale:.40,grounded:true,kind:'case',glow:true});
@@ -928,7 +939,7 @@ for(const s of sprites){let xx=s.x-player.x,yy=s.y-player.y,tx=inv*(dy*xx-dx*yy)
 }
 }
 function orangminyakGroundWarning(){
- const boss=enemies.find(e=>e.alive&&e.type==='orangminyak'&&(e.ai==='slam'||e.ai==='cast'));if(!boss)return;
+ const boss=enemies.find(e=>e.alive&&e.type==='orangminyak'&&(e.ai==='vanish'||e.ai==='dash'));if(!boss)return;
  const dist=Math.max(.35,Math.hypot(boss.x-player.x,boss.y-player.y));if(dist>4.2)return;
  ctx.save();ctx.globalAlpha=.25+(1-Math.min(1,boss.charge))*.25;
  ctx.strokeStyle='#ffc278';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(W*.5,H*.55,Math.max(18,110/dist),Math.max(6,21/dist),0,0,Math.PI*2);ctx.stroke();
@@ -1268,7 +1279,7 @@ function onToyolDown(enemy){
 const coreReset=reset;
 reset=function(){boxSpin=null;selectedMysteryId=null;coreReset();pistolDropStarted=false;campaignPlayer(false);const drop=items.find(i=>i.type==='pistol_unlock');if(drop)drop.taken=true;showTip('LEVEL 04 — CARI LAMPU SULUH UV DALAM BILIK PENAPIS',3.8)};
 const coreRestore=restoreState;
-restoreState=function(c){boxSpin=null;selectedMysteryId=null;coreRestore(c);for(const oldBox of items){if(oldBox.type==='mystery_box'&&!oldBox.taken&&oldBox.x===14.5&&oldBox.y===7.5){oldBox.x=8.5;oldBox.y=3.5}}campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
+restoreState=function(c){boxSpin=null;selectedMysteryId=null;coreRestore(c);oilDamageCooldown=0;for(const oldBox of items){if(oldBox.type==='mystery_box'&&!oldBox.taken&&oldBox.x===14.5&&oldBox.y===7.5){oldBox.x=8.5;oldBox.y=3.5}}campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
 /* v1.8 Mystery Box: deliberate E / GUNA instead of accidental walk-over */
 let boxSpin=null, selectedMysteryId=null;
 const previousGetInteractable=getInteractable;
@@ -1320,7 +1331,7 @@ equip=function(id){
   if(!list.length){showTip('BELUM ADA SENJATA BONUS — CARI MYSTERY BOX',2.3);sound('dry');return}
   id=list[(list.indexOf(player.weapon)+1+list.length)%list.length]
  }
- if(!ownsWeapon(id)){showTip(id==='smg'?'SMG DALAM BILIK PENAPIS — CARI DULU':'BELUM UNLOCK — CARI SENJATA',2);sound('dry');return}
+ if(!ownsWeapon(id)){showTip(id==='smg'?'SMG BELUM UNLOCK — CARI DI BUKIT MERANTI':'BELUM UNLOCK — CARI SENJATA',2);sound('dry');return}
  return coreEquip(id)
 };
 const coreButtons=updateWeaponButtons;
