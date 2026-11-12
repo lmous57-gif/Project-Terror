@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.9 — Campaign Hub (2026-11-12)
+- Pusat Misi responsif baharu di `campaign.html`, dengan statistik tiga level dan kemajuan 40 bonus senjata.
+- Baca clear-status, unlock senjata utama dan kehadiran checkpoint daripada localStorage tanpa mengubah save.
+- Menu dan skrin tamat Hospital/Kampung/Bukit kini mempunyai pautan ke hub.
+- Pengendalian simpanan rosak / versi lama yang selamat; tambah ujian CI hub dan integrasi navigation.
+- Kekalkan peta, combat, key save, kesukaran serta semua regression v1.8.
+
+---
+
 ## v1.8 — Level 03 Bukit Meranti (2026-11-12)
 - Third playable level with new hilltop transmitter map, rocky cliff, jungle and concrete facility textures.
 - Story continues from Fail 07: Juruteknik Din, 3 optional Fail 08 evidence files, 3 signal modules and a keyed tower approach.
