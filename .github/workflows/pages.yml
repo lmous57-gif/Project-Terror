@@ -29,6 +29,8 @@ jobs:
         run: node tests/validate-progression.mjs
       - name: Test level unlocks and Mystery Box engine runtime
         run: node tests/qa-progress-runtime.mjs
+      - name: Validate 40 unique pixel weapon sprites and 160 poses
+        run: node tests/validate-weapon-art.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
