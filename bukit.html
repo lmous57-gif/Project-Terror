@@ -358,7 +358,16 @@ const ammoImg=sprite(t=>{t.fillStyle='#261d23';t.fillRect(11,31,42,31);t.fillSty
 const portalImg=sprite(t=>{t.fillStyle='#3b2260';t.fillRect(11,3,42,75);t.fillStyle='#b87df9';t.fillRect(13,5,38,73);t.fillStyle='#452278';t.fillRect(18,11,28,67);t.fillStyle='#8150bc';t.fillRect(24,17,16,55);t.fillStyle='#eab4fc';t.fillRect(28,25,8,36);t.fillStyle='#6e458e';t.fillRect(8,4,5,75);t.fillRect(51,4,5,75)});
 const fuseImg=sprite(t=>{t.fillStyle='#493c31';t.fillRect(22,24,22,46);t.fillStyle='#daa369';t.fillRect(25,25,16,42);t.fillStyle='#eed4a6';t.fillRect(27,26,12,9);t.fillStyle='#a0433e';t.fillRect(28,39,10,20);t.fillStyle='#e7e7e1';t.fillRect(29,30,8,5)});
 const garamImg=sprite(t=>{t.fillStyle='#2b3a42';t.fillRect(22,25,22,43);t.fillStyle='#9cd1d3';t.fillRect(24,32,18,32);t.fillStyle='#eaf8f0';t.fillRect(26,45,14,13);t.fillStyle='#f2c79a';t.fillRect(27,22,12,12);t.fillStyle='#3e656a';t.fillRect(29,23,8,4)});
-const sealImg=sprite(t=>{t.fillStyle='#271d19';t.fillRect(18,23,29,49);t.fillStyle='#cfb586';t.fillRect(20,21,25,48);t.fillStyle='#f1dfb1';t.fillRect(23,25,19,39);t.fillStyle='#a74132';t.fillRect(30,30,6,29);t.fillRect(26,39,14,4);t.fillStyle='#552e24';t.fillRect(23,57,19,3)});
+const sealImg=sprite(t=>{ // Frequency-cutout electronics module
+ t.fillStyle='#14252a';t.fillRect(13,21,38,51);
+ t.fillStyle='#70888a';t.fillRect(16,24,32,44);
+ t.fillStyle='#263b3f';t.fillRect(20,28,24,35);
+ t.fillStyle='#90e2c3';t.fillRect(22,31,21,4);
+ t.fillStyle='#7bb7c9';t.fillRect(23,40,5,13);
+ t.fillStyle='#c4c084';t.fillRect(32,42,10,9);
+ t.fillStyle='#e7b16e';for(let x=20;x<45;x+=6)t.fillRect(x,66,3,7);
+ t.fillStyle='#d84e4b';t.fillRect(39,24,5,5);
+});
 const generatorImg=sprite(t=>{t.fillStyle='#181e20';t.fillRect(9,27,46,48);t.fillStyle='#57615c';t.fillRect(13,31,39,40);t.fillStyle='#9a5041';t.fillRect(17,38,30,7);t.fillStyle='#191a1e';t.fillRect(18,52,25,13);t.fillStyle='#93e0b6';t.fillRect(21,56,4,5);t.fillStyle='#ddba76';t.fillRect(30,56,4,5);t.fillStyle='#cc6e69';t.fillRect(39,56,4,5)});
 const tangkalImg=sprite(t=>{t.fillStyle='#6e4b2d';t.fillRect(21,21,24,45);t.fillStyle='#d6b477';t.fillRect(23,18,20,44);t.fillStyle='#9e4e3b';t.fillRect(26,22,14,31);t.fillStyle='#ead8b2';t.fillRect(30,25,6,23);t.fillStyle='#eebf84';t.fillRect(28,36,10,3);t.fillStyle='#776044';t.fillRect(26,52,14,9);t.fillStyle='#e5f9cd';t.fillRect(29,27,3,4)});
 const keyImg=sprite(t=>{
@@ -372,11 +381,18 @@ const caseSprites={
  tape:sprite(t=>{t.fillStyle='#202328';t.fillRect(10,32,46,29);t.fillStyle='#777d78';t.fillRect(13,35,40,22);t.fillStyle='#2f383a';t.fillRect(20,38,26,16);t.fillStyle='#cbbf91';t.fillRect(21,40,8,8);t.fillRect(38,40,8,8);t.fillStyle='#1c2426';t.fillRect(23,42,4,4);t.fillRect(40,42,4,4)}),
  stone:sprite(t=>{t.fillStyle='#313832';t.fillRect(15,30,36,43);t.fillStyle='#707c69';t.fillRect(19,25,30,43);t.fillStyle='#b6b7a1';t.fillRect(24,31,18,24);t.fillStyle='#513b35';t.fillRect(30,35,4,17);t.fillRect(26,43,12,3);t.fillStyle='#36402e';t.fillRect(15,68,39,7)})
 };
-const survivorSprite=sprite(t=>{ // Juruteknik Din: seated elder in tudung, intentionally not an enemy
- t.fillStyle='#2d2b2f';t.fillRect(16,56,34,18);t.fillStyle='#586251';t.fillRect(21,36,25,32);
- t.fillStyle='#bbb1a0';t.fillRect(20,17,27,32);t.fillStyle='#4b5649';t.fillRect(16,11,34,30);
- t.fillStyle='#a98a70';t.fillRect(26,29,16,19);t.fillStyle='#15191b';t.fillRect(29,36,3,2);t.fillRect(39,36,3,2);
- t.fillStyle='#e1cdb2';t.fillRect(30,45,10,2);t.fillStyle='#7f8f76';t.fillRect(18,48,30,19);t.fillStyle='#333f36';t.fillRect(17,72,31,5)
+const survivorSprite=sprite(t=>{ // Juruteknik Din: radio technician in blue jumpsuit
+ t.fillStyle='#161e2c';t.fillRect(19,55,31,24);
+ t.fillStyle='#385b73';t.fillRect(18,40,32,31);t.fillStyle='#6b9eac';t.fillRect(23,43,21,7);
+ t.fillStyle='#a47f66';t.fillRect(23,21,23,26);t.fillStyle='#d1a686';t.fillRect(25,24,18,20);
+ t.fillStyle='#172431';t.fillRect(18,14,33,13);t.fillStyle='#54788a';t.fillRect(20,11,27,10);
+ t.fillStyle='#d4af73';t.fillRect(30,22,8,3);
+ t.fillStyle='#283339';t.fillRect(27,34,4,3);t.fillRect(39,34,3,3);t.fillRect(32,42,9,3);
+ t.fillStyle='#f4d2a4';t.fillRect(24,49,6,12);t.fillRect(42,50,6,12);
+ t.fillStyle='#7b9d9c';t.fillRect(45,57,12,14);
+ t.fillStyle='#20282f';t.fillRect(47,59,8,9);
+ t.fillStyle='#ed725b';t.fillRect(49,60,4,3);
+ t.fillStyle='#0c1821';t.fillRect(20,73,10,6);t.fillRect(38,73,12,6);
 });
 const smgKitImage=document.createElement('canvas');smgKitImage.width=smgKitImage.height=48;
 const smgArt=smgKitImage.getContext('2d');smgArt.fillStyle='#152b2e';smgArt.fillRect(2,16,44,14);smgArt.fillStyle='#96c7bb';smgArt.fillRect(5,19,38,7);smgArt.fillStyle='#c8ebe0';smgArt.fillRect(29,14,10,6);smgArt.fillStyle='#2c403d';smgArt.fillRect(10,27,12,16);smgArt.fillRect(23,27,12,13);
