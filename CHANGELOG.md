@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.6 — Weapon Art Revamp (November 2026)
+- Replaced 40 generic Mystery Box weapon labels with a coherent roster, retaining original IDs and saved unlocks.
+- Created `weapon-art.js`: unique pixel silhouettes for all 40 rewards and four animation poses each.
+- Separate visual identities for firearms, relics, improvised tools and novelty weapons, including a lantern, keris, grimoire and revolver.
+- Standalone sprite review gallery at `weapon-gallery.html`; regular mystery archive remains spoiler-free.
+- Added 160-frame renderer integrity testing and kept existing combat/progression regression checks.
+
+---
+
 ## v1.5 — Weapon Progression & Mystery Box (Nov 12, 2026)
 - Level 01 bermula dengan fists, pickup parang dan pistol drop selepas Toyol pertama tumbang.
 - Level 02 pickup shotgun; SMG direserve untuk Level 03 yang belum dibangunkan.
