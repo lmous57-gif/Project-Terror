@@ -1064,8 +1064,9 @@ if(window.location?.search?.includes('safe=1')){
   const button=document.createElement('button');
   button.type='button';button.textContent=label;button.setAttribute('aria-label','Gerak '+code);
   button.style.cssText='grid-column:'+column+';grid-row:'+row+';width:50px;height:50px;border:1px solid #a7c9c8a1;border-radius:10px;background:#13252dc9;color:#f3eadb;font:bold 24px monospace;pointer-events:auto;touch-action:none;user-select:none';
-  function down(ev){if(ev.cancelable)ev.preventDefault();keys.add(code);button.style.background='#386970';try{button.setPointerCapture(ev.pointerId)}catch(_){}}
-  function up(ev){if(ev.cancelable)ev.preventDefault();keys.delete(code);button.style.background='#13252dc9'}
+  let safeTouchActive=false;
+  function down(ev){if(ev.cancelable)ev.preventDefault();if(ev.type==='touchstart')safeTouchActive=true;keys.add(code);button.style.background='#386970';if(ev.type==='pointerdown')try{button.setPointerCapture(ev.pointerId)}catch(_){}}
+  function up(ev){if(ev.cancelable)ev.preventDefault();if(ev.type==='touchend'||ev.type==='touchcancel')safeTouchActive=false;else if(safeTouchActive)return;keys.delete(code);button.style.background='#13252dc9'}
   button.addEventListener('pointerdown',down);
   for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,up);
   button.addEventListener('touchstart',down,{passive:false});
