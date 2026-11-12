@@ -1,3 +1,13 @@
+# PROJECT: TERROR v1.7 — Pre-Level-03 Polish
+
+**Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)
+
+**New:** Mystery Box now opens only with **E / GUNA**, with a timed weapon reveal (no accidental loot). The mobile weapon strip scrolls horizontally, reload has a progress bar, and Mystery Box weapons have category-specific synthesized firing sounds. Older Kampung saves retain their unopened Mystery Box at a usable position.
+
+**Level 03 isn't live yet.** Read the [v1.7 polish notes](./PRE_LEVEL_03_POLISH.md) for fixes, controls, QA and remaining tasks.
+
+---
+
 # PROJECT: TERROR v1.6 — Weapon Art Revamp
 
 **Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html)
