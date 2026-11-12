@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#070a10"><title>PROJECT: TERROR v1.8 — Bukit Meranti (Level 03)</title>
+<style>
+:root{color-scheme:dark;--ember:#ff7955;--ink:#070a10;--white:#e8e4d9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05070c;color:var(--white);font-family:Consolas,'Courier New',monospace;overscroll-behavior:none}#shell{position:relative;width:100vw;height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#181a22,#05070c 75%)}#game{display:block;width:min(100vw,177.7778dvh);height:min(100dvh,56.25vw);object-fit:contain;image-rendering:pixelated;touch-action:none;cursor:crosshair;box-shadow:0 0 90px #000}#scan{pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0px,#0000 3px,#0002 4px);mix-blend-mode:multiply;opacity:.35}.overlay{position:absolute;inset:0;background:linear-gradient(145deg,#070a10e8,#0f1217da);display:flex;justify-content:center;align-items:center;padding:22px;text-align:center;z-index:3}.hidden{display:none!important}.modal{width:min(94%,620px);max-height:94%;overflow:auto;border:1px solid #9a584b;padding:clamp(16px,3vw,38px);background:linear-gradient(140deg,#161b26,#07090e);box-shadow:0 0 90px #000a, inset 0 0 45px #f8471011;position:relative}.tag{font-weight:bold;letter-spacing:.35em;color:#ffae8c;font-size:11px}.modal h1{font-size:clamp(29px,6vw,68px);line-height:.98;letter-spacing:.08em;margin:18px 0 14px;text-shadow:3px 4px #783228;color:#f5e5d7}.modal p{font-size:clamp(12px,1.8vw,16px);line-height:1.7;color:#bac4c9}.stats{display:flex;justify-content:center;gap:20px;margin:22px 0;color:#ffa788;font-size:12px}.pill{border:1px solid #47505a;padding:8px 12px}.primary{cursor:pointer;border:0;background:#eb6b44;color:#17100e;font:900 15px Consolas,monospace;letter-spacing:.15em;padding:15px 34px;min-height:44px;box-shadow:5px 5px 0 #743623;touch-action:manipulation}.primary:hover{background:#ff9168}.controls-text{margin-top:20px;font-size:11px;color:#879097;line-height:1.7}.mobileControls{display:none;position:absolute;z-index:2;inset:0;pointer-events:none;touch-action:none}.joy-zone{position:absolute;left:0;top:0;bottom:0;width:52%;pointer-events:auto;touch-action:none}.joystick{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:clamp(35px,14vh,120px);width:116px;height:116px;border:2px solid #ffffff58;border-radius:50%;background:#0b0c12a0;pointer-events:none;touch-action:none;backdrop-filter:blur(2px);opacity:1;transform:scale(1);transition:opacity .12s ease, transform .12s ease}.joystick.inactive{opacity:0;transform:scale(.92)}.joystick::after{content:"";position:absolute;inset:14px;border:1px solid #ffffff1f;border-radius:50%}.stick{position:absolute;left:36px;top:36px;width:42px;height:42px;border:2px solid #ffcfacaa;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffd3b3,#ff795588 72%);transform:translate(0,0)}.fire{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:clamp(40px,15vh,136px);height:78px;width:78px;border-radius:50%;background:#0b0d12a8;border:1px solid #ffffff26;box-shadow:0 8px 24px #00000042;backdrop-filter:blur(2px);pointer-events:auto;touch-action:none;color:white}.fire:active{transform:scale(.96);background:#141923c8;border-color:#ffffff44}.fire-shell{position:absolute;left:50%;top:50%;width:8px;height:28px;transform:translate(-50%,-50%);border:2px solid #f3f6fa;border-top-left-radius:7px;border-top-right-radius:7px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;box-sizing:border-box;opacity:.95}.fire-shell::before{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:8px;height:8px;border:2px solid #f3f6fa;border-bottom:none;border-top-left-radius:6px;border-top-right-radius:6px;background:transparent;box-sizing:border-box}.fire-shell::after{content:"";position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:8px;height:2px;background:#f3f6fa;border-radius:2px;opacity:.75}.reload{position:absolute;right:max(32px,env(safe-area-inset-right));bottom:clamp(12px,4vh,40px);background:#17222ecc;border:1px solid #aec2ce77;color:#e6f0fa;padding:10px 13px;pointer-events:auto;touch-action:none;font:800 11px Consolas,monospace}.hint{position:absolute;right:10%;top:22%;font-size:10px;color:#ffffff77;pointer-events:none;letter-spacing:.1em}.tiny{font-size:11px;color:#83909f}@media (pointer:coarse){.mobileControls{display:block}.controls-text .desktop{display:none}}@media (orientation:portrait) and (pointer:coarse){.modal{padding:18px}.modal h1{font-size:clamp(28px,9vw,48px)}.joystick{width:95px;height:95px}.stick{left:29px;top:29px;width:36px;height:36px}.fire{width:68px;height:68px;bottom:14%;right:5%}.reload{bottom:4%;right:6%}.hint{top:32%}.joy-zone{width:56%}}
+.weapons-mobile{position:absolute;left:15%;right:auto;top:48px;display:flex;gap:5px;pointer-events:auto;z-index:3}.weapons-mobile button{font:700 9px monospace;line-height:1.1;border:1px solid #9ca6ac8a;color:#e7d4c6;background:#171c22bb;padding:5px 8px;min-width:56px;touch-action:manipulation}.weapons-mobile button.active{border-color:#f19779;background:#822f2ecc;color:#fff}.tag{color:#eea18d}.modal{border-color:#9c4842}.modal h1{text-shadow:3px 4px #441b21}.primary{background:#d65945}.mobileControls .reload{bottom:2vh}.modal{max-height:96%;overflow-y:auto}@media (pointer:fine){.weapons-mobile{display:none}}@media (pointer:coarse){.weapons-mobile{display:flex}}@media (orientation:portrait) and (pointer:coarse){.weapons-mobile{left:4%;right:auto;top:6px}.weapons-mobile button{min-width:40px;padding:4px 3px;font-size:7px}.fire{bottom:12%}}
+
+/* v0.6: contextual USE button has independent touch target */
+.use{position:absolute;right:max(125px,env(safe-area-inset-right));bottom:clamp(14px,4vh,44px);background:#17392fe8;border:1px solid #a6ddb0;color:#dcffe0;pointer-events:auto;touch-action:manipulation;padding:11px 17px;font:bold 11px Consolas,monospace;min-height:38px}
+.use:active{background:#387659}
+@media (pointer:fine){.use{display:none}}
+@media (pointer:coarse) and (max-height:480px){.use{right:max(122px,env(safe-area-inset-right));bottom:2vh}}
+@media (pointer:coarse) and (orientation:portrait){.use{right:34%;bottom:5%;padding:9px}}
+/* v0.5: togglable low-intensity jumpscare; no flashing strobe */
+.option-toggle{display:block;margin:15px auto 2px;min-height:38px;padding:9px 14px;border:1px solid #7e6562;background:#262124;color:#d0c2b9;font:700 11px Consolas,monospace;cursor:pointer;touch-action:manipulation}
+.option-toggle[aria-pressed="false"]{border-color:#687b6c;color:#a8c7ae}
+/* v0.4: accessible mobile flashlight, safe-area spacing, compact landscape layout */
+.torch{position:absolute;right:max(18px,env(safe-area-inset-right));top:12px;z-index:4;pointer-events:auto;touch-action:manipulation;background:#172824e8;border:1px solid #9fcca4;color:#d0ffda;padding:8px 10px;font:bold 11px Consolas,monospace;min-height:34px;letter-spacing:.02em}
+.torch.off{background:#231c23d9;color:#b1a7ad;border-color:#66616c}
+@media (pointer:fine){.torch{display:none}}
+@media (pointer:coarse) and (max-height:480px){.torch{right:4%;top:clamp(78px,28vh,132px)}.weapons-mobile{top:12px;left:18%}.hint{top:36%;right:8%}}
+@media (pointer:coarse) and (orientation:portrait){.torch{right:5%;top:7px;font-size:10px;padding:6px}.weapons-mobile{left:3%;top:7px}}
+.continue-button{display:block;cursor:pointer;min-height:44px;width:min(100%,340px);margin:12px auto;background:#1d302e;border:1px solid #82a99b;color:#defff0;font:bold 12px Consolas,monospace;letter-spacing:.035em;padding:10px 12px}.continue-button:active{background:#325249}.continue-button.hidden{display:none!important}
+.back-hospital{display:block;color:#a1bdaa;margin:12px auto;font:bold 11px Consolas,monospace;text-decoration:none}.back-hospital:hover{text-decoration:underline}
+/* v1.3: optional case-file reader; genuine text UI, fully usable on mobile */
+.case-overlay{position:absolute;inset:0;z-index:8;background:#050a10e8;display:flex;align-items:center;justify-content:center;padding:12px 14px;pointer-events:auto}
+.case-card{width:min(94vw,440px);max-height:94dvh;overflow-y:auto;background:linear-gradient(140deg,#202322,#101719);border:1px solid #82735e;box-shadow:0 13px 60px #000d;padding:clamp(14px,3vw,24px);text-align:left}
+.case-stamp{font:700 10px monospace;letter-spacing:.13em;color:#d4a77d}
+.case-card h2{color:#f0dfbf;font:bold clamp(17px,3vw,24px) monospace;margin:12px 0}
+.case-card p{white-space:pre-line;color:#d7ddcf;font:clamp(12px,1.6vw,15px)/1.65 monospace;margin:14px 0 19px}
+.case-foot{display:flex;gap:7px;align-items:center;justify-content:space-between;border-top:1px solid #4c5046;padding-top:12px}
+.case-foot button{background:#1c2d2b;border:1px solid #607a6b;color:#e5f4e2;padding:8px 12px;min-height:40px;min-width:40px;font:bold 11px monospace;touch-action:manipulation;cursor:pointer}
+.case-foot button:disabled{opacity:.32;cursor:default}
+.case-foot #caseCount{font:700 10px monospace;color:#b6cbb7;text-align:center;flex:1}
+.case-foot #caseClose{background:#4c302e;border-color:#ab7169}
+.weapons-mobile .case-trigger{min-width:46px;border-color:#b9a180;color:#f0dec0;background:#292722d9}
+@media (pointer:fine){.case-trigger{display:none}}
+
+/* v1.4 combat UI: minimal controls and accessible touch targets */
+.weapons-mobile button[data-w="smg"].locked{opacity:.52;border-style:dashed}
+.salt-button{position:absolute;right:max(113px,calc(90px + env(safe-area-inset-right)));bottom:clamp(51px,17vh,153px);width:54px;height:54px;border-radius:50%;pointer-events:auto;touch-action:manipulation;border:1px solid #d8e8e067;background:#101b20bb;color:#e5faf4;font:bold 11px monospace;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;box-shadow:0 3px 9px #0008}
+.salt-button:active{transform:scale(.94);background:#24413eeb}.salt-button .salt-glyph{font-size:21px;line-height:19px;color:#b5f4e4}.salt-button:disabled{opacity:.4}
+@media(pointer:fine){.salt-button{display:none}}
+@media(pointer:coarse) and (max-height:480px){.weapons-mobile{left:10.5%;top:30px}.weapons-mobile button{min-width:40px;padding:4px 3px}.salt-button{right:max(111px,calc(92px + env(safe-area-inset-right)));bottom:clamp(44px,16vh,110px)}}
+@media(pointer:coarse) and (orientation:portrait){.weapons-mobile{left:2%;top:5px}.weapons-mobile button{min-width:34px;padding:3px 2px;font-size:7px}.salt-button{width:48px;height:48px;right:calc(82px + env(safe-area-inset-right));bottom:13%}}
+
+/* v1.5: compact inventory slots on Android */
+.weapons-mobile{flex-wrap:wrap;max-width:55%;gap:3px}.weapons-mobile button{min-width:38px;padding:4px 5px}.weapons-mobile button.locked{opacity:.55;border-style:dashed}
+@media(pointer:coarse) and (max-height:480px){.weapons-mobile{top:12px;left:13%;max-width:49%}.weapons-mobile button{min-width:36px;font-size:8px;padding:3px 3px}}
+
+.arsenal-menu-link{display:block;margin:8px auto 12px;max-width:330px;text-decoration:none;color:#e8cf9d;border:1px solid #836f54;background:#2a2419ab;font:700 11px monospace;padding:10px;min-height:40px;letter-spacing:.03em}
+
+/* v1.8 mobile weapon strip: single swipe row instead of overlapping 2-row grid */
+@media(pointer:coarse){
+ .weapons-mobile{display:flex;flex-wrap:nowrap;width:min(58vw,535px);max-width:58vw;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;left:max(13%,env(safe-area-inset-left));right:auto;top:clamp(33px,9vh,56px);gap:3px;padding:2px;touch-action:pan-x}
+ .weapons-mobile::-webkit-scrollbar{display:none}
+ .weapons-mobile button{flex:0 0 auto;min-width:48px;min-height:38px;padding:4px 5px;font-size:8px;border-radius:5px}
+}
+@media(pointer:coarse) and (orientation:portrait){
+ .weapons-mobile{left:4%;top:8px;width:87vw;max-width:87vw}
+ .weapons-mobile button{min-width:46px}
+}
+
+/* Android tablet/webview touch fallback when primary pointer is misreported as fine */
+.pt-has-touch .mobileControls{display:block!important}
+.pt-has-touch .weapons-mobile{display:flex!important}
+.pt-has-touch .joy-zone{pointer-events:auto!important}
+</style>
+</head>
+<body><main id="shell">
+<canvas id="game" width="480" height="270" aria-label="Retro first person shooter game"></canvas><div id="scan"></div>
+<section id="menu" class="overlay"><div class="modal"><div class="tag">▣ FAIL SULIT // BUKIT MERANTI</div><h1><span style="font-size:.48em;display:block;letter-spacing:.3em;color:#f8d0ba">PROJECT:</span><span style="color:#dc5145">TERROR</span></h1><p>BUKIT MERANTI — MALAM KETIGA<br>Menara lama menyiarkan suara Jururawat Salmah. Cari SMG di bilik teknikal, kumpul tiga modul pemancar, aktifkan konsol dan lawan Penanggal.</p><div class="stats"><span class="pill">03 BUKIT</span><span class="pill">05 JENIS HANTU</span><span class="pill">40 BONUS</span><span class="pill">v1.8</span></div><a href="./arsenal.html" class="arsenal-menu-link">▣ ARKIB 40 SENJATA MISTERI</a><button class="primary" id="start">NAIK BUKIT</button><button class="continue-button hidden" id="continueSaved" type="button">SAMBUNG SIMPANAN BUKIT</button><a href="./kampung.html" class="back-hospital">↶ KEMBALI KE KAMPUNG BERHANTU</a><button class="option-toggle" id="scareToggle" type="button" aria-pressed="true">JUMPSCARE RINGAN: ON</button><button class="option-toggle" id="ambientToggle" type="button" aria-pressed="true">BUNYI MALAM: ON</button><div class="controls-text"><div style="color:#b7e4c5;margin-bottom:7px">0 TANGAN KOSONG · 5 SENJATA BONUS · SATU MYSTERY BOX SETIAP LEVEL</div><span class="desktop">WASD gerak · Mouse pandang · Klik tembak · E guna/baca · J fail kes · 1/2/3 senjata · R reload · L lampu · Q Bom Garam · 4 SMG</span><span class="mobile">Joystick dinamik kiri · Seret kanan pandang · peluru kanan tembak · GUNA untuk berbual/baca · FAIL untuk jurnal · ✧ Bom Garam · 4 SMG</span><br>Misi: CARI SMG → 3 MODUL + KUNCI → KONSOL PEMANCAR → PENANGGAL → KELUAR</div></div></section>
+<section id="end" class="overlay hidden"><div class="modal"><div class="tag" id="result-tag">MISSION STATUS</div><h1 id="result-title">SECTOR CLEAR</h1><p id="result-description">The gate is sealed.</p><button id="resumeCheckpoint" class="primary hidden" type="button" style="background:#6fae97;display:block;margin:12px auto">SAMBUNG DARI CHECKPOINT</button><button id="again" class="primary">CUBA LAGI</button></div></section>
+<div class="mobileControls" id="mobile"><div id="joyZone" class="joy-zone" aria-hidden="true"></div><div id="joy" class="joystick inactive"><div id="stick" class="stick"></div></div><div class="hint">SERET KANAN UNTUK PANDANG ↔</div><div class="weapons-mobile"><button data-w="fist">0<br>FIST</button><button data-w="parang">1<br>PARANG</button><button data-w="pistol">2<br>PISTOL</button><button data-w="shotgun" class="active">3<br>SHOTGUN</button><button data-w="smg" class="locked">4<br>SMG</button><button data-w="bonus" class="locked">5<br>MISTERI</button><button id="caseBtn" class="case-trigger" type="button" aria-label="Buka fail kes">FAIL</button></div><button id="fire" class="fire" aria-label="Tembak"><span class="fire-shell" aria-hidden="true"></span></button><button id="salt" class="salt-button" type="button" aria-label="Bom Garam"><span class="salt-glyph" aria-hidden="true">✧</span><span id="saltCount">2</span></button><button id="reload" class="reload">ISI SEMULA</button><button id="use" class="use" aria-label="Gunakan pintu atau generator">GUNA</button><button id="torch" class="torch" aria-label="Tutup lampu suluh" aria-pressed="true">🔦 LAMPU ON</button></div>
+<section id="caseOverlay" class="case-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="caseTitle">
+ <div class="case-card">
+  <div class="case-stamp">ARKIB SULIT • MALAM KEDUA</div>
+  <h2 id="caseTitle">FAIL KES</h2>
+  <p id="caseText"></p>
+  <div class="case-foot"><button id="casePrev" type="button" aria-label="Catatan sebelumnya">◀</button><span id="caseCount">0/3 BUKTI</span><button id="caseNext" type="button" aria-label="Catatan seterusnya">▶</button><button id="caseClose" type="button">TUTUP</button></div>
+ </div>
+</section>
+</main>
+<script src="./arsenal.js"></script>
+<script src="./weapon-art.js"></script>
+<script>
+'use strict';
+(() => {
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d',{alpha:false});
+ctx.imageSmoothingEnabled=false;
+const W=canvas.width,H=canvas.height,FOV=Math.PI/3,RAYS=W/2,STEP=W/RAYS;
+const $=id=>document.getElementById(id);
+const MAP=[
+'111111111111111111111',
+'1.....22...33333....1',
+'1..22......D...3.33.1',
+'1..........3...D.33.1',
+'1...22.....33333....1',
+'2222222D222222222D222',
+'1..22......333333...1',
+'1...22....D....3....1',
+'1......22.3....D....1',
+'1....22...333333....1',
+'22222222K222222222222',
+'1..22...............1',
+'1...22.....22.......1',
+'1..............22...1',
+'111111111111111111111'
+];
+const MW=MAP[0].length,MH=MAP.length;
+if(!MAP.every(row=>row.length===MW)){throw Error('Invalid map: rows have different widths')}
+const portal={x:18.5,y:13.4};
+const generator={x:3.5,y:1.5};
+const FOE_SPAWNS=[{x:9.5,y:2.5,type:'pocong'},{x:18.5,y:3.5,type:'toyol'},{x:6.5,y:7.5,type:'toyol'},{x:18.5,y:7.5,type:'pocong'},{x:9.5,y:8.5,type:'langsuir'},{x:16.5,y:12.5,type:'langsuir'},{x:10.5,y:12.2,type:'pocong'},{x:7.5,y:11.5,type:'pontianak'}];
+const ENEMY_TYPES={
+ pocong:{hp:6,speed:.54,damage:11,rate:1.35,scale:.9,range:.8},
+ toyol:{hp:3,speed:1.03,damage:6,rate:1.05,scale:.56,range:.65},
+ pontianak:{hp:14,speed:.68,damage:17,rate:1.3,scale:1.1,range:.85},
+ langsuir:{hp:7,speed:.55,damage:8,rate:2.9,scale:.96,range:1.2},
+ penanggal:{hp:38,speed:.62,damage:19,rate:2.8,scale:1.8,range:1.45}
+};
+const WEAPONS={
+ parang:{name:'PARANG',damage:2.6,range:1.15,rate:.43,clip:0,reload:0,spread:.22},
+ pistol:{name:'PISTOL',damage:1.7,range:11,rate:.31,clip:12,reload:.98,spread:.048},
+ shotgun:{name:'SHOTGUN',damage:4.3,range:6,rate:.7,clip:6,reload:1.25,spread:.15},
+ smg:{name:'SMG',damage:.95,range:9.2,rate:.115,clip:24,reload:1.55,spread:.092}
+};
+
+// Distinct ghost affinities; all weapons retain some effect.
+const AFFINITY={
+ pocong:{parang:1.25,pistol:1,shotgun:1,smg:.83,salt:1.35},
+ toyol:{parang:.95,pistol:.9,shotgun:1,smg:1.35,salt:.95},
+ pontianak:{parang:.8,pistol:1,shotgun:1.2,smg:.87,salt:1.5},
+ langsuir:{parang:.75,pistol:1.25,shotgun:1,smg:1,salt:1.55},
+ penanggal:{parang:.52,pistol:.86,shotgun:1,smg:1.22,salt:1.65}
+};
+const MAX_SALT=5;
+let saltBursts=[];
+// D: standard access, K: mortuary key required. Opened doors remain open.
+const DOOR_DEFS=[{"x":7,"y":5,"label":"LALUAN HUTAN","requiresKey":false},{"x":17,"y":5,"label":"PAGAR STESEN","requiresKey":false},{"x":8,"y":10,"label":"PINTU MENARA","requiresKey":true},{"x":11,"y":2,"label":"PONDOK RADIO","requiresKey":false},{"x":15,"y":3,"label":"PINTU RADIO BELAKANG","requiresKey":false},{"x":10,"y":7,"label":"BILIK TEKNIKAL","requiresKey":false},{"x":15,"y":8,"label":"PINTU BILIK TEKNIKAL","requiresKey":false}];
+let openDoors=new Set(),doorProgress=new Map(),closingDoors=new Set(),checkpoint=null;
+const SAVE_KEY='project-terror-bukit-v1-save',SAVE_VERSION=1;let saveClock=0,surveyClock=0,navClock=0,navKey='',navDistances=new Int16Array(MW*MH);let hurtCooldown=0;
+const HUT_DOORS=new Set(['11,2','15,3','10,7','15,8']);
+const HOUSES=[{id:'radio',name:'PONDOK RADIO',x0:12,x1:15,y0:2,y1:4},{id:'teknikal',name:'BILIK TEKNIKAL',x0:11,x1:15,y0:7,y1:9}];
+let housesVisited=new Set(),houseName='',cricketClock=3.1,ambientEnabled=true;
+// v1.3: optional evidence, never gates the original key/jalur/boss quest.
+const CASES=[{"id":"log08","title":"FAIL 08 — LOG PEMANCAR","x":12.5,"y":2.5,"type":"file","body":"BUKIT MERANTI · STESEN PEMANCAR 04:18 PAGI.\n\nSuara yang memakai nama Salmah muncul pada frekuensi tidak berdaftar. Juruteknik menyembunyikan tiga modul pemutus. Jangan hidupkan konsol tanpa ketiga-tiganya."},{"id":"pita","title":"PITA — PANGGILAN TERAKHIR","x":13.5,"y":7.5,"type":"tape","body":"Rakaman juruteknik Din: “Suara hospital masuk ke radio kami. Ia bercakap dari dalam wayar, kemudian di belakang pintu. Bila modul dipasang ia akan keluar.”"},{"id":"antenna","title":"PLAT ANTENA — AMARAN","x":10.5,"y":11.5,"type":"stone","body":"JANGAN SAHUT PANGGILAN TERAKHIR.\n\nPenanggal datang apabila pemancar disenyapkan. Gunakan garam dan SMG. Jangan berdiri diam."}];
+const CASE_IDS=new Set(CASES.map(c=>c.id));
+const SURVIVOR={x:14.1,y:3.45,name:'JURUTEKNIK DIN'};
+let caseFound=new Set(),npcSpoken=false,caseRewarded=false,caseOpen=false,casePage=0;
+
+const DOOR_AT=new Map(DOOR_DEFS.map(d=>[`${d.x},${d.y}`,d]));
+function tileAt(mx,my){const t=MAP[my]?.[mx]||'1';return (t==='D'||t==='K')&&openDoors.has(`${mx},${my}`)?'.':t}
+const itemSpawns=[{"x":6.5,"y":3.5,"type":"fuse"},{"x":17.5,"y":8.5,"type":"fuse"},{"x":11.5,"y":13.5,"type":"fuse"},{"x":3.5,"y":9.5,"type":"key"},{"x":9.5,"y":1.5,"type":"ammo_shell"},{"x":14.5,"y":8.5,"type":"health"},{"x":3.5,"y":12.5,"type":"air_garam"},{"x":12.5,"y":13.5,"type":"ammo_bullet"},{"x":13.5,"y":2.5,"type":"tangkal"},{"x":2.5,"y":8.5,"type":"stash","hidden":true},{"x":12.5,"y":7.5,"type":"smg_kit"},{"x":14.5,"y":12.5,"type":"ammo_smg"},{"x":9.5,"y":3.5,"type":"salt_charge"}];
+let projectiles=[],deathWisps=[],scareTime=0,scareUsed=false,scareEnabled=true;
+// A 3-state exploration atlas: 0 unknown, 1 seen, 2 physically visited.
+const MAP_SIGHT_RADIUS=3.4;
+const MAP_WALKABLE=MAP.join('').split('').filter(t=>t==='.'||t==='D'||t==='K').length;
+let mapSeen=new Uint8Array(MW*MH),mappedWalkable=0,hiddenCaches=0;
+let visitedZones=new Set(),zoneName='LOBI';
+let player,enemies,items,kills=0,started=false,playing=false,ended=false,last=0,frame=0,screenShake=0,flash=0,hitmark=0,shotClock=0,bob=0,moving=0,tip='',tipTimer=0,startTime=0,shots=0,objective=null,spawnedBoss=false,missionWon=false,ambienceClock=5,killPulse=0;
+const keys=new Set(),pointer={joy:null,look:null,lastX:0},joy={x:0,y:0}; let fireHeld=false,mouseHeld=false;
+const zbuf=Array(RAYS).fill(100);
+const ambianceCanvas=document.createElement('canvas');ambianceCanvas.width=W;ambianceCanvas.height=H;const lightCtx=ambianceCanvas.getContext('2d');
+let renderLightLevel=0;
+// Repeating pixel fog banks are pre-rendered; inexpensive to scroll on mobile.
+const fogCanvas=document.createElement('canvas');fogCanvas.width=256;fogCanvas.height=120;
+const fogCtx=fogCanvas.getContext('2d');const fogRand=rand(120526); // called after declaration, function hoisted
+for(let i=0;i<150;i++){
+ const x=fogRand()*256|0,y=15+fogRand()*96|0,w=12+fogRand()*46|0,h=3+fogRand()*18|0;
+ fogCtx.fillStyle=`rgba(161,189,169,${.014+fogRand()*.052})`;fogCtx.fillRect(x,y,w,h);
+}
+const fogGradient=fogCtx.createLinearGradient(0,0,0,120);fogGradient.addColorStop(0,'#a3c5b000');fogGradient.addColorStop(.42,'#a3c5b025');fogGradient.addColorStop(.68,'#91afaa2b');fogGradient.addColorStop(1,'#739b8900');fogCtx.fillStyle=fogGradient;fogCtx.fillRect(0,0,256,120);
+function activeHouse(){return HOUSES.find(h=>player.x>=h.x0&&player.x<h.x1&&player.y>=h.y0&&player.y<h.y1)||null}
+function drawEstetFog(){const indoor=!!activeHouse(),alpha=indoor?.045:player.y>=10?.13:.22;
+ ctx.save();ctx.globalAlpha=alpha*(player.flashlight?.8:1);const drift=(frame*4)%512;
+ ctx.drawImage(fogCanvas,-drift,H*.23,512,H*.56);ctx.drawImage(fogCanvas,512-drift,H*.23,512,H*.56);
+ ctx.restore()
+}
+
+let audio=null;
+function tone(freq,delay,duration,volume,type='sawtooth',endFreq=null){try{if(!audio) return;const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);if(endFreq)o.frequency.exponentialRampToValueAtTime(endFreq,t+duration);g.gain.setValueAtTime(Math.max(.001,volume),t);g.gain.exponentialRampToValueAtTime(.001,t+duration);o.connect(g).connect(audio.destination);o.start(t);o.stop(t+duration+.005)}catch(_){}}
+function sound(name){if(name==='salt'){tone(420,0,.09,.08,'triangle',110);tone(900,.04,.25,.045,'sawtooth',80)}else if(name==='shot'){tone(170,0,.13,.19,'sawtooth',42);tone(78,0,.19,.12,'triangle',35)}else if(name==='hit'){tone(540,0,.08,.075,'square',240)}else if(name==='hurt'){tone(105,0,.22,.1,'sawtooth',45)}else if(name==='pickup'){tone(520,0,.08,.06,'sine',700);tone(700,.08,.1,.06,'sine',960)}else if(name==='dry'){tone(1500,0,.028,.022,'square')}else if(name==='win'){tone(420,0,.18,.06,'triangle',520);tone(620,.19,.3,.08,'triangle',980)}else if(name==='ghost'){tone(210,0,.6,.018,'sine',85);tone(74,.1,.5,.026,'triangle',44)}else if(name==='scream'){tone(960,0,.32,.11,'sawtooth',260);tone(330,.18,.35,.07,'sine',120)}else if(name==='torch'){tone(980,0,.025,.025,'square',740)}else if(name==='shield'){tone(360,0,.16,.08,'sine',920)}else if(name==='door'){tone(155,0,.42,.08,'triangle',62);tone(210,.16,.35,.037,'sawtooth',91)}else if(name==='reload'){tone(310,0,.06,.035,'square',230);tone(440,.29,.065,.03,'square',320)}else if(name==='checkpoint'){tone(540,0,.11,.045,'sine',680);tone(750,.13,.21,.05,'sine',1040)}}
+function cricketChirp(){if(!ambientEnabled||!playing||!audio||audio.state!=='running')return;
+ const indoors=!!activeHouse();const level=indoors?.0035:.011;
+ for(let i=0;i<4;i++){
+  try{const o=audio.createOscillator(),g=audio.createGain(),start=audio.currentTime+i*.095,duration=.055;
+    o.type='sine';o.frequency.setValueAtTime(3240+i*85,start);o.frequency.exponentialRampToValueAtTime(2760+i*95,start+duration);
+    g.gain.setValueAtTime(.0001,start);g.gain.linearRampToValueAtTime(level,start+.009);
+    g.gain.exponentialRampToValueAtTime(.0001,start+duration);
+    o.connect(g);g.connect(audio.destination);o.start(start);o.stop(start+duration+.01)
+  }catch(_){}
+ }
+}
+function updateAmbientToggle(){const b=$('ambientToggle');b.textContent=`BUNYI MALAM: ${ambientEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(ambientEnabled))}
+function rand(seed){let s=seed|0;return ()=>{s=(s*1664525+1013904223)|0;return(s>>>0)/4294967296}}
+function texture(n){
+ const c=document.createElement('canvas');c.width=c.height=64;
+ const t=c.getContext('2d'),r=rand(450+n*417);t.imageSmoothingEnabled=false;
+ t.fillStyle=n===1?'#34352c':n===2?'#1e3026':'#3b332a';t.fillRect(0,0,64,64);
+ if(n===1){ // boundary fencing, kampung timber planks
+  for(let x=0;x<64;x+=11){t.fillStyle=r()>.5?'#6a5840':'#544a39';t.fillRect(x+1,0,9,64);t.fillStyle='#191c17';t.fillRect(x,0,1,64);for(let y=4;y<62;y+=23){t.fillStyle='#a0916a';t.fillRect(x+4,y,2,3)}}
+  t.fillStyle='#202d23';t.fillRect(0,18,64,7);t.fillRect(0,49,64,6);
+ }else if(n===2){ // thick tree roots and jungle hedges; dark rubber trees
+  t.fillStyle='#152a20';t.fillRect(0,0,64,64);
+  for(let j=0;j<12;j++){const x=r()*60|0,y=r()*56|0;t.fillStyle=j%3?'#294e34':'#446344';t.fillRect(x,y,9+(r()*12|0),5+(r()*8|0))}
+  for(let x=3;x<64;x+=16){t.fillStyle='#443b2d';t.fillRect(x,0,7,64);t.fillStyle='#76644e';t.fillRect(x+2,0,2,64);t.fillStyle='#22241b';t.fillRect(x-2,14,2,20);t.fillRect(x+5,39,3,16)}
+ }else{ // plank house wall / kampung shack
+  for(let y=0;y<64;y+=10){t.fillStyle=r()>.5?'#69513e':'#534638';t.fillRect(0,y,64,9);t.fillStyle='#2a291e';t.fillRect(0,y+9,64,1)}
+  t.fillStyle='#282f28';t.fillRect(12,13,39,36);t.fillStyle='#967947';t.fillRect(15,16,33,29);t.fillStyle='#1d2929';t.fillRect(18,18,27,24);t.fillStyle='#99a88a';t.fillRect(30,18,3,25)
+ }
+ for(let j=0;j<75;j++){t.fillStyle=r()>.5?'#bdd08a0d':'#080f111c';t.fillRect(r()*64|0,r()*64|0,1+r()*4|0,1+r()*3|0)}
+ return c
+}
+function accessDoorTexture(locked,label=locked?'KERAMAT':'ESTET'){
+ const c=document.createElement('canvas');c.width=c.height=64;const t=c.getContext('2d');
+ t.fillStyle='#1d261d';t.fillRect(0,0,64,64);
+ for(let x=0;x<64;x+=11){t.fillStyle=x%2?'#75563d':'#90744b';t.fillRect(x+1,0,9,64);t.fillStyle='#2f3025';t.fillRect(x,0,1,64)}
+ for(let y of [12,45]){t.fillStyle='#30352c';t.fillRect(0,y,64,6);t.fillStyle='#9c9769';t.fillRect(0,y+1,64,2)}
+ t.fillStyle=locked?'#a54e47':'#a3ba89';t.fillRect(14,18,37,25);
+ t.font='bold 8px monospace';t.textAlign='center';t.fillStyle='#1c2421';t.fillText(label,32,33);
+ t.fillStyle='#b7a37e';t.fillRect(49,36,4,8);
+ return c
+}
+const textures=[null,texture(1),texture(2),texture(3),accessDoorTexture(false),accessDoorTexture(true),accessDoorTexture(false,'RUMAH')];
+function sprite(draw){let c=document.createElement('canvas');c.width=64;c.height=80;let t=c.getContext('2d');t.imageSmoothingEnabled=false;draw(t);return c}
+// Readable low-resolution placeholder art. Replace with authored spritesheets in art pass.
+const pocongSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#18191d',18,7,28,71);p('#6c7777',15,11,34,65);p('#d3cebb',19,5,26,12);
+ p('#d6d5c5',12,16,40,48);p('#929e98',14,16,7,41);p('#e2ddcc',21,17,27,45);
+ p('#4a5056',20,15,24,25);p('#111920',23,19,19,19);p('#c63e3a',25,27,5,3);p('#c63e3a',35,27,5,3);
+ p('#4c2c2a',27,34,10,3);p('#9d8970',14,45,36,5);p('#473d3b',28,46,7,3);
+ p('#9faca4',16,57,32,10);p('#d8d7c6',17,66,30,7);p('#9aa5a0',15,73,17,4);p('#ced4ca',32,73,18,4);
+ p('#fff7df',20,8,6,3);p('#765e53',21,56,5,5);p('#796052',42,38,4,6)
+});
+const toyolSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#171e1c',16,29,34,44);p('#435c49',20,32,25,33);p('#608267',22,19,22,20);
+ p('#304b39',12,29,13,9);p('#304b39',42,28,12,9);p('#719079',13,30,8,4);p('#719079',46,29,7,4);
+ p('#a5ad7d',22,25,24,13);p('#15231b',23,28,6,6);p('#15231b',36,28,6,6);
+ p('#ff614e',24,29,4,4);p('#ff614e',38,29,4,4);p('#293a30',28,37,11,4);
+ p('#465f45',15,44,12,14);p('#465f45',41,44,12,14);p('#96a88b',11,54,7,10);p('#96a88b',51,53,7,10);
+ p('#31483d',19,60,13,10);p('#31483d',36,59,12,10);p('#768a6b',18,69,16,6);p('#768a6b',36,68,16,7);
+ p('#d6d2ae',12,61,3,5);p('#d6d2ae',54,60,3,5);p('#bcc09f',28,16,10,4)
+});
+const pontianakSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ p('#0b0d17',14,3,36,74);p('#23202a',12,9,40,64);p('#c4b9a9',23,15,19,30);
+ p('#25212a',17,6,29,23);p('#14161d',18,9,7,59);p('#17171e',42,9,8,62);
+ p('#e4ded4',26,20,12,18);p('#b79a96',26,39,13,7);p('#a52332',27,27,4,3);p('#a52332',36,27,4,3);
+ p('#301319',30,35,7,6);p('#a0a0a0',24,43,18,7);p('#e2ddd4',19,49,27,25);
+ p('#aba5a2',16,61,34,16);p('#ebebe1',22,49,18,21);p('#a34c47',29,57,8,14);
+ p('#e8d3bf',12,52,5,16);p('#e8d3bf',50,52,5,16);p('#29202a',11,38,6,28);p('#29202a',50,35,5,27)
+});
+// High-contrast, authored procedural embellishments: silhouettes stay transparent / easy to replace.
+function distressSprite(c,seed,stains){const t=c.getContext('2d'),r=rand(seed);for(let i=0;i<stains;i++){let x=10+r()*44|0,y=13+r()*61|0;if(t.getImageData(x,y,1,1).data[3]>80){t.fillStyle=r()>.67?'#e7e1cf55':'#2e242d59';t.fillRect(x,y,1+(r()*3|0),1+(r()*5|0))}}}
+for(const [c,seed,n] of [[pocongSprite,113,75],[toyolSprite,477,44],[pontianakSprite,932,53]])distressSprite(c,seed,n);
+const enemySprites={pocong:pocongSprite,toyol:toyolSprite,pontianak:pontianakSprite};
+
+// v0.5: 4-frame pixel-art enemy animation atlas, generated once at launch.
+// Rendered with crisp nearest-neighbour sampling on the existing billboard pipeline.
+const langsuirSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ // An airborne spirit: hair silhouette, trailing burial cloth, clawed hands and cold eyes.
+ p('#080e16',16,5,34,62);p('#18212d',12,12,41,51);
+ p('#263240',11,20,11,36);p('#263240',44,14,10,48);
+ p('#0d1119',23,1,19,18);p('#0c0e18',15,9,13,47);p('#0a111a',42,10,11,53);
+ p('#e4e5db',25,14,16,26);p('#b4c2bd',23,27,20,12);
+ p('#98ece1',26,24,5,3);p('#98ece1',36,24,5,3);p('#192332',32,34,5,5);
+ p('#b1d0cb',21,42,23,23);p('#d9e7df',23,43,19,20);p('#718c96',19,59,27,9);
+ p('#bad8cf',21,66,11,10);p('#8ca9a7',36,64,12,13);
+ p('#202f36',9,33,11,23);p('#202f36',47,31,9,23);
+ p('#a2c8bf',10,52,7,9);p('#a2c8bf',49,51,7,10);
+ p('#c7dfd8',8,59,3,11);p('#c7dfd8',13,58,3,11);p('#c7dfd8',52,58,3,11);
+ p('#799995',24,76,5,3);p('#93bab7',41,75,4,3);
+});
+distressSprite(langsuirSprite,1573,56);
+const penanggalSprite=sprite(t=>{
+ const p=(c,x,y,w,h)=>{t.fillStyle=c;t.fillRect(x,y,w,h)};
+ // Low-res, high-contrast folklore boss. Broad asymmetric shoulders, long claws.
+ p('#080b09',21,5,26,70);p('#121b16',14,17,38,52);p('#172e25',8,24,50,33);
+ p('#101b16',6,23,13,31);p('#18231b',48,19,12,37);p('#263a29',9,28,9,24);p('#31402f',51,29,6,20);
+ // Jagged mantle of roots, clay and old tree bark.
+ for(const [x,y,w,h] of [[4,18,12,9],[12,12,14,10],[22,6,9,11],[38,8,10,10],[48,14,11,10],[6,45,12,15],[48,44,12,16]])p('#273d2f',x,y,w,h);
+ p('#6e7656',11,21,5,26);p('#6e7656',51,22,4,26);p('#4b5e41',16,28,6,14);p('#465a3d',44,27,6,18);
+ // Antler-like crown and face cavity.
+ p('#796345',13,5,7,14);p('#8e7651',16,0,4,13);p('#846f4c',46,4,7,15);p('#a68b60',50,0,4,12);
+ p('#0a130f',23,13,25,28);p('#52634b',25,18,21,22);p('#18231b',27,22,17,15);
+ p('#fead6d',25,24,9,5);p('#fead6d',39,24,8,5);p('#ff663f',27,25,5,3);p('#ff663f',40,25,5,3);
+ p('#0d100c',32,32,10,8);p('#c0bd95',33,34,3,7);p('#d7c3a2',39,34,2,6);
+ // Long clawed hands and uneven feet.
+ p('#1b2e22',7,42,11,22);p('#263c2d',48,40,11,24);
+ for(const [x,y] of [[4,63],[9,65],[14,64],[49,65],[55,64],[60,62]])p('#b4af8f',x,y,3,10);
+ p('#17261d',22,56,13,21);p('#213428',40,55,12,22);p('#7f806b',23,73,13,6);p('#888a70',39,73,15,6);
+ // Copper ceremonial amulet; final boss remains recognizable at distance.
+ p('#b07d44',29,42,14,16);p('#f2c57b',33,45,6,10);p('#5e3024',35,47,3,7);
+ const r=rand(9307);for(let i=0;i<84;i++){const x=8+r()*49|0,y=18+r()*54|0;if(t.getImageData(x,y,1,1).data[3]>100){t.fillStyle=i%3?'#9aa27c40':'#060b0955';t.fillRect(x,y,1+(r()*2|0),1+(r()*3|0))}}
+});
+distressSprite(penanggalSprite,2109,48);
+function animatedFrames(base,type){
+ const result=[];
+ for(let f=0;f<4;f++){
+  const c=document.createElement('canvas');c.width=64;c.height=80;
+  const t=c.getContext('2d');t.imageSmoothingEnabled=false;
+  const shift=f===1?-2:f===3?2:0;
+  if(type==='pocong'){
+   // Squash and stretch the tied shroud during each hop.
+   const stretch=[0,-3,1,-2][f];t.drawImage(base,shift,stretch,64,80-stretch);
+   t.fillStyle=f===2?'#e0b5a4':'#eee2d1';t.fillRect(20+shift,8+stretch,6,2);
+   t.fillStyle='#3c3433';t.fillRect(15+shift,49+stretch,32,2);
+   t.fillStyle='#89514a';t.fillRect(20+shift,55+stretch,3,5);
+  }else if(type==='toyol'){
+   // Squat, spring up, then slash with alternating claws.
+   const dy=[3,-3,0,-1][f];t.drawImage(base,shift,dy,64,80);
+   t.fillStyle='#91ae8e';t.fillRect(f%2?8:11,48+dy,5,16);
+   t.fillRect(f%2?54:50,43+dy,4,17);
+   t.fillStyle='#e0e6bb';t.fillRect(f%2?7:10,63+dy,2,7);t.fillRect(f%2?57:53,60+dy,2,7);
+  }else if(type==='pontianak'){
+   t.drawImage(base,shift,0,64,80);
+   t.fillStyle='#11121b';t.fillRect(8+shift,14+f,5,47-f);t.fillRect(52+shift,10+3-f,5,50-f);
+   t.fillStyle='#3e2530';t.fillRect(11+shift,58-f,3,14);t.fillRect(55+shift,60-f,2,12);
+   if(f===3){t.fillStyle='#531823';t.fillRect(29+shift,34,10,9);t.fillStyle='#f9eee1';t.fillRect(31+shift,35,2,5);t.fillRect(36+shift,35,2,5)}
+  }else if(type==='penanggal'){
+   t.drawImage(base,shift,[0,-2,0,2][f],64,80);
+   if(f===3){t.fillStyle='#f97b45';t.fillRect(26+shift,19,8,6);t.fillRect(38+shift,19,8,6);t.fillStyle='#c38952';t.fillRect(10,64,48,5)}
+  }else if(type==='langsuir'){
+   t.drawImage(base,shift,[-2,0,-4,-1][f],64,80);
+   t.fillStyle='#0d141c';t.fillRect(8+shift,17+f*2,4,34);t.fillRect(54+shift,19-f,3,35);
+   t.fillStyle='#a9eee3';t.fillRect(26+shift,24,5,2);t.fillRect(36+shift,24,5,2);
+   if(f===3){t.fillStyle='#e8f9f5';t.fillRect(6+shift,53,3,13);t.fillRect(57+shift,49,3,14)}
+  }
+  // Very subtle light edging makes the sprite visible through dark corridors.
+  t.fillStyle=type==='langsuir'?'#9aeed126':'#ffe8bd16';t.fillRect(19+shift,18,2,24);
+  result.push(c)
+ }
+ return result
+}
+const enemySpriteFrames={
+ pocong:animatedFrames(pocongSprite,'pocong'),
+ toyol:animatedFrames(toyolSprite,'toyol'),
+ pontianak:animatedFrames(pontianakSprite,'pontianak'),
+ langsuir:animatedFrames(langsuirSprite,'langsuir'),
+ penanggal:animatedFrames(penanggalSprite,'penanggal')
+};
+const curseSprite=sprite(t=>{
+ const ring=t.createRadialGradient(32,40,0,32,40,29);
+ ring.addColorStop(0,'#d6fff6');ring.addColorStop(.19,'#88ddc6');ring.addColorStop(.42,'#5bb2a7c4');ring.addColorStop(1,'#102c3600');
+ t.fillStyle=ring;t.fillRect(3,11,58,58);
+ t.fillStyle='#dcfff0';t.fillRect(30,36,6,6);t.fillRect(26,40,4,4);t.fillRect(36,40,4,4);
+});
+
+const medkit=sprite(t=>{t.fillStyle='#18222e';t.fillRect(11,30,42,38);t.fillStyle='#aebbc1';t.fillRect(13,32,38,33);t.fillStyle='#d8e6e8';t.fillRect(18,27,28,7);t.fillStyle='#ad3c45';t.fillRect(29,39,7,21);t.fillRect(22,46,21,7);t.fillStyle='#617786';t.fillRect(16,59,33,5)});
+const ammoImg=sprite(t=>{t.fillStyle='#261d23';t.fillRect(11,31,42,31);t.fillStyle='#b27b43';t.fillRect(13,32,38,27);t.fillStyle='#efb765';t.fillRect(17,34,30,5);t.fillStyle='#583d29';t.fillRect(17,51,30,4);t.fillStyle='#1a2935';t.fillRect(28,42,8,9)});
+const portalImg=sprite(t=>{t.fillStyle='#3b2260';t.fillRect(11,3,42,75);t.fillStyle='#b87df9';t.fillRect(13,5,38,73);t.fillStyle='#452278';t.fillRect(18,11,28,67);t.fillStyle='#8150bc';t.fillRect(24,17,16,55);t.fillStyle='#eab4fc';t.fillRect(28,25,8,36);t.fillStyle='#6e458e';t.fillRect(8,4,5,75);t.fillRect(51,4,5,75)});
+const fuseImg=sprite(t=>{t.fillStyle='#493c31';t.fillRect(22,24,22,46);t.fillStyle='#daa369';t.fillRect(25,25,16,42);t.fillStyle='#eed4a6';t.fillRect(27,26,12,9);t.fillStyle='#a0433e';t.fillRect(28,39,10,20);t.fillStyle='#e7e7e1';t.fillRect(29,30,8,5)});
+const garamImg=sprite(t=>{t.fillStyle='#2b3a42';t.fillRect(22,25,22,43);t.fillStyle='#9cd1d3';t.fillRect(24,32,18,32);t.fillStyle='#eaf8f0';t.fillRect(26,45,14,13);t.fillStyle='#f2c79a';t.fillRect(27,22,12,12);t.fillStyle='#3e656a';t.fillRect(29,23,8,4)});
+const sealImg=sprite(t=>{t.fillStyle='#271d19';t.fillRect(18,23,29,49);t.fillStyle='#cfb586';t.fillRect(20,21,25,48);t.fillStyle='#f1dfb1';t.fillRect(23,25,19,39);t.fillStyle='#a74132';t.fillRect(30,30,6,29);t.fillRect(26,39,14,4);t.fillStyle='#552e24';t.fillRect(23,57,19,3)});
+const generatorImg=sprite(t=>{t.fillStyle='#181e20';t.fillRect(9,27,46,48);t.fillStyle='#57615c';t.fillRect(13,31,39,40);t.fillStyle='#9a5041';t.fillRect(17,38,30,7);t.fillStyle='#191a1e';t.fillRect(18,52,25,13);t.fillStyle='#93e0b6';t.fillRect(21,56,4,5);t.fillStyle='#ddba76';t.fillRect(30,56,4,5);t.fillStyle='#cc6e69';t.fillRect(39,56,4,5)});
+const tangkalImg=sprite(t=>{t.fillStyle='#6e4b2d';t.fillRect(21,21,24,45);t.fillStyle='#d6b477';t.fillRect(23,18,20,44);t.fillStyle='#9e4e3b';t.fillRect(26,22,14,31);t.fillStyle='#ead8b2';t.fillRect(30,25,6,23);t.fillStyle='#eebf84';t.fillRect(28,36,10,3);t.fillStyle='#776044';t.fillRect(26,52,14,9);t.fillStyle='#e5f9cd';t.fillRect(29,27,3,4)});
+const keyImg=sprite(t=>{
+ t.fillStyle='#cda965';t.fillRect(18,33,11,11);t.fillStyle='#f6d690';t.fillRect(20,35,7,7);
+ t.fillStyle='#8c642e';t.fillRect(23,36,4,4);t.fillStyle='#e7ba69';t.fillRect(28,36,23,6);
+ t.fillRect(43,42,5,11);t.fillRect(35,42,4,8);t.fillStyle='#8e6634';t.fillRect(31,38,16,2)
+});
+// Three distinctive static evidence props, plus a non-hostile survivor silhouette.
+const caseSprites={
+ file:sprite(t=>{t.fillStyle='#2c2d24';t.fillRect(18,27,31,44);t.fillStyle='#d9c6a0';t.fillRect(20,23,27,43);t.fillStyle='#b88d63';t.fillRect(23,29,21,4);t.fillRect(23,38,16,2);t.fillRect(23,44,19,2);t.fillStyle='#803a34';t.fillRect(24,53,19,7)}),
+ tape:sprite(t=>{t.fillStyle='#202328';t.fillRect(10,32,46,29);t.fillStyle='#777d78';t.fillRect(13,35,40,22);t.fillStyle='#2f383a';t.fillRect(20,38,26,16);t.fillStyle='#cbbf91';t.fillRect(21,40,8,8);t.fillRect(38,40,8,8);t.fillStyle='#1c2426';t.fillRect(23,42,4,4);t.fillRect(40,42,4,4)}),
+ stone:sprite(t=>{t.fillStyle='#313832';t.fillRect(15,30,36,43);t.fillStyle='#707c69';t.fillRect(19,25,30,43);t.fillStyle='#b6b7a1';t.fillRect(24,31,18,24);t.fillStyle='#513b35';t.fillRect(30,35,4,17);t.fillRect(26,43,12,3);t.fillStyle='#36402e';t.fillRect(15,68,39,7)})
+};
+const survivorSprite=sprite(t=>{ // Mak Timah: seated elder in tudung, intentionally not an enemy
+ t.fillStyle='#2d2b2f';t.fillRect(16,56,34,18);t.fillStyle='#586251';t.fillRect(21,36,25,32);
+ t.fillStyle='#bbb1a0';t.fillRect(20,17,27,32);t.fillStyle='#4b5649';t.fillRect(16,11,34,30);
+ t.fillStyle='#a98a70';t.fillRect(26,29,16,19);t.fillStyle='#15191b';t.fillRect(29,36,3,2);t.fillRect(39,36,3,2);
+ t.fillStyle='#e1cdb2';t.fillRect(30,45,10,2);t.fillStyle='#7f8f76';t.fillRect(18,48,30,19);t.fillStyle='#333f36';t.fillRect(17,72,31,5)
+});
+const smgKitImage=document.createElement('canvas');smgKitImage.width=smgKitImage.height=48;
+const smgArt=smgKitImage.getContext('2d');smgArt.fillStyle='#152b2e';smgArt.fillRect(2,16,44,14);smgArt.fillStyle='#96c7bb';smgArt.fillRect(5,19,38,7);smgArt.fillStyle='#c8ebe0';smgArt.fillRect(29,14,10,6);smgArt.fillStyle='#2c403d';smgArt.fillRect(10,27,12,16);smgArt.fillRect(23,27,12,13);
+const pickupSprite={health:medkit,ammo_shell:ammoImg,ammo_bullet:ammoImg,air_garam:garamImg,fuse:sealImg,key:keyImg,tangkal:tangkalImg,smg_kit:smgKitImage,ammo_smg:ammoImg,salt_charge:garamImg};
+// v0.4: Three distinct categories: wall decals are painted ON the hit wall plane,
+// grounded decorations are floor billboards, and items stay collectible billboards.
+const trolleySprite=sprite(t=>{t.fillStyle='#252e30';t.fillRect(10,48,48,7);t.fillStyle='#667978';t.fillRect(12,47,45,4);t.fillStyle='#b3b9b2';t.fillRect(16,28,39,21);t.fillStyle='#8a8c81';t.fillRect(14,29,38,6);t.fillStyle='#a46b60';t.fillRect(17,38,31,7);t.fillStyle='#353f41';t.fillRect(15,55,5,14);t.fillRect(51,55,5,14);t.fillStyle='#a9aca5';t.fillRect(11,67,13,7);t.fillRect(47,67,13,7)});
+const rubberTree=sprite(t=>{
+ t.fillStyle='#332f27';t.fillRect(26,25,13,52);t.fillStyle='#85755a';t.fillRect(30,25,4,49);
+ for(const [x,y,w,h] of [[13,8,39,16],[7,20,52,15],[12,2,35,19],[21,0,22,18]]){t.fillStyle='#1d4933';t.fillRect(x,y,w,h);t.fillStyle='#386646';t.fillRect(x+3,y+2,w-7,5)}
+ t.fillStyle='#557e50';t.fillRect(12,23,9,5);t.fillRect(39,11,8,7);
+});
+const batuSprite=sprite(t=>{
+ t.fillStyle='#323a31';t.fillRect(15,31,36,46);t.fillStyle='#77806a';t.fillRect(19,26,29,42);t.fillStyle='#aaa991';t.fillRect(23,31,21,21);
+ t.fillStyle='#405c43';t.fillRect(29,28,4,37);t.fillStyle='#b7bd88';t.fillRect(16,70,38,5);
+});
+const pelitaSprite=sprite(t=>{
+ t.fillStyle='#30251c';t.fillRect(15,69,38,7);t.fillStyle='#8d6034';t.fillRect(25,49,19,19);t.fillStyle='#d7b26c';t.fillRect(29,45,11,18);t.fillStyle='#a7c17b';t.fillRect(29,34,12,13);t.fillStyle='#f7cf81';t.fillRect(32,29,6,11);
+ t.fillStyle='#b3763c';t.fillRect(31,18,9,12);t.fillStyle='#f9d88c';t.fillRect(34,20,4,7);t.fillStyle='#583a26';t.fillRect(28,62,15,4);
+});
+const cupboardSprite=sprite(t=>{
+ t.fillStyle='#1c1814';t.fillRect(8,24,51,52);t.fillStyle='#74553d';t.fillRect(11,24,47,50);t.fillStyle='#3f3227';t.fillRect(14,30,41,40);t.fillStyle='#967954';t.fillRect(17,34,35,34);
+ t.fillStyle='#59432d';t.fillRect(32,32,3,40);t.fillStyle='#d6af62';t.fillRect(28,49,3,6);t.fillRect(37,49,3,6);t.fillStyle='#2a211b';t.fillRect(14,68,42,5);
+});
+const floorDecorations=[
+ {x:7.5,y:2.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
+ {x:17.5,y:3.5,img:rubberTree,scale:1.15,grounded:true,kind:'floor'},
+ {x:18.5,y:6.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
+ {x:18.5,y:9.5,img:rubberTree,scale:1.10,grounded:true,kind:'floor'},
+ {x:8.5,y:12.5,img:batuSprite,scale:.8,grounded:true,kind:'floor'},
+ {x:12.5,y:3.5,img:pelitaSprite,scale:.44,grounded:true,kind:'floor'},
+ {x:12.5,y:8.5,img:cupboardSprite,scale:.66,grounded:true,kind:'floor'}
+];
+
+// Wall art is a 2D texture in local wall coordinates (u,h), not a camera-facing quad.
+function decalCanvas(w,h,paint){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.imageSmoothingEnabled=false;paint(t,w,h);return c}
+function signDecal(title,subtitle,accent){return decalCanvas(128,64,(t,w,h)=>{
+ t.fillStyle='#131c1c';t.fillRect(0,2,w,h-4);t.fillStyle='#7b7667';t.fillRect(3,4,w-6,h-8);
+ t.fillStyle='#202e2b';t.fillRect(6,7,w-12,h-14);t.fillStyle=accent;t.fillRect(6,7,w-12,6);
+ t.fillStyle='#e8e2cf';t.font='bold 21px monospace';t.textAlign='center';t.fillText(title,64,37);
+ t.font='bold 11px monospace';t.fillStyle='#b0b9a8';t.fillText(subtitle,64,52);
+ t.fillStyle='#d5b78b';for(let x of [7,118])for(let y of [10,53])t.fillRect(x,y,3,3)
+})}
+function lampDecal(){return decalCanvas(96,40,(t,w,h)=>{
+ t.fillStyle='#252b2a';t.fillRect(0,8,w,28);t.fillStyle='#4f5c58';t.fillRect(4,4,w-8,30);
+ t.fillStyle='#ddd9ac';t.fillRect(9,8,w-18,17);t.fillStyle='#fff7c5';t.fillRect(12,10,w-24,12);
+ t.fillStyle='#827d66';t.fillRect(12,25,w-24,5);t.fillStyle='#1f2928';t.fillRect(0,12,7,13);t.fillRect(w-7,12,7,13)
+})}
+function noticeDecal(){return decalCanvas(96,128,(t,w,h)=>{
+ t.fillStyle='#453b30';t.fillRect(0,0,w,h);t.fillStyle='#a6a08e';t.fillRect(5,5,w-10,h-10);
+ t.fillStyle='#d1c5a8';t.fillRect(12,12,w-24,h-24);t.fillStyle='#6a332e';t.fillRect(15,15,w-30,18);
+ t.fillStyle='#f6dfc6';t.font='bold 14px monospace';t.textAlign='center';t.fillText('AMARAN',48,30);
+ t.fillStyle='#454c43';for(let y=45;y<102;y+=11)t.fillRect(20,y,56-(y%3)*5,3);
+ t.fillStyle='#6f2929';t.font='bold 11px monospace';t.fillText('JANGAN',48,109)
+})}
+function generatorDecal(on){return decalCanvas(112,128,(t,w,h)=>{
+ t.fillStyle='#1b2424';t.fillRect(0,0,w,h);t.fillStyle='#666c60';t.fillRect(5,5,w-10,h-10);t.fillStyle='#2b302b';t.fillRect(10,12,w-20,h-25);
+ t.fillStyle=on?'#4cae82':'#a65d45';t.fillRect(12,14,w-24,12);
+ t.fillStyle='#e9e0c5';t.font='bold 12px monospace';t.textAlign='center';t.fillText('PENDINDING',56,25);
+ t.fillStyle='#829a94';t.fillRect(19,40,74,25);t.fillStyle=on?'#9bf2bd':'#3f4847';t.fillRect(25,45,62,15);
+ t.fillStyle='#1f292b';for(let x of [23,43,63]){t.fillRect(x,79,15,23);t.fillStyle=on?'#6ceb9a':'#a64d3d';t.fillRect(x+3,82,9,8);t.fillStyle='#1f292b'}
+ t.fillStyle='#dec6a3';t.font='bold 10px monospace';t.fillText(on?'AKTIF':'3 JALUR',56,116);
+ t.fillStyle='#a8aa8d';for(let x of [8,99])for(let y of [7,115])t.fillRect(x,y,5,5)
+})}
+function doorDecal(open){return decalCanvas(128,192,(t,w,h)=>{
+ t.fillStyle='#222c29';t.fillRect(0,0,w,h);t.fillStyle='#84796b';t.fillRect(3,3,w-6,h-6);
+ t.fillStyle='#393b34';t.fillRect(9,9,w-18,h-14);
+ t.fillStyle=open?'#101e1b':'#5d6058';t.fillRect(16,29,w-32,h-42);
+ t.fillStyle=open?'#3b815c':'#8f4037';t.fillRect(13,10,w-26,18);
+ t.fillStyle='#fff2cb';t.textAlign='center';t.font='bold 18px monospace';t.fillText('KELUAR',64,24);
+ if(open){t.fillStyle='#14352c';t.fillRect(26,40,76,133);t.fillStyle='#285a49';t.fillRect(20,31,7,144);t.fillStyle='#a8ecaf';t.fillRect(36,43,4,116)}
+ else {t.fillStyle='#6d716c';t.fillRect(59,34,5,140);t.fillStyle='#222e2e';t.fillRect(70,96,18,30);t.fillStyle='#b1a18c';t.fillRect(74,102,11,7)}
+ t.fillStyle='#272f2d';t.fillRect(13,180,102,8)
+})}
+const wallArt={
+ wad:signDecal('KAMPUNG','JALAN LAMA','#496d48'),
+ mayat:signDecal('KERAMAT','JANGAN MASUK','#7e433c'),
+ rawatan:signDecal('ESTET GETAH','LALUAN SUNYI','#54765a'),
+ kecemasan:signDecal('AWAS','HANTU PENANGGAL','#8d5844'),
+ rumah1:signDecal('RUMAH','TOK PAWANG','#846640'),
+ rumah2:signDecal('RUMAH','KEBUN','#6a6347'),
+ dalam1:signDecal('PESANAN','JANGAN MASUK','#846640'),
+ keluar:signDecal('KELUAR','KE JALAN BESAR','#51846a'),
+ lamp:lampDecal(),notice:noticeDecal(),
+ genOff:generatorDecal(false),genOn:generatorDecal(true),
+ doorLocked:doorDecal(false),doorOpen:doorDecal(true)
+};
+const wallDecorations=[
+ {id:'generator',mx:3,my:0,face:'S',u:.5,w:.78,v:.26,h:.48,kind:'generator'},
+ {id:'kampung-sign',mx:5,my:0,face:'S',u:.5,w:.90,v:.16,h:.29,img:wallArt.wad},
+ {id:'estet-sign',mx:6,my:5,face:'S',u:.5,w:.86,v:.2,h:.28,img:wallArt.rawatan},
+ {id:'keramat-sign',mx:10,my:10,face:'S',u:.5,w:.88,v:.18,h:.31,img:wallArt.mayat},
+ {id:'penanggal-warning',mx:20,my:9,face:'W',u:.5,w:.8,v:.19,h:.30,img:wallArt.kecemasan},
+ {id:'exit-sign',mx:19,my:14,face:'N',u:.5,w:.88,v:.14,h:.25,img:wallArt.keluar},
+ {id:'exit-door',mx:18,my:14,face:'N',u:.5,w:.94,v:.035,h:.945,kind:'exit'},
+ {id:'lamp-north',mx:16,my:5,face:'S',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp},
+ {id:'house-pawang',mx:11,my:3,face:'W',u:.5,w:.80,v:.19,h:.29,img:wallArt.rumah1},
+ {id:'house-kebun',mx:10,my:8,face:'W',u:.5,w:.80,v:.19,h:.29,img:wallArt.rumah2},
+ {id:'pawang-inside',mx:13,my:1,face:'S',u:.5,w:.72,v:.25,h:.32,img:wallArt.dalam1},
+ {id:'lamp-west',mx:0,my:6,face:'E',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp},
+ {id:'lamp-south',mx:12,my:14,face:'N',u:.5,w:.65,v:.12,h:.17,img:wallArt.lamp}
+];
+const wallDecalIndex=new Map();
+for(const d of wallDecorations){
+ const neighbor={N:[0,-1],S:[0,1],E:[1,0],W:[-1,0]}[d.face];
+ if(!neighbor||MAP[d.my]?.[d.mx]==='.'||MAP[d.my+neighbor[1]]?.[d.mx+neighbor[0]]!=='.')throw Error(`Wall prop ${d.id} is not mounted on an accessible wall face`);
+ if(d.u-d.w/2<0||d.u+d.w/2>1||d.v<0||d.v+d.h>1)throw Error(`Invalid wall prop dimensions ${d.id}`);
+ const key=`${d.mx},${d.my},${d.face}`;if(!wallDecalIndex.has(key))wallDecalIndex.set(key,[]);wallDecalIndex.get(key).push(d)
+}
+function paintWallAttachments(mx,my,side,rx,ry,wallFrac,top,height,col){
+ // We are drawing the actual first wall ray hit; therefore occlusion, perspective
+ // and lighting match wall tiles exactly rather than camera-facing sprites.
+ const face=side===0?(rx>0?'W':'E'):(ry>0?'N':'S');
+ const props=wallDecalIndex.get(`${mx},${my},${face}`);if(!props)return;
+ const u=(face==='N'||face==='E')?1-wallFrac:wallFrac;
+ for(const d of props){const unit=(u-(d.u-d.w/2))/d.w;if(unit<0||unit>=1)continue;
+  const img=d.kind==='generator'?(objective.generator?wallArt.genOn:wallArt.genOff):d.kind==='exit'?(objective.generator&&objective.boss?wallArt.doorOpen:wallArt.doorLocked):d.img;
+  const sourceX=Math.min(img.width-1,Math.floor(unit*img.width));
+  ctx.drawImage(img,sourceX,0,1,img.height,col*STEP,top+height*d.v,STEP+1,height*d.h)
+ }
+}
+function isWall(x,y){const cx=Math.floor(x),cy=Math.floor(y);return tileAt(cx,cy)!=='.'}
+function free(x,y,r=.22){return !isWall(x-r,y-r)&&!isWall(x+r,y-r)&&!isWall(x-r,y+r)&&!isWall(x+r,y+r)}
+// Visibility is checked against the same dynamic door tiles used by the world renderer.
+// The target wall itself can be seen, but anything behind that wall cannot be revealed.
+function canSurveyTile(tx,ty){
+ const ex=tx+.5,ey=ty+.5,dx=ex-player.x,dy=ey-player.y,d=Math.hypot(dx,dy);
+ if(d>MAP_SIGHT_RADIUS)return false;
+ const steps=Math.max(1,Math.ceil(d/.09));
+ for(let n=1;n<=steps;n++){
+  const t=n/steps,mx=Math.floor(player.x+dx*t),my=Math.floor(player.y+dy*t);
+  if(mx===tx&&my===ty)return true;
+  if(tileAt(mx,my)!=='.')return false;
+ }
+ return true
+}
+function surveyMap(){
+ const r=MAP_SIGHT_RADIUS;
+ for(let y=Math.max(0,Math.floor(player.y-r));y<=Math.min(MH-1,Math.floor(player.y+r));y++){
+  for(let x=Math.max(0,Math.floor(player.x-r));x<=Math.min(MW-1,Math.floor(player.x+r));x++){
+   if(!canSurveyTile(x,y))continue;
+   const idx=y*MW+x;
+   if(mapSeen[idx]===0){mapSeen[idx]=1;if(' .DK'.includes(MAP[y][x])&&MAP[y][x]!==' ')mappedWalkable++}
+  }
+ }
+ const px=Math.floor(player.x),py=Math.floor(player.y),here=py*MW+px;
+ if(mapSeen[here]===0){if(MAP[py]?.[px]==='.'||MAP[py]?.[px]==='D'||MAP[py]?.[px]==='K')mappedWalkable++}
+ mapSeen[here]=2;
+}
+function tileDiscovered(x,y){return x>=0&&x<MW&&y>=0&&y<MH&&mapSeen[y*MW+x]>0}
+function mapPercent(){return Math.min(100,Math.round(mappedWalkable/MAP_WALKABLE*100))}
+function makeEnemy(type,x,y){return {type,x,y,hp:ENEMY_TYPES[type].hp,alive:true,attack:Math.random()*.4,phase:Math.random()*8,flash:0,ai:'chase',charge:0,dash:0,dx:0,dy:0,triggered:false,alertSound:0,awareness:0,stun:0}}
+function reset(){
+ try{localStorage.removeItem(SAVE_KEY)}catch(_){};updateSaveButton();
+ started=true;ended=false;playing=true;missionWon=false;spawnedBoss=false;caseFound=new Set();npcSpoken=false;caseRewarded=false;caseOpen=false;casePage=0;$('caseOverlay').classList.add('hidden');openDoors=new Set();doorProgress=new Map();closingDoors=new Set();checkpoint=null;visitedZones=new Set();navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;mapSeen=new Uint8Array(MW*MH);mappedWalkable=0;hiddenCaches=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;scareUsed=false;
+ player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};
+ surveyMap();enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));
+ objective={fuses:0,key:false,generator:false,boss:false};kills=0;shots=0;last=performance.now();startTime=last;frame=0;shotClock=0;flash=0;screenShake=0;hitmark=0;bob=0;
+ tip='TEMUI MAK TIMAH ATAU TERUS CARI 3 JALUR + KUNCI';tipTimer=4;ambienceClock=5;cricketClock=1.4;houseName='';housesVisited=new Set();killPulse=0;keys.clear();fireHeld=false;mouseHeld=false;joy.x=joy.y=0;
+ $('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');
+ updateWeaponButtons();updateTorchButton();updateScareToggle();updateAmbientToggle();
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){}
+ ensureLoop()
+}
+function end(win){closeCase();playing=false;ended=true;missionWon=win;fireHeld=false;mouseHeld=false;try{document.exitPointerLock?.()}catch(_){};
+ $('result-tag').textContent=win?'MISI SELESAI':'MISI GAGAL';
+ $('result-title').textContent=win?'KAMPUNG DISELAMATKAN':'KAU TEWAS';
+ $('result-description').textContent=win?`Hantu Penanggal dihalau! Kampung selamat dalam ${Math.floor((performance.now()-startTime)/1000)} saat. ${kills} hantu ditumpaskan.${caseFound.size===3?' FAIL 07 menunjuk ke pemancar Bukit Meranti — misteri belum tamat.':''}`:`${kills} hantu ditumpaskan. Cuba lagi untuk hidupkan generator dan cari jalan keluar.`;
+ $('resumeCheckpoint').classList.toggle('hidden',win||!checkpoint);$('end').classList.remove('hidden');if(win){try{localStorage.removeItem(SAVE_KEY)}catch(_){};sound('win')}updateSaveButton()
+}
+function showTip(msg,sec=2.2){tip=msg;tipTimer=sec}
+function moveEntity(ent,dx,dy,r=.2){if(free(ent.x+dx,ent.y,r))ent.x+=dx;if(free(ent.x,ent.y+dy,r))ent.y+=dy}
+function updateWeaponButtons(){document.querySelectorAll('[data-w]').forEach(el=>{el.classList.toggle('active',el.dataset.w===player.weapon);if(el.dataset.w==='smg'){el.classList.toggle('locked',!player.smgUnlocked);el.setAttribute('aria-label',player.smgUnlocked?'Pilih SMG':'SMG belum dijumpai')}});updateSaltButton()}
+function updateSaltButton(){const b=$('salt');if(!b||!player)return;b.disabled=player.saltCharges<=0;b.setAttribute('aria-label',`Bom Garam, baki ${player.saltCharges}`);$('saltCount').textContent=String(player.saltCharges)}
+function equip(w){if(!playing||!WEAPONS[w])return;if(w==='smg'&&!player.smgUnlocked){showTip('SMG BELUM DIJUMPAI — TEROKA ZON KEDUA',2);sound('dry');return}player.weapon=w;player.reload=0;player.attack=0;showTip(`SENJATA: ${WEAPONS[w].name}`,1.1);updateWeaponButtons();sound('pickup')}
+function updateTorchButton(){const el=$('torch');el.textContent=player.flashlight?'🔦 LAMPU ON':'🔦 LAMPU OFF';el.classList.toggle('off',!player.flashlight);el.setAttribute('aria-pressed',String(player.flashlight));el.setAttribute('aria-label',player.flashlight?'Tutup lampu suluh':'Buka lampu suluh')}
+function toggleTorch(){if(!playing)return;player.flashlight=!player.flashlight;updateTorchButton();sound('torch')}
+function updateScareToggle(){const b=$('scareToggle');b.textContent=`JUMPSCARE RINGAN: ${scareEnabled?'ON':'OFF'}`;b.setAttribute('aria-pressed',String(scareEnabled))}
+function triggerScare(){if(!scareEnabled||scareUsed||!playing)return;scareUsed=true;scareTime=.55;screenShake=Math.max(screenShake,3);showTip('HANTU PENANGGAL TELAH BANGKIT...',1.25)}
+function npcDialogue(){return caseFound.size===3?
+ 'Mak Timah menatap helaian fail yang kau kumpulkan.\n\n“Salmah tak pernah hilang di hospital itu. Dia cuba menutup laluan dari menara Bukit Meranti. Hantu Penanggal cuma penjaga jalan. Jika kau teruskan, jangan hidupkan pemancar tanpa tahu siapa yang menunggunya.”':
+ 'Mak Timah berlindung di Rumah Tok Pawang. Tangannya menggigil sambil memegang radio rosak.\n\n“Dulu Jururawat Salmah datang dari Hospital Lama dengan tiga jalur pendinding. Lepas generator hidup, suara Salmah kedengaran dari menara — sedangkan dia masih di dalam wad.\n\nCari fail di rumah ini, kaset di Rumah Kebun dan batu tanda dekat keramat. Itu yang tinggal.”'}
+function availablePages(){const pages=[];if(npcSpoken)pages.push({id:'mak',title:'SAKSI — MAK TIMAH',body:npcDialogue()});for(const c of CASES)if(caseFound.has(c.id))pages.push(c);if(!pages.length)pages.push({id:'empty',title:'FAIL KES — MASIH KOSONG',body:'Belum ada bukti. Cari catatan di rumah kayu, kaset dalam kebun dan batu tanda di kawasan keramat.\n\nDekati objek yang berkilau dan tekan E / GUNA. Tekan J atau FAIL untuk membaca catatan semula.'});return pages}
+function showCasePage(){const pages=availablePages();casePage=Math.max(0,Math.min(casePage,pages.length-1));const page=pages[casePage];$('caseTitle').textContent=page.title;$('caseText').textContent=page.body;$('caseCount').textContent=`${caseFound.size}/3 BUKTI · ${casePage+1}/${pages.length}`;$('casePrev').disabled=casePage===0;$('caseNext').disabled=casePage===pages.length-1}
+function openCase(id){if(!playing)return;const pages=availablePages(),index=pages.findIndex(p=>p.id===id);casePage=index>=0?index:0;caseOpen=true;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;$('joy').classList.add('inactive');try{document.exitPointerLock?.()}catch(_){}$('caseOverlay').classList.remove('hidden');showCasePage()}
+function closeCase(){if(!caseOpen)return;caseOpen=false;$('caseOverlay').classList.add('hidden');last=performance.now()}
+function collectCase(entry){if(!caseFound.has(entry.id)){caseFound.add(entry.id);sound('pickup');if(caseFound.size===3&&!caseRewarded){caseRewarded=true;player.shield=Math.max(player.shield,12);player.reserve.shotgun+=4;showTip('FAIL 07 LENGKAP — TANGKAL +4 PELURU',3.2)}persistGame()}openCase(entry.id)}
+function getInteractable(){
+ if(!playing||caseOpen)return null;
+ let pick=null,best=1.45;
+ for(const c of CASES){if(caseFound.has(c.id))continue;const dist=Math.hypot(player.x-c.x,player.y-c.y);
+  if(dist<best&&lineOfSight(player.x,player.y,c.x,c.y)){pick={kind:'case',entry:c};best=dist}}
+ const nd=Math.hypot(player.x-SURVIVOR.x,player.y-SURVIVOR.y);
+ if(nd<best&&lineOfSight(player.x,player.y,SURVIVOR.x,SURVIVOR.y)){pick={kind:'npc'};best=nd}
+ for(const d of DOOR_DEFS){if(doorProgress.has(`${d.x},${d.y}`))continue;
+  const dist=Math.hypot(player.x-(d.x+.5),player.y-(d.y+.5));
+  if(dist<best){pick={kind:'door',door:d};best=dist}
+ }
+ const dg=Math.hypot(generator.x-player.x,generator.y-player.y);
+ if(!objective.generator&&dg<best){pick={kind:'generator'};best=dg}
+ return pick
+}
+// Save is versioned and isolated to this browser (no login or cloud account).
+function snapshotGame(){return {caseFound:[...caseFound],npcSpoken,caseRewarded,player:JSON.parse(JSON.stringify(player)),enemies:JSON.parse(JSON.stringify(enemies)),items:JSON.parse(JSON.stringify(items)),objective:{...objective},doors:[...openDoors],doorProgress:[...doorProgress],closingDoors:[...closingDoors],mapSeen:[...mapSeen],mappedWalkable,hiddenCaches,housesVisited:[...housesVisited],kills,shots,spawnedBoss,scareUsed,visitedZones:[...visitedZones],elapsed:Math.max(0,performance.now()-startTime)}}
+function validSnapshot(c){if(!c||typeof c!=='object'||!c.player||!c.objective||!Array.isArray(c.enemies)||!Array.isArray(c.items)||!Array.isArray(c.mapSeen)||c.mapSeen.length!==MW*MH||!Array.isArray(c.doors)||!Array.isArray(c.doorProgress||[])||!Array.isArray(c.closingDoors||[]))return false;
+ if(!Number.isFinite(c.player.x)||!Number.isFinite(c.player.y)||c.player.x<1||c.player.x>=MW-1||c.player.y<1||c.player.y>=MH-1)return false;
+ if(!WEAPONS[c.player.weapon]||!c.player.ammo||!c.player.reserve||!Number.isFinite(c.player.hp)||c.player.hp<=0||c.player.hp>100)return false;
+ if(!Number.isInteger(c.objective.fuses)||c.objective.fuses<0||c.objective.fuses>3||typeof c.objective.key!=='boolean'||typeof c.objective.generator!=='boolean'||typeof c.objective.boss!=='boolean')return false;
+ if(c.enemies.length>60||(c.items.length<10||c.items.length>itemSpawns.length)||c.mapSeen.some(v=>v!==0&&v!==1&&v!==2))return false;if(c.caseFound&&(!Array.isArray(c.caseFound)||c.caseFound.some(id=>!CASE_IDS.has(id))))return false;if(c.housesVisited&&(!Array.isArray(c.housesVisited)||c.housesVisited.some(id=>!HOUSES.some(h=>h.id===id))))return false;
+ const knownDoors=new Set(DOOR_DEFS.map(d=>`${d.x},${d.y}`));if(c.doors.some(k=>!knownDoors.has(k))||c.doorProgress.some(e=>!Array.isArray(e)||!knownDoors.has(e[0])||!Number.isFinite(e[1])||e[1]<0||e[1]>1))return false;
+ return true}
+function restoreState(c){player=JSON.parse(JSON.stringify(c.player));enemies=JSON.parse(JSON.stringify(c.enemies));for(const e of enemies)if(e.alive&&!free(e.x,e.y,.15)){e.x=9.5;e.y=6.5;}items=JSON.parse(JSON.stringify(c.items));
+ while(items.length<itemSpawns.length)items.push({...itemSpawns[items.length],taken:false});
+ player.ammo.smg??=24;player.reserve.smg??=48;player.smgUnlocked??=false;
+ player.saltCharges=Number.isFinite(player.saltCharges)?Math.max(0,Math.min(MAX_SALT,player.saltCharges)):2;player.saltCooldown=0;
+ enemies.forEach(e=>{if(!Number.isFinite(e.stun))e.stun=0});
+ objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map(c.doorProgress||[]);closingDoors=new Set(c.closingDoors||[]);mapSeen=Uint8Array.from(c.mapSeen);if(!Array.isArray(c.housesVisited)){for(const h of HOUSES){for(let y=h.y0;y<h.y1;y++)for(let x=h.x0;x<h.x1;x++)mapSeen[y*MW+x]=0;}for(const key of HUT_DOORS){const [x,y]=key.split(',').map(Number);mapSeen[y*MW+x]=0;}}mappedWalkable=0;for(let y=0;y<MH;y++)for(let x=0;x<MW;x++)if(mapSeen[y*MW+x]&&'.DK'.includes(MAP[y][x]))mappedWalkable++;hiddenCaches=c.hiddenCaches||0;housesVisited=new Set((c.housesVisited||[]).filter(id=>HOUSES.some(h=>h.id===id)));caseFound=new Set((c.caseFound||[]).filter(id=>CASE_IDS.has(id)));npcSpoken=!!c.npcSpoken;caseRewarded=!!c.caseRewarded;caseOpen=false;casePage=0;$('caseOverlay').classList.add('hidden');houseName='';cricketClock=2;kills=c.kills||0;shots=c.shots||0;spawnedBoss=!!c.spawnedBoss;scareUsed=!!c.scareUsed;visitedZones=new Set(c.visitedZones||[]);
+ checkpoint=null;navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;keys.clear();playing=true;started=true;ended=false;missionWon=false;last=performance.now();startTime=last-Math.max(0,Math.min(86400000,c.elapsed||0));zoneName=player.y<5?'LAMAN KAMPUNG':player.y<10?'ESTET GETAH':'KAWASAN KERAMAT';
+ $('joy').classList.add('inactive');$('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');updateWeaponButtons();updateTorchButton();updateSaveButton();updateAmbientToggle();
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){};ensureLoop()}
+function persistGame(){if(!playing||player.hp<=0||ended)return false;try{const state={v:SAVE_VERSION,when:Date.now(),game:snapshotGame(),checkpoint:checkpoint?JSON.parse(JSON.stringify(checkpoint)):null};localStorage.setItem(SAVE_KEY,JSON.stringify(state));updateSaveButton();return true}catch(_){return false}}
+function readSave(){try{const data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!data||data.v!==SAVE_VERSION||!validSnapshot(data.game))return null;if(data.checkpoint&&!validSnapshot(data.checkpoint))data.checkpoint=null;return data}catch(_){return null}}
+function updateSaveButton(){$('continueSaved').classList.toggle('hidden',!readSave())}
+function loadSavedGame(){const data=readSave();if(!data){updateSaveButton();return}restoreState(data.game);checkpoint=data.checkpoint;showTip('PERMAINAN DISAMBUNG — SELAMAT KEMBALI',3)}
+function saveCheckpoint(){
+ if(checkpoint||!playing)return;checkpoint=snapshotGame();checkpoint.player.hp=Math.max(checkpoint.player.hp,65);
+ showTip('CHECKPOINT ESTET DISIMPAN',3.2);sound('checkpoint');persistGame()
+}
+function restoreCheckpoint(){if(!checkpoint||!validSnapshot(checkpoint))return;const snap=checkpoint;restoreState(snap);checkpoint=snap;showTip('SAMBUNG DARI ESTET GETAH',2.8);sound('checkpoint');persistGame()}
+
+// Breadth-first distance field over walkable tiles; recalculated after movement/door change.
+const NAV_DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
+function updateNavigation(dt){navClock-=dt;const px=Math.floor(player.x),py=Math.floor(player.y),doorSig=[...openDoors].sort().join(';'),key=`${px},${py}|${doorSig}`;
+ if(key===navKey&&navClock>0)return;navKey=key;navClock=.35;navDistances.fill(-1);
+ if(tileAt(px,py)!=='.')return;const qx=new Int16Array(MW*MH),qy=new Int16Array(MW*MH);let head=0,tail=1;qx[0]=px;qy[0]=py;navDistances[py*MW+px]=0;
+ while(head<tail){const x=qx[head],y=qy[head++],dist=navDistances[y*MW+x];for(const [dx,dy] of NAV_DIRS){const nx=x+dx,ny=y+dy,idx=ny*MW+nx;if(nx<0||ny<0||nx>=MW||ny>=MH||navDistances[idx]!==-1||tileAt(nx,ny)!=='.')continue;navDistances[idx]=dist+1;qx[tail]=nx;qy[tail]=ny;tail++}}
+}
+function chaseAroundWalls(e,dt,speed){const x=Math.floor(e.x),y=Math.floor(e.y),index=y*MW+x;if(x<0||y<0||x>=MW||y>=MH)return false;const dist=navDistances[index];if(dist<=0||dist>12)return false;
+ let best=null,bestDist=dist;for(const [dx,dy] of NAV_DIRS){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=MW||ny>=MH||tileAt(nx,ny)!=='.')continue;const nd=navDistances[ny*MW+nx];if(nd>=0&&nd<bestDist){bestDist=nd;best={x:nx+.5,y:ny+.5}}}
+ if(!best)return false;const vx=best.x-e.x,vy=best.y-e.y,len=Math.hypot(vx,vy);if(len>.01)moveEnemy(e,vx/len*dt*speed,vy/len*dt*speed);return true
+}
+function advanceDoors(dt){
+ for(const [key,progress] of doorProgress){
+  const closing=closingDoors.has(key);
+  if(closing){const [x,y]=key.split(',').map(Number);
+   // An open door must never solidify around the player or a ghost.
+   if(Math.hypot(player.x-x-.5,player.y-y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-x-.5,e.y-y-.5)<.52)){
+    closingDoors.delete(key);doorProgress.delete(key);showTip('LALUAN PINTU TERHALANG',1.5);continue
+   }
+  }
+  const next=closing?Math.max(0,progress-dt*1.45):Math.min(1,progress+dt*1.45);
+  doorProgress.set(key,next);
+  if((closing&&next<=0)||(!closing&&next>=1)){
+   doorProgress.delete(key);closingDoors.delete(key);
+   if(closing){openDoors.delete(key);showTip('PINTU DITUTUP',1.2)}
+   else{openDoors.add(key);surveyMap();showTip('PINTU TERBUKA — LALUAN BARU',1.7)}
+   navKey='';persistGame()
+   sound('door')
+  }
+ }
+}
+function interact(){
+ if(caseOpen)return;
+ const near=getInteractable();if(!near){showTip('TIADA APA UNTUK DIGUNAKAN',1.1);return}
+ if(near.kind==='case'){collectCase(near.entry);return}
+ if(near.kind==='npc'){npcSpoken=true;persistGame();sound('checkpoint');openCase('mak');return}
+ if(near.kind==='door'){
+  const d=near.door;
+  const key=`${d.x},${d.y}`;
+  if(openDoors.has(key)){
+   if(Math.hypot(player.x-d.x-.5,player.y-d.y-.5)<.63||enemies.some(e=>e.alive&&Math.hypot(e.x-d.x-.5,e.y-d.y-.5)<.52)){
+    showTip('BERUNDUR SEBELUM TUTUP PINTU',1.8);sound('dry');return
+   }
+   doorProgress.set(key,.999);closingDoors.add(key);showTip(`${d.label} SEDANG DITUTUP`,1.5);sound('door');return
+  }
+  if(d.requiresKey&&!objective.key){showTip('PAGAR KERAMAT TERKUNCI — CARI KUNCI',2.8);sound('dry');return}
+  doorProgress.set(key,.001);showTip(`${d.label} SEDANG DIBUKA`,1.5);sound('door');return
+ }
+ if(objective.fuses!==3){showTip(`TIANG PENDINDING PERLUKAN ${3-objective.fuses} JALUR LAGI`,2.5);sound('dry');return}
+ objective.generator=true;showTip('PENDINDING AKTIF! HANTU PENANGGAL MUNCUL!',3.4);sound('win');
+ if(!spawnedBoss){enemies.push(makeEnemy('penanggal',17.2,12.6));triggerScare();spawnedBoss=true}persistGame()
+}
+function reload(){const w=player.weapon,def=WEAPONS[w];if(!playing||!def.clip||player.reload>0||player.ammo[w]>=def.clip||player.reserve[w]<=0)return;player.reload=def.reload;showTip('ISI SEMULA...');sound('reload')}
+function damageEnemy(e,rawDamage,source){
+ if(!e||!e.alive)return 0;
+ const multiplier=AFFINITY[e.type]?.[source]??1,damage=rawDamage*multiplier*(player.buff>0?1.6:1);
+ e.hp-=damage;e.flash=.2;hitmark=.25;sound('hit');
+ if(e.hp<=0){e.alive=false;kills++;deathWisps.push({x:e.x,y:e.y,life:.62,type:e.type});killPulse=.3;showTip(`${e.type.toUpperCase()} TUMPAS`);
+  if(e.type==='penanggal'){objective.boss=true;showTip('HANTU PENANGGAL TUMPAS! LARI KE JALAN BESAR!',3.5);persistGame()}
+ }
+ return damage
+}
+function throwSalt(){
+ if(!playing||player.saltCooldown>0)return false;
+ if(player.saltCharges<=0){showTip('BOM GARAM HABIS — CARI BEKALAN',1.6);sound('dry');return false}
+ player.saltCharges--;player.saltCooldown=1.2;updateSaltButton();
+ const vx=Math.cos(player.a),vy=Math.sin(player.a);let bx=player.x,by=player.y;
+ for(let k=.12;k<=2.45;k+=.12){const x=player.x+vx*k,y=player.y+vy*k;if(isWall(x,y))break;bx=x;by=y}
+ saltBursts.push({x:bx,y:by,ttl:.5});sound('salt');screenShake=Math.max(screenShake,2);showTip('BOM GARAM MELETUP — HANTU TERGANGGU',1.3);
+ for(const e of enemies){if(!e.alive)continue;const d=Math.hypot(e.x-bx,e.y-by);
+  if(d>2.15||!lineOfSight(bx,by,e.x,e.y))continue;
+  damageEnemy(e,4.25*Math.max(.6,1-d/5),'salt');
+  if(e.alive){e.stun=Math.max(e.stun||0,e.type==='penanggal'?.65:1.25);e.ai='chase';e.charge=0;e.dash=0}
+ }
+ projectiles=projectiles.filter(p=>Math.hypot(p.x-bx,p.y-by)>2.15||!lineOfSight(bx,by,p.x,p.y));persistGame();return true
+}
+function shoot(){
+ if(!playing||player.reload>0||shotClock>0)return;
+ const w=player.weapon,def=WEAPONS[w];
+ if(def.clip&&player.ammo[w]<=0){sound('dry');shotClock=.19;reload();return}
+ if(def.clip)player.ammo[w]--;shots++;shotClock=def.rate;player.attack=.3;screenShake=w==='shotgun'?4:w==='pistol'?1.6:w==='smg'?1.1:2.2;flash=w==='shotgun'?.11:w==='smg'?.025:.04;
+ sound(w==='parang'?'hit':'shot');
+ let target=null,best=Infinity;
+ for(const e of enemies){if(!e.alive)continue;
+  const dx=e.x-player.x,dy=e.y-player.y,dist=Math.hypot(dx,dy),da=Math.atan2(Math.sin(Math.atan2(dy,dx)-player.a),Math.cos(Math.atan2(dy,dx)-player.a));
+  const size=def.spread+.15/Math.max(1,dist);
+  if(dist<=def.range&&Math.abs(da)<size&&dist<best&&lineOfSight(player.x,player.y,e.x,e.y)){target=e;best=dist}
+ }
+ if(target){const base=def.damage*(w==='shotgun'?Math.max(.42,1-best/8):1);damageEnemy(target,base,w)}
+ if(def.clip&&player.ammo[w]===0&&player.reserve[w]>0)reload()
+}
+function lineOfSight(ax,ay,bx,by){const dist=Math.hypot(bx-ax,by-ay);for(let d=.13;d<dist-.23;d+=.14){const x=ax+(bx-ax)*d/dist,y=ay+(by-ay)*d/dist;if(isWall(x,y))return false}return true}
+function damagePlayer(dmg){if(hurtCooldown>0)return false;hurtCooldown=.58;const amount=player.shield>0?Math.ceil(dmg*.55):dmg;player.hp=Math.max(0,player.hp-amount);flash=Math.max(flash,player.shield>0?.08:.16);screenShake=player.shield>0?2.5:5;sound(player.shield>0?'shield':'hurt');if(player.hp<=0){end(false);return true}return false}
+function moveEnemy(e,dx,dy){moveEntity(e,dx,dy,e.type==='toyol'?.16:.22)}
+function castCurse(e,dx,dy,d){const len=Math.max(.01,d);const vx=dx/len,vy=dy/len;
+ projectiles.push({x:e.x+vx*.35,y:e.y+vy*.35,vx:vx*3.4,vy:vy*3.4,ttl:3.5,phase:0});sound('ghost')}
+function updateProjectiles(dt){
+ for(const p of projectiles){if(p.ttl<=0)continue;
+  // Short sub-steps prevent fast projectiles passing through walls or player.
+  const steps=Math.max(1,Math.ceil(dt*4.5/.1));
+  for(let k=0;k<steps&&p.ttl>0;k++){
+   p.x+=p.vx*dt/steps;p.y+=p.vy*dt/steps;
+   if(isWall(p.x,p.y)){p.ttl=0;break}
+   if(Math.hypot(p.x-player.x,p.y-player.y)<.32){p.ttl=0;if(damagePlayer(9))return;showTip('ELAK SUMPAHAN LANGSUIR!',1.6);break}
+  }
+  p.phase+=dt*7;p.ttl-=dt
+ }
+ projectiles=projectiles.filter(p=>p.ttl>0);
+}
+
+function updateEnemy(e,dt){
+ const spec=ENEMY_TYPES[e.type];e.flash=Math.max(0,e.flash-dt);e.attack=Math.max(0,e.attack-dt);e.alertSound=Math.max(0,e.alertSound-dt);e.phase+=dt*4;if(e.stun>0){e.stun=Math.max(0,e.stun-dt);e.flash=Math.max(e.flash,.06);return}
+ const dx=player.x-e.x,dy=player.y-e.y,d=Math.hypot(dx,dy),safeD=Math.max(.08,d),visible=d<9&&lineOfSight(e.x,e.y,player.x,player.y);
+ if(e.type==='penanggal'){
+  const enraged=e.hp<=spec.hp*.5;if(enraged&&!e.rage){e.rage=true;showTip('HANTU PENANGGAL MURKA! HENTAKAN LEBIH PANTAS',2.4);sound('scream')}
+  if(e.ai==='slam'){
+   e.charge-=dt;e.flash=.12;
+   if(e.charge<=0){e.ai='recover';e.charge=e.rage?.55:.70;screenShake=Math.max(screenShake,6);sound('scream');if(d<1.85&&visible)damagePlayer(spec.damage);showTip('HENTAKAN HANTU PENANGGAL!',1.1)}
+   return
+  }
+  if(e.ai==='recover'){e.charge-=dt;if(e.charge<=0)e.ai='chase';return}
+  if(!visible){if(d<11)chaseAroundWalls(e,dt,spec.speed);return}
+  if(d>1.55)moveEnemy(e,dx/safeD*dt*(spec.speed+(e.rage?.16:0)),dy/safeD*dt*(spec.speed+(e.rage?.16:0)));
+  else if(e.attack<=0){e.ai='slam';e.charge=e.rage?.78:1.0;e.attack=e.rage?2.5:3.1;showTip('HANTU PENANGGAL NAK HENTAK! UNDUR!',2.0);sound('ghost')}
+  return
+ }
+ if(visible)e.awareness=5;else{e.awareness=Math.max(0,(e.awareness||0)-dt);if(d<5.6)e.awareness=Math.max(e.awareness,2.0);if(e.awareness>0&&d<9)chaseAroundWalls(e,dt,spec.speed*(e.type==='langsuir'?.82:1));return}
+ if(e.type==='langsuir'){
+  // Hover at medium distance, sidestep around the player, telegraph every curse.
+  if(e.ai==='cast'){
+   e.charge-=dt;if(e.charge<=0){castCurse(e,dx,dy,d);e.ai='chase';e.attack=spec.rate}
+  }else{
+   if(d<2.4)moveEnemy(e,-dx/safeD*dt*.68,-dy/safeD*dt*.68);
+   else if(d>4.9)moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);
+   else{const sweep=Math.sin(e.phase*.9)*dt*.26;moveEnemy(e,-dy/safeD*sweep,dx/safeD*sweep)}
+   if(d<7.2&&e.attack<=0){e.ai='cast';e.charge=.75;e.attack=spec.rate;showTip('LANGSUIR MENGUMPUL SUMPAHAN...',1.4);sound('ghost')}
+  }
+  return;
+ }
+ if(e.type==='pontianak'){
+  if(e.ai==='tell'){e.charge-=dt;if(e.charge<=0){e.ai='dash';e.dash=.65;e.dx=dx/Math.max(.1,d);e.dy=dy/Math.max(.1,d);showTip('PONTIANAK MENERKAM!')}}
+  else if(e.ai==='dash'){if(e.dash>0){moveEnemy(e,e.dx*dt*3,e.dy*dt*3);e.dash-=dt}else{e.ai='chase';e.attack=1.5}}
+  else if(d>1.05){moveEnemy(e,dx/safeD*dt*spec.speed,dy/safeD*dt*spec.speed);if(d<3.4&&e.attack<=0){e.ai='tell';e.charge=.7;e.attack=2.8;sound('scream');triggerScare();showTip('DENGAR JERITAN PONTIANAK...',1.2)}}
+ }else if(d>spec.range){
+  let moveSpeed=spec.speed;
+  if(e.type==='pocong')moveSpeed*=.35+.8*Math.max(0,Math.sin(e.phase*2));
+  if(e.type==='toyol'){const wiggle=Math.sin(e.phase*2.5)*.55;moveEnemy(e,(dx/safeD+(-dy/safeD)*wiggle)*dt*moveSpeed,(dy/safeD+(dx/safeD)*wiggle)*dt*moveSpeed)}
+  else moveEnemy(e,dx/safeD*dt*moveSpeed,dy/safeD*dt*moveSpeed)
+ }
+ const nd=Math.hypot(player.x-e.x,player.y-e.y);
+ if(nd<=spec.range&&e.attack<=0){e.attack=spec.rate;if(e.type==='toyol'&&Math.random()<.35){const ww=player.weapon==='parang'?'pistol':player.weapon;player.reserve[ww]=Math.max(0,player.reserve[ww]-2);showTip('TOYOL CURI PELURU!')}
+  if(damagePlayer(spec.damage))return
+ }
+}
+function pickup(i){
+ if(i.type==='fuse'){objective.fuses++;showTip(`JALUR PENDINDING ${objective.fuses}/3`,3)}
+ else if(i.type==='key'){objective.key=true;showTip('KUNCI PAGAR KERAMAT DIJUMPAI! CARI PAGAR MERAH',3.8)}
+ else if(i.type==='health'){const gained=Math.min(100-player.hp,35);player.hp+=gained;showTip(`+${gained} KESIHATAN`)}
+ else if(i.type==='air_garam'){player.buff=14;showTip('AIR GARAM AKTIF — DAMAGE +60%',3)}
+ else if(i.type==='tangkal'){player.shield=18;showTip('TANGKAL AKTIF — SERANGAN -45%',3)}
+ else if(i.type==='stash'){hiddenCaches++;player.hp=Math.min(100,player.hp+25);player.reserve.pistol+=12;player.reserve.shotgun+=6;if(player.smgUnlocked)player.reserve.smg+=24;player.saltCharges=Math.min(MAX_SALT,player.saltCharges+1);updateSaltButton();showTip('PONDOK BEKALAN RAHSIA! +NYAWA +PELURU',3.1)}
+ else if(i.type==='ammo_bullet'){player.reserve.pistol+=18;showTip('+18 PELURU PISTOL')}
+ else if(i.type==='ammo_shell'){player.reserve.shotgun+=10;showTip('+10 PELURU SHOTGUN')}
+ else if(i.type==='smg_kit'){player.smgUnlocked=true;player.ammo.smg=24;player.reserve.smg=Math.max(48,player.reserve.smg);showTip('SMG DIJUMPAI — TEKAN 4 UNTUK PILIH',3.1);updateWeaponButtons()}
+ else if(i.type==='ammo_smg'){player.reserve.smg+=48;showTip('+48 PELURU SMG')}
+ else if(i.type==='salt_charge'){player.saltCharges=Math.min(MAX_SALT,player.saltCharges+2);showTip('+2 BOM GARAM');updateSaltButton()}
+ i.taken=true;sound('pickup');persistGame()
+}
+function update(dt){
+ if(caseOpen)return;
+ frame+=dt;advanceDoors(dt);hurtCooldown=Math.max(0,hurtCooldown-dt);saveClock+=dt;surveyClock-=dt;scareTime=Math.max(0,scareTime-dt);shotClock=Math.max(0,shotClock-dt);flash=Math.max(0,flash-dt);hitmark=Math.max(0,hitmark-dt);
+ screenShake=Math.max(0,screenShake-dt*22);tipTimer=Math.max(0,tipTimer-dt);killPulse=Math.max(0,killPulse-dt);player.attack=Math.max(0,player.attack-dt);player.buff=Math.max(0,player.buff-dt);player.shield=Math.max(0,player.shield-dt);player.saltCooldown=Math.max(0,(player.saltCooldown||0)-dt);for(const b of saltBursts)b.ttl-=dt;saltBursts=saltBursts.filter(b=>b.ttl>0);
+ ambienceClock-=dt;if(ambienceClock<=0){const nearest=enemies.reduce((best,e)=>e.alive?Math.min(best,Math.hypot(e.x-player.x,e.y-player.y)):best,100);if(nearest<6)sound('ghost');ambienceClock=3.5+Math.random()*4}
+ cricketClock-=dt;if(cricketClock<=0){cricketChirp();cricketClock=4+Math.random()*4}
+ if(player.reload>0){player.reload-=dt;if(player.reload<=0){const w=player.weapon,def=WEAPONS[w],take=Math.min(def.clip-player.ammo[w],player.reserve[w]);player.ammo[w]+=Math.max(0,take);player.reserve[w]-=Math.max(0,take);player.reload=0;showTip('SENJATA SIAP')}}
+ let forward=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-joy.y;
+ let strafe=(keys.has('KeyD')?1:0)-(keys.has('KeyA')?1:0)+joy.x;
+ let magnitude=Math.hypot(forward,strafe);
+ if(keys.has('ArrowLeft'))player.a-=dt*1.9;if(keys.has('ArrowRight'))player.a+=dt*1.9;
+ const move=dt*2.6;
+ if(magnitude>.05){forward/=Math.max(1,magnitude);strafe/=Math.max(1,magnitude);const cos=Math.cos(player.a),sin=Math.sin(player.a);
+  moveEntity(player,(forward*cos-strafe*sin)*move,(forward*sin+strafe*cos)*move);bob+=dt*10;moving=1
+ }else moving=Math.max(0,moving-dt*5);
+ if(surveyClock<=0){surveyMap();surveyClock=.14}updateNavigation(dt);
+ if(saveClock>=12){saveClock=0;persistGame()}
+ if(fireHeld||mouseHeld)shoot();
+ for(const e of enemies){if(e.alive){updateEnemy(e,dt);if(!playing)return}}
+ updateProjectiles(dt);if(!playing)return;for(const w of deathWisps)w.life-=dt;deathWisps=deathWisps.filter(w=>w.life>0);
+ for(const i of items){if(!i.taken&&i.type!=='mystery_box'&&Math.hypot(i.x-player.x,i.y-player.y)<.57)pickup(i)}
+ // Houses use real walls and doors; first entry gives a small, one-time exploration reward.
+ const currentHouse=activeHouse();if(currentHouse){houseName=currentHouse.name;
+  if(!housesVisited.has(currentHouse.id)){housesVisited.add(currentHouse.id);player.hp=Math.min(100,player.hp+8);player.reserve.pistol+=5;showTip(`${currentHouse.name} — BEKALAN +NYAWA +PELURU`,3.0);sound('pickup');persistGame()}
+ }else houseName='';
+ // Room title appears when entering a new wing, then leaves the player in control.
+ zoneName=player.y<5?'LAMAN KAMPUNG':player.y<10?'ESTET GETAH':'KAWASAN KERAMAT';
+ if(!visitedZones.has(zoneName)){visitedZones.add(zoneName);showTip(`MEMASUKI ${zoneName}`,2.5)}
+ if(!checkpoint&&zoneName==='ESTET GETAH'&&player.y>5.35&&player.y<9.65)saveCheckpoint()
+ const near=getInteractable();
+ if(near&&tipTimer<.15){
+  let prompt='';
+  if(near.kind==='mystery_box')prompt='E / GUNA: BUKA MYSTERY BOX';
+  else if(near.kind==='case'&&near.entry)prompt=`E / GUNA: BACA ${near.entry.title}`;
+  else if(near.kind==='npc')prompt='E / GUNA: BERCAKAP DENGAN MAK TIMAH';
+  else if(near.kind==='generator')prompt='E / GUNA: TIANG PENDINDING';
+  else if(near.kind==='door'&&near.door){
+   const d=near.door;
+   prompt=d.requiresKey&&!objective.key?'PERLUKAN KUNCI PAGAR KERAMAT':`E / GUNA: ${openDoors.has(`${d.x},${d.y}`)?'TUTUP':'BUKA'} ${d.label}`;
+  }
+  if(prompt)showTip(prompt,1.1)
+ }
+ if(Math.hypot(portal.x-player.x,portal.y-player.y)<.75){
+  if(objective.generator&&objective.boss){end(true)}
+  else if(tipTimer<.25)showTip(!objective.generator?'JALAN TERKUNCI — AKTIFKAN PENDINDING':'TEWASKAN HANTU PENANGGAL DAHULU')
+ }
+}
+function world(){const shake=(Math.random()-.5)*screenShake,cy=H*.47+Math.sin(bob)*1.1*moving+shake;
+ const flicker=Math.sin(frame*1.4)*.009;renderLightLevel=flicker-.12+(objective.generator?-.025:0);let ceiling=ctx.createLinearGradient(0,0,0,cy);ceiling.addColorStop(0,'#050d23');ceiling.addColorStop(.72,'#102b33');ceiling.addColorStop(1,'#24443c');ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,cy);const moonX=((1.95-player.a%(Math.PI*2))*42+W*2)%(W*2);ctx.fillStyle='#dfddbe';ctx.beginPath();ctx.arc(moonX,cy*.25,10,0,Math.PI*2);ctx.fill();let floor=ctx.createLinearGradient(0,cy,0,H);floor.addColorStop(0,'#263b27');floor.addColorStop(1,'#101c13');ctx.fillStyle=floor;ctx.fillRect(0,cy,W,H-cy);ctx.fillStyle='#88a95810';for(let i=0;i<9;i++){let yy=cy+(i*i/81)*(H-cy);ctx.fillRect(0,yy,W,1)}const dx=Math.cos(player.a),dy=Math.sin(player.a),px=-dy*Math.tan(FOV/2),py=dx*Math.tan(FOV/2);
+for(let col=0;col<RAYS;col++){let cameraX=2*col/RAYS-1,rx=dx+px*cameraX,ry=dy+py*cameraX,mx=Math.floor(player.x),my=Math.floor(player.y),ddx=Math.abs(1/(rx||1e-8)),ddy=Math.abs(1/(ry||1e-8)),sx=rx<0?-1:1,sy=ry<0?-1:1,sidx=(rx<0?player.x-mx:mx+1-player.x)*ddx,sidy=(ry<0?player.y-my:my+1-player.y)*ddy,side=0,wall=1;for(let t=0;t<38;t++){if(sidx<sidy){sidx+=ddx;mx+=sx;side=0}else{sidy+=ddy;my+=sy;side=1}if(my<0||my>=MH||mx<0||mx>=MW){wall=1;break}const key=`${mx},${my}`,tile=doorProgress.has(key)?MAP[my][mx]:tileAt(mx,my);if(tile!=='.'){
+  const progress=doorProgress.get(`${mx},${my}`)||0;
+  if((tile==='D'||tile==='K')&&progress>0){const hitD=side===0?sidx-ddx:sidy-ddy;let doorU=side===0?player.y+hitD*ry:player.x+hitD*rx;doorU-=Math.floor(doorU);if((side===0&&rx>0)||(side===1&&ry<0))doorU=1-doorU;
+   if(doorU<progress)continue}
+  wall=tile==='D'?(HUT_DOORS.has(key)?6:4):tile==='K'?5:(Number(tile)||1);break} }let dist=Math.max(.05,side===0?sidx-ddx:sidy-ddy);zbuf[col]=dist;let height=H/dist*.8,top=cy-height/2,wallX=side===0?player.y+dist*ry:player.x+dist*rx;wallX-=Math.floor(wallX);let uv=wallX;if((side===0&&rx>0)||(side===1&&ry<0))uv=1-uv;
+ const doorOpening=(wall===4||wall===5||wall===6)?(doorProgress.get(`${mx},${my}`)||0):0;
+ if(doorOpening>0)uv=Math.min(.999,(uv-doorOpening)/(1-doorOpening));
+ const texX=Math.max(0,Math.min(63,(uv*64)|0));ctx.drawImage(textures[wall]||textures[1],texX,0,1,64,col*STEP,top,STEP+1,height);paintWallAttachments(mx,my,side,rx,ry,wallX,top,height,col);let shade=Math.min(.92,dist*.047+(side?.14:0)+.06+renderLightLevel);ctx.fillStyle=`rgba(7,10,19,${shade})`;ctx.fillRect(col*STEP,top,STEP+1,height);if(top+height<H){ctx.fillStyle='#05070a15';ctx.fillRect(col*STEP,top+height,STEP+1,Math.min(H-top-height,2))}}
+const sprites=[];
+for(const e of enemies)if(e.alive){
+ const bobbing=e.type==='pocong'?Math.sin(e.phase*2)*.035:e.type==='pontianak'?-.11+Math.sin(e.phase)*.06:e.type==='langsuir'?-.22+Math.sin(e.phase*1.3)*.085:e.type==='penanggal'?-0.12+Math.sin(e.phase*.7)*.025:Math.sin(e.phase*3)*.02;
+ const pose=(e.ai==='dash'||e.ai==='cast'||e.ai==='slam')?3:Math.floor(e.phase*1.15)%4;
+ sprites.push({x:e.x,y:e.y,bob:bobbing,img:enemySpriteFrames[e.type][pose],scale:ENEMY_TYPES[e.type].scale,glow:e.flash>0||e.ai==='cast'||e.rage,grounded:true})}
+ for(const p of projectiles)sprites.push({x:p.x,y:p.y,bob:-.1,img:curseSprite,scale:.22,glow:true,grounded:false,kind:'curse'});
+ for(const w of deathWisps)sprites.push({x:w.x,y:w.y,bob:-.11-(.62-w.life)*.65,img:curseSprite,scale:.25+(.62-w.life)*.22,glow:true,grounded:false,kind:'wisp'});
+for(const i of items)if(!i.taken&&(!i.hidden||(Math.hypot(i.x-player.x,i.y-player.y)<1.6&&lineOfSight(player.x,player.y,i.x,i.y))))sprites.push({x:i.x,y:i.y,img:i.type==='stash'?ammoImg:pickupSprite[i.type],scale:.45,glow:i.type==='air_garam'||i.type==='tangkal',grounded:true,kind:'pickup'});
+for(const prop of floorDecorations)sprites.push({...prop,glow:false});
+sprites.push({x:SURVIVOR.x,y:SURVIVOR.y,img:survivorSprite,scale:.77,grounded:true,kind:'npc',glow:false});
+for(const c of CASES)if(!caseFound.has(c.id))sprites.push({x:c.x,y:c.y,img:caseSprites[c.type],scale:.40,grounded:true,kind:'case',glow:true});
+sprites.sort((a,b)=>(b.x-player.x)**2+(b.y-player.y)**2-((a.x-player.x)**2+(a.y-player.y)**2));
+const inv=1/(px*dy-dx*py);
+for(const s of sprites){let xx=s.x-player.x,yy=s.y-player.y,tx=inv*(dy*xx-dx*yy),tz=inv*(-py*xx+px*yy);if(tz<=.15)continue;
+ let sx=W*.5*(1+tx/tz),sh=H/tz*s.scale,sw=sh*.66;
+ // A grounded object's bottom is the projected floor plane at its distance,
+ // independent of its sprite height. No hover artifacts for trolleys/pickups.
+ let groundY=cy+H/tz*.4,top=(s.grounded?groundY-sh:cy-sh*.53)+(s.bob||0)*H/tz;
+ if((s.kind==='floor'||s.kind==='npc')&&tz<zbuf[Math.min(RAYS-1,Math.max(0,(sx/STEP)|0))]){
+  ctx.fillStyle='#03080962';ctx.beginPath();ctx.ellipse(sx,groundY,Math.max(2,sw*.30),Math.max(1,sh*.044),0,0,Math.PI*2);ctx.fill()
+ }
+ for(let stripe=Math.floor(sx-sw/2);stripe<Math.ceil(sx+sw/2);stripe+=2){if(stripe<0||stripe>=W||tz>=zbuf[Math.min(RAYS-1,Math.max(0,(stripe/STEP)|0))]+.18)continue;
+ let texX=Math.floor((stripe-(sx-sw/2))/sw*s.img.width);if(texX<0||texX>=s.img.width)continue;
+ ctx.drawImage(s.img,texX,0,1,s.img.height,stripe,top,2.5,sh);
+ if(s.glow){ctx.fillStyle='#ffe7bd2c';ctx.fillRect(stripe,top,2.2,sh)}
+ }
+}
+}
+function penanggalGroundWarning(){
+ const boss=enemies.find(e=>e.alive&&e.type==='penanggal'&&e.ai==='slam');if(!boss)return;
+ const dist=Math.max(.35,Math.hypot(boss.x-player.x,boss.y-player.y));if(dist>4.2)return;
+ ctx.save();ctx.globalAlpha=.25+(1-Math.min(1,boss.charge))*.25;
+ ctx.strokeStyle='#ffc278';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(W*.5,H*.55,Math.max(18,110/dist),Math.max(6,21/dist),0,0,Math.PI*2);ctx.stroke();
+ ctx.fillStyle='#ffd8a7';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('⚠ HENTAKAN — UNDUR!',W*.5,85);ctx.restore();ctx.textAlign='start'
+}
+function weapon(){
+ ctx.save();let strike=player.attack>0?Math.sin(Math.PI*Math.max(0,Math.min(1,1-player.attack/.3))):0;let recoil=strike*(player.weapon==='shotgun'?27:player.weapon==='pistol'?14:9);
+ let x=W/2-47+Math.sin(bob)*2*moving,y=H-24+recoil+Math.abs(Math.cos(bob))*2*moving;
+ const w=player.weapon,p=(c,ox,oy,ww,hh)=>{ctx.fillStyle=c;ctx.fillRect(x+ox,y+oy,ww,hh)};
+ if(w==='parang'){
+  ctx.translate(x+47,y);const swing=player.attack>0?Math.sin((1-player.attack/.3)*Math.PI):0;ctx.rotate(-.45+swing*1.05);ctx.translate(-(x+47),-y);
+  p('#232028',37,-2,18,48);p('#a05c35',40,-25,12,32);p('#d4c8a0',34,-31,24,8);p('#6f7981',35,-93,21,63);p('#c0c9c4',36,-94,8,58);p('#e0d9c7',36,-94,5,38)
+ }else if(w==='pistol'){
+  p('#16171f',17,-19,65,46);p('#393f4c',31,-61,43,49);p('#a1a8a9',35,-60,38,10);p('#262c35',46,-63,23,16);p('#626b6c',32,-34,43,7);p('#6f3c33',50,-9,22,33);p('#a35c43',53,-4,15,24);
+  if(player.attack>.14){p('#ffe3a4',43,-102,20,29);p('#fc963d',35,-89,36,18)}
+ }else if(w==='smg'){
+  p('#101820',15,-22,71,35);p('#384b50',24,-45,47,26);p('#a0b5ad',28,-46,42,7);
+  p('#182a31',40,-61,14,18);p('#677b77',42,-61,10,8);p('#627a75',69,-39,34,9);
+  p('#202b2f',35,-8,18,30);p('#425452',48,-4,22,17);
+  if(player.attack>.17){p('#ffde9c',93,-67,17,24);p('#f69b57',97,-74,9,20)}
+ }else{
+  p('#17141b',13,-33,69,54);p('#414650',24,-48,43,51);p('#79868d',29,-48,34,8);p('#252d3b',38,-58,17,33);p('#a6a3a0',40,-66,13,23);p('#242532',32,-14,34,31);p('#6f3537',20,4,54,12);p('#b05b49',36,4,20,9);p('#d0d8d7',43,-67,7,9);
+  if(player.attack>.16){p('#ffebaa',36,-95,22,26);p('#ffa74c',27,-88,40,18);p('#ff7c27',38,-111,18,27)}
+ }
+ ctx.restore()
+}
+function hud(){
+ ctx.fillStyle='#060b14ee';ctx.fillRect(0,H-40,W,40);ctx.fillStyle=player.buff>0?'#8cd8d8':'#b04c43';ctx.fillRect(0,H-40,W,2);
+ ctx.font='bold 9px monospace';ctx.fillStyle='#bbc2c4';ctx.fillText('NYAWA',12,H-24);ctx.fillText('SENJATA',181,H-24);ctx.fillText('JALUR',344,H-24);
+ ctx.font='bold 18px monospace';ctx.fillStyle=player.hp<30?'#ff6c5c':'#f6e5cf';ctx.fillText(String(Math.floor(player.hp)).padStart(3,'0'),12,H-7);
+ ctx.fillStyle='#65bb9d';ctx.fillRect(63,H-17,Math.max(0,player.hp)*.77,8);
+ const w=player.weapon,def=WEAPONS[w];ctx.fillStyle='#f3dac8';ctx.font='bold 10px monospace';ctx.fillText(def.name,181,H-12);
+ ctx.fillStyle='#eac5a4';ctx.font='bold 11px monospace';ctx.fillText(def.clip?`${player.ammo[w]} / ${player.reserve[w]}`:'∞',261,H-12);
+ ctx.fillStyle='#f9b09a';ctx.font='bold 20px monospace';ctx.fillText(`${objective.fuses}/3`,341,H-7);
+ ctx.fillStyle='#f2e9db';let c=W/2,q=H*.47;const bloom=player.attack>0?(player.weapon==='shotgun'?5:2)*player.attack/.3:0;ctx.fillRect(c-8-bloom,q,5,1);ctx.fillRect(c+4+bloom,q,5,1);ctx.fillRect(c,q-7-bloom,1,5);ctx.fillRect(c,q+3+bloom,1,5);
+ if(hitmark>0){ctx.save();ctx.globalAlpha=Math.min(1,hitmark*5);ctx.strokeStyle=killPulse>0?'#ff7762':'#fff1cf';ctx.lineWidth=killPulse>0?2.3:1.5;ctx.beginPath();for(let sx of [-1,1])for(let sy of [-1,1]){ctx.moveTo(c+sx*4,q+sy*4);ctx.lineTo(c+sx*(killPulse>0?12:9),q+sy*(killPulse>0?12:9))}ctx.stroke();ctx.restore()}
+ if(tipTimer>0){ctx.font='bold 9px monospace';let tw=ctx.measureText(tip).width;ctx.fillStyle='#03070ce9';ctx.fillRect(W/2-tw/2-8,34,tw+16,18);ctx.fillStyle='#ffd1a3';ctx.fillText(tip,W/2-tw/2,46)}
+ if(player.reload>0){ctx.font='bold 10px monospace';ctx.fillStyle='#ffedc6';ctx.fillText('ISI SEMULA...',W/2-38,H-64)}
+ ctx.fillStyle='#adf7da';ctx.font='bold 9px monospace';ctx.fillText(`✧ GARAM ${player.saltCharges}`,W-95,14);
+ ctx.fillStyle='#dcb8a4';ctx.font='bold 9px monospace';ctx.fillText('PROJECT: TERROR // KAMPUNG BERHANTU  v1.8',10,14);
+ if(player.buff>0){ctx.fillStyle='#c9f6f6';ctx.font='bold 9px monospace';ctx.fillText(`AIR GARAM ${Math.ceil(player.buff)}s`,12,29)}
+ else if(objective.generator){ctx.fillStyle='#bce9c9';ctx.font='bold 9px monospace';ctx.fillText(objective.boss?'LALUAN SUDAH TERBUKA':'BOSS: HANTU PENANGGAL',12,29)}
+ if(player.shield>0){ctx.fillStyle='#f6cf8d';ctx.font='bold 9px monospace';ctx.fillText(`TANGKAL ${Math.ceil(player.shield)}s`,12,player.buff>0?41:29)}
+ const mission=objective.boss?'MENUJU JALAN BESAR':objective.generator?'HAPUSKAN HANTU PENANGGAL':objective.fuses===3?'GUNA TIANG PENDINDING':!objective.key?'CARI KUNCI PAGAR':`JALUR ${objective.fuses}/3 · KERAMAT TERBUKA`;
+ ctx.font='bold 9px monospace';ctx.fillStyle='#d6c0a8';ctx.fillText(mission,Math.max(10,Math.floor(W/2-ctx.measureText(mission).width/2)),H-48);
+ ctx.fillStyle='#b2e6bd';ctx.fillText((houseName||zoneName)+(objective.key?' | KUNCI ✓':' | KUNCI ?'),10,53);ctx.fillStyle='#e6c79b';ctx.font='bold 9px monospace';ctx.fillText(`FAIL KES ${caseFound.size}/3  ·  J`,10,65);
+ const penanggal=enemies.find(e=>e.alive&&e.type==='penanggal');
+ if(penanggal){const left=W/2-87,top=62;
+  ctx.fillStyle='#06110ef0';ctx.fillRect(left-4,top-12,182,30);
+  ctx.fillStyle='#f4c4aa';ctx.font='bold 8px monospace';ctx.fillText('HANTU PENANGGAL',left+55,top-2);
+  ctx.fillStyle='#562b2a';ctx.fillRect(left,top+2,172,8);
+  ctx.fillStyle='#d47754';ctx.fillRect(left,top+2,172*Math.max(0,penanggal.hp/ENEMY_TYPES.penanggal.hp),8)
+ }
+ if(flash>0){ctx.fillStyle=`rgba(252,75,52,${flash*1.35})`;ctx.fillRect(0,0,W,H-40)}
+}
+function minimap(){
+ const size=4,ox=W-MW*size-9,oy=8;
+ ctx.fillStyle='#03070bee';ctx.fillRect(ox-5,oy-5,MW*size+10,MH*size+25);
+ // An unexplored cell has zero structure information, including floors and doors.
+ for(let y=0;y<MH;y++)for(let x=0;x<MW;x++){
+  if(!tileDiscovered(x,y))continue;
+  const tile=tileAt(x,y),seen=mapSeen[y*MW+x];
+  ctx.fillStyle=tile==='.'?(seen===2?'#345b4b':'#1c3533'):tile==='D'?'#d6a15b':tile==='K'?'#bd5b5b':tile==='2'?'#48899a':'#637371';
+  ctx.fillRect(ox+x*size,oy+y*size,size-.4,size-.4)
+ }
+ // Objective markers become persistent only after the player discovers their tile.
+ if(tileDiscovered(Math.floor(generator.x),Math.floor(generator.y))){
+  ctx.fillStyle=objective.generator?'#74dea0':'#efce62';ctx.fillRect(ox+generator.x*size-2,oy+generator.y*size-2,4,4)
+ }
+ if(tileDiscovered(Math.floor(portal.x),Math.floor(portal.y))){
+  ctx.fillStyle=objective.boss?'#7eedc0':'#b78cf4';ctx.fillRect(ox+portal.x*size-2,oy+portal.y*size-2,4,4)
+ }
+ for(const i of items){if(i.taken||i.hidden||!tileDiscovered(Math.floor(i.x),Math.floor(i.y)))continue;
+  if(i.type==='fuse')ctx.fillStyle='#ffc75e';else if(i.type==='key')ctx.fillStyle='#baf4d2';else continue;
+  ctx.fillRect(ox+i.x*size-2,oy+i.y*size-2,3,3)
+ }
+ // Enemies aren't persistent radar contacts: only show nearby visible threats.
+ for(const e of enemies){if(!e.alive||Math.hypot(e.x-player.x,e.y-player.y)>2.7||!lineOfSight(player.x,player.y,e.x,e.y))continue;
+  ctx.fillStyle=e.type==='pontianak'?'#ff3c59':e.type==='toyol'?'#cb88ea':e.type==='langsuir'?'#77f0dc':e.type==='penanggal'?'#ffb365':'#ff715c';
+  ctx.fillRect(ox+e.x*size-1,oy+e.y*size-1,2.8,2.8)
+ }
+ ctx.save();ctx.translate(ox+player.x*size,oy+player.y*size);ctx.rotate(player.a);
+ ctx.fillStyle='#b1f8cc';ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(-2,-2);ctx.lineTo(-2,2);ctx.fill();ctx.restore();
+ ctx.font='bold 8px monospace';ctx.fillStyle='#b7c6bc';ctx.fillText(`PETA ${mapPercent()}%  RAHSIA ${hiddenCaches}/1`,ox-1,oy+MH*size+12)
+}
+function atmosphere(){
+ // Alpha-only darkness mask: render into a second canvas to avoid erasing world pixels.
+ lightCtx.clearRect(0,0,W,H);const distanceAlpha=player.flashlight?.36:.51;
+ lightCtx.fillStyle=`rgba(2,7,9,${Math.max(.28,Math.min(.78,distanceAlpha+renderLightLevel))})`;
+ lightCtx.fillRect(0,0,W,H-40);
+ if(player.flashlight){
+  lightCtx.save();lightCtx.globalCompositeOperation='destination-out';
+  const jitter=Math.sin(frame*19)*.7;const x=W*.5+jitter,y=H*.46;
+  const light=lightCtx.createRadialGradient(x,y,6,x,y,185);
+  light.addColorStop(0,'rgba(0,0,0,.96)');light.addColorStop(.30,'rgba(0,0,0,.78)');light.addColorStop(.60,'rgba(0,0,0,.34)');light.addColorStop(1,'rgba(0,0,0,0)');
+  lightCtx.fillStyle=light;lightCtx.fillRect(0,0,W,H-40);lightCtx.restore();
+ }
+ ctx.drawImage(ambianceCanvas,0,0);
+ if(objective.generator){ctx.fillStyle=`rgba(60,126,92,${.015+.014*Math.sin(frame*3)})`;ctx.fillRect(0,0,W,H-40)}
+ if(killPulse>0){ctx.fillStyle=`rgba(249,215,176,${killPulse*.12})`;ctx.fillRect(0,0,W,H-40)}
+ // Deliberate VHS texture and vignette, cheap enough for mobile 480x270 canvas.
+ ctx.fillStyle='#02050735';ctx.fillRect(0,0,16,H-40);ctx.fillRect(W-16,0,16,H-40);
+ ctx.fillStyle='#00000015';for(let y=1;y<H-40;y+=4)ctx.fillRect(0,y,W,1);
+}
+function drawScare(){
+ if(scareTime<=0)return;
+ const opacity=Math.min(.84,scareTime*1.45);const c=W*.5;
+ ctx.save();ctx.globalAlpha=opacity;ctx.fillStyle='#15121d7a';ctx.fillRect(0,0,W,H-40);
+ const size=105+Math.sin((.55-scareTime)*9)*5;
+ ctx.imageSmoothingEnabled=false;ctx.drawImage(enemySpriteFrames.penanggal[3],c-size*.47,15,size*.94,size*1.2);
+ ctx.fillStyle='#d8cabb';ctx.font='bold 15px monospace';ctx.textAlign='center';ctx.fillText('HANTU PENANGGAL SUDAH BANGKIT',c,H-55);
+ ctx.restore();ctx.textAlign='start';
+}
+function drawSaltBurst(){if(!saltBursts.length)return;ctx.save();for(const b of saltBursts){
+ const dx=b.x-player.x,dy=b.y-player.y,d=Math.hypot(dx,dy),rel=Math.atan2(Math.sin(Math.atan2(dy,dx)-player.a),Math.cos(Math.atan2(dy,dx)-player.a));
+ if(Math.abs(rel)>FOV*.6||d<.1)continue;const xx=W/2+Math.tan(rel)/Math.tan(FOV/2)*(W/2),yy=H*.48,rad=Math.min(100,70/Math.max(.7,d))*(1-b.ttl/.85);
+ ctx.globalAlpha=Math.max(0,Math.min(.7,b.ttl*1.4));ctx.strokeStyle='#b9ffea';ctx.lineWidth=3;ctx.beginPath();ctx.arc(xx,yy,Math.max(3,rad),0,Math.PI*2);ctx.stroke()
+ }ctx.restore()}
+function render(){world();atmosphere();drawSaltBurst();drawEstetFog();penanggalGroundWarning();weapon();minimap();hud();drawScare()}
+// Single RAF owner and a 30-FPS mobile ceiling. Duplicate loops previously
+// accumulated across resume/new-game paths, overheating slow Android devices.
+let pendingFrame=0,lastRenderedAt=0,loopErrorCount=0;
+const mobilePerformanceMode=typeof navigator!=='undefined'&&(navigator.maxTouchPoints>0||(typeof matchMedia==='function'&&matchMedia('(pointer:coarse)').matches));
+function ensureLoop(){if(playing&&!pendingFrame)pendingFrame=requestAnimationFrame(loop)}
+function reportGameError(err){
+ console.error('[Project Terror game loop]',err);
+ if(++loopErrorCount!==3)return;
+ const shell=$('shell'),notice=document.createElement('div');
+ notice.id='pt-recovery-notice';
+ notice.style.cssText='position:absolute;z-index:20;left:8px;right:8px;top:8px;padding:10px;background:#391d22f2;border:1px solid #e6a29b;color:#fff;font:12px monospace;text-align:center;pointer-events:none';
+ notice.textContent='GAME ERROR (save masih selamat): '+String(err?.message||err).slice(0,100);
+ shell.appendChild(notice);
+}
+function loop(now){
+ pendingFrame=0;
+ if(!playing)return;
+ // On mobile keep frame work under control; the previous update used
+ // uncapped device refresh rates even on 90Hz/120Hz displays.
+ if(mobilePerformanceMode&&now-lastRenderedAt<32){ensureLoop();return}
+ const dt=Math.min(.055,Math.max(.005,(now-last)/1000));last=now;
+ try{
+  update(dt);
+  if(playing)render();
+  lastRenderedAt=now;
+  loopErrorCount=0;
+ }catch(err){reportGameError(err)}
+ if(playing)ensureLoop();
+}
+// If a browser drops an RAF callback after app switching, kick the loop again.
+// Do not wipe local saves, inventory or checkpoints.
+if(typeof window.setInterval==='function'){
+ window.setInterval(()=>{
+  if(!playing||typeof performance==='undefined')return;
+  if(lastRenderedAt&&performance.now()-lastRenderedAt>2500){
+   if(pendingFrame&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(pendingFrame);
+   pendingFrame=0;last=performance.now();ensureLoop();
+  }
+ },1700)
+}
+
+// Opt-in on-device telemetry: append ?debug=1 to troubleshoot a real Android freeze.
+if(window.location?.search?.includes('debug=1')){
+ const badge=document.createElement('pre');
+ badge.id='pt-debug-hud';
+ badge.style.cssText='position:absolute;z-index:15;right:8px;top:69px;padding:8px;background:#061017dc;border:1px solid #65a9b0;color:#b7eee4;font:11px monospace;white-space:pre;pointer-events:none;max-width:55vw;text-align:left';
+ $('shell').appendChild(badge);
+ window.__ptDebug=()=>({playing,x:player?.x,y:player?.y,joyX:joy.x,joyY:joy.y,keys:[...keys],pendingFrame,lastRenderedAt,frameErrors:loopErrorCount});
+ window.setInterval?.(()=>{
+  const now=performance.now();
+  badge.textContent='PT INPUT DEBUG\n'+
+   'PLAY '+playing+'  FRAME '+Math.floor(lastRenderedAt)+'\n'+
+   'RAF '+(pendingFrame?'YES':'NO')+'  AGE '+Math.floor(now-lastRenderedAt)+'ms\n'+
+   'POS '+(player?.x||0).toFixed(2)+','+(player?.y||0).toFixed(2)+'\n'+
+   'JOY '+joy.x.toFixed(2)+','+joy.y.toFixed(2)+'  KEY '+[...keys].join(',')+'\n'+
+   'ERRORS '+loopErrorCount;
+ },350)
+}
+// Opt-in backup controls, useful on Android builds with faulty virtual joystick.
+// ?safe=1 provides four direct movement keys without changing existing saves.
+if(window.location?.search?.includes('safe=1')){
+ const pad=document.createElement('div');
+ pad.id='pt-safe-pad';
+ pad.style.cssText='position:absolute;z-index:25;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,50px);grid-template-rows:repeat(2,50px);gap:5px;pointer-events:none';
+ const controls=[['▲','KeyW','2','1'],['◀','KeyA','1','2'],['▼','KeyS','2','2'],['▶','KeyD','3','2']];
+ for(const [label,code,column,row] of controls){
+  const button=document.createElement('button');
+  button.type='button';button.textContent=label;button.setAttribute('aria-label','Gerak '+code);
+  button.style.cssText='grid-column:'+column+';grid-row:'+row+';width:50px;height:50px;border:1px solid #a7c9c8a1;border-radius:10px;background:#13252dc9;color:#f3eadb;font:bold 24px monospace;pointer-events:auto;touch-action:none;user-select:none';
+  let safeTouchActive=false;
+  function down(ev){if(ev.cancelable)ev.preventDefault();if(ev.type==='touchstart')safeTouchActive=true;keys.add(code);button.style.background='#386970';if(ev.type==='pointerdown')try{button.setPointerCapture(ev.pointerId)}catch(_){}}
+  function up(ev){if(ev.cancelable)ev.preventDefault();if(ev.type==='touchend'||ev.type==='touchcancel')safeTouchActive=false;else if(safeTouchActive)return;keys.delete(code);button.style.background='#13252dc9'}
+  button.addEventListener('pointerdown',down);
+  for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,up);
+  button.addEventListener('touchstart',down,{passive:false});
+  for(const event of ['touchend','touchcancel'])button.addEventListener(event,up,{passive:false});
+  pad.appendChild(button)
+ }
+ $('shell').appendChild(pad);
+}
+function mobileLook(ev){if(pointer.look!==ev.pointerId)return;const d=ev.clientX-pointer.lastX;pointer.lastX=ev.clientX;player.a+=d*.0055}
+canvas.addEventListener('pointerdown',ev=>{if(!playing)return;if(ev.pointerType==='mouse'){mouseHeld=true;shoot();if(document.pointerLockElement!==canvas)canvas.requestPointerLock?.()}else{const rect=canvas.getBoundingClientRect();if(ev.clientX>rect.left+rect.width*.38){pointer.look=ev.pointerId;pointer.lastX=ev.clientX;try{canvas.setPointerCapture(ev.pointerId)}catch(_){}}}});
+canvas.addEventListener('pointermove',ev=>{if(!playing)return;if(document.pointerLockElement===canvas){player.a+=ev.movementX*.0032}else if(ev.pointerType!=='mouse')mobileLook(ev)});
+canvas.addEventListener('pointerup',ev=>{if(ev.pointerType==='mouse')mouseHeld=false;if(pointer.look===ev.pointerId)pointer.look=null});canvas.addEventListener('pointercancel',()=>{mouseHeld=false;pointer.look=null});
+// Unified Android joystick: pointer and touch are two reports of one finger.
+let joyAnchor={x:0,y:0,r:38},joyPointerId=null,joyTouchId=null;
+const joyZoneEl=$('joyZone');
+function placeJoy(x,y){
+ const el=$('joy'),r=$('mobile').getBoundingClientRect(),half=(el.offsetWidth||116)/2,pad=10;
+ const cx=Math.max(half+pad,Math.min(r.width-half-pad,x-r.left)),cy=Math.max(half+pad,Math.min(r.height-half-pad,y-r.top));
+ el.style.left=(cx-half)+'px';el.style.top=(cy-half)+'px';el.style.bottom='auto';
+ joyAnchor={x:cx,y:cy,r:Math.max(25,half*.66)};el.classList.remove('inactive');
+}
+function moveJoyCoordinates(x,y){
+ const r=$('mobile').getBoundingClientRect();
+ let xx=(x-r.left-joyAnchor.x)/joyAnchor.r,yy=(y-r.top-joyAnchor.y)/joyAnchor.r,mag=Math.hypot(xx,yy);
+ if(mag>1){xx/=mag;yy/=mag}
+ joy.x=xx;joy.y=yy;
+ $('stick').style.transform='translate('+(xx*joyAnchor.r)+'px,'+(yy*joyAnchor.r)+'px)';
+}
+function releaseJoy(){
+ joyPointerId=joyTouchId=pointer.joy=null;joy.x=joy.y=0;
+ $('stick').style.transform='translate(0,0)';$('joy').classList.add('inactive')
+}
+function setJoy(ev){if(playing&&joyPointerId===ev.pointerId)moveJoyCoordinates(ev.clientX,ev.clientY)}
+joyZoneEl.addEventListener('pointerdown',ev=>{
+ if(!playing||joyPointerId!==null||joyTouchId!==null)return;
+ joyPointerId=pointer.joy=ev.pointerId;placeJoy(ev.clientX,ev.clientY);moveJoyCoordinates(ev.clientX,ev.clientY);
+ try{joyZoneEl.setPointerCapture(ev.pointerId)}catch(_){}
+ if(ev.cancelable)ev.preventDefault()
+});
+joyZoneEl.addEventListener('pointermove',setJoy);
+document.addEventListener('pointermove',setJoy,{passive:true});
+function clearJoy(ev){if(joyPointerId===ev.pointerId)releaseJoy()}
+for(const type of ['pointerup','pointercancel','lostpointercapture'])joyZoneEl.addEventListener(type,clearJoy);
+document.addEventListener('pointerup',clearJoy);document.addEventListener('pointercancel',clearJoy);
+joyZoneEl.addEventListener('touchstart',ev=>{
+ if(!playing||joyPointerId!==null||joyTouchId!==null)return;
+ const t=ev.changedTouches?.[0];if(!t)return;
+ joyTouchId=t.identifier;pointer.joy='touch-'+joyTouchId;
+ placeJoy(t.clientX,t.clientY);moveJoyCoordinates(t.clientX,t.clientY);
+ if(ev.cancelable)ev.preventDefault()
+},{passive:false});
+joyZoneEl.addEventListener('touchmove',ev=>{
+ if(!playing||joyPointerId!==null)return;
+ if(joyTouchId===null&&ev.touches?.length){
+  joyTouchId=ev.touches[0].identifier;pointer.joy='touch-'+joyTouchId;
+  placeJoy(ev.touches[0].clientX,ev.touches[0].clientY)
+ }
+ for(const t of ev.touches||[])if(t.identifier===joyTouchId){moveJoyCoordinates(t.clientX,t.clientY);break}
+ if(ev.cancelable)ev.preventDefault()
+},{passive:false});
+function clearTouchJoy(ev){
+ if(joyPointerId!==null||joyTouchId===null)return;
+ for(const t of ev.changedTouches||[])if(t.identifier===joyTouchId){releaseJoy();break}
+}
+joyZoneEl.addEventListener('touchend',clearTouchJoy);joyZoneEl.addEventListener('touchcancel',clearTouchJoy);
+window.addEventListener?.('blur',()=>{if(joyPointerId!==null||joyTouchId!==null)releaseJoy()});
+if(typeof navigator!=='undefined'&&(navigator.maxTouchPoints>0||'ontouchstart' in window))
+ document.documentElement?.classList?.add('pt-has-touch');
+$('resumeCheckpoint').addEventListener('click',restoreCheckpoint);$('continueSaved').addEventListener('click',loadSavedGame);
+$('scareToggle').addEventListener('click',()=>{scareEnabled=!scareEnabled;updateScareToggle()});$('ambientToggle').addEventListener('click',()=>{ambientEnabled=!ambientEnabled;updateAmbientToggle()});
+$('caseBtn').addEventListener('click',()=>openCase());$('caseClose').addEventListener('click',closeCase);$('casePrev').addEventListener('click',()=>{casePage--;showCasePage()});$('caseNext').addEventListener('click',()=>{casePage++;showCasePage()});
+$('fire').addEventListener('pointerdown',ev=>{if(!playing)return;ev.preventDefault();try{$('fire').setPointerCapture(ev.pointerId)}catch(_){};fireHeld=true;shoot()});$('fire').addEventListener('pointerup',()=>fireHeld=false);$('fire').addEventListener('pointercancel',()=>fireHeld=false);$('salt').addEventListener('click',throwSalt);$('reload').addEventListener('click',reload);$('use').addEventListener('click',()=>interact());$('torch').addEventListener('click',toggleTorch);document.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>equip(b.dataset.w)));
+document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)mouseHeld=false});document.addEventListener('keydown',ev=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(ev.code))ev.preventDefault();keys.add(ev.code);if(ev.code==='Space')shoot();if(ev.code==='KeyR')reload();if(ev.code==='KeyQ'&&!ev.repeat)throwSalt();if(ev.code==='KeyE'&&!ev.repeat)interact();if(ev.code==='KeyJ'&&!ev.repeat){if(caseOpen)closeCase();else openCase()}if(ev.code==='Escape'&&caseOpen){closeCase();return}if(ev.code==='KeyL'&&!ev.repeat)toggleTorch();if(ev.code==='Digit1')equip('parang');if(ev.code==='Digit2')equip('pistol');if(ev.code==='Digit3')equip('shotgun');if(ev.code==='Digit4')equip('smg');if(ev.code==='Escape'&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});document.addEventListener('keyup',ev=>keys.delete(ev.code));document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});
+$('start').addEventListener('click',()=>{closeCase();if(started&&!ended&&!playing){playing=true;last=performance.now();$('menu').classList.add('hidden');try{audio?.resume()}catch(_){}ensureLoop()}else reset()});$('again').addEventListener('click',()=>{reset();$('start').textContent='NAIK BUKIT'});
+player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};updateScareToggle();updateSaveButton();updateWeaponButtons();objective={fuses:0,key:false,generator:false,boss:false};enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));$('joy').classList.add('inactive');surveyMap();ctx.fillStyle='#111923';ctx.fillRect(0,0,W,H);render();
+
+/* v1.5 — campaign weapon unlocks, first-Toyol pistol drop and 40 bonus Mystery Box weapons */
+const ARM=window.PT_ARMORY;
+if(!ARM||ARM.catalog.length!==40)throw Error('Arsenal module missing or incomplete');
+WEAPONS.fist={name:'TANGAN KOSONG',damage:1.05,range:.92,rate:.57,clip:0,reload:0,spread:.25};
+for(const gun of ARM.catalog)WEAPONS[gun.id]={...gun};
+const STAGE=3;
+for(const thing of itemSpawns){if(thing.type==='smg_kit')thing.type='smg_unlock'}
+itemSpawns.push({x:2.5,y:2.5,type:'ammo_bullet'});
+itemSpawns.push({x:STAGE===1?15.5:8.5,y:STAGE===1?1.5:3.5,type:'mystery_box'});
+if(STAGE===1)itemSpawns.push({x:17.5,y:4.5,type:'pistol_unlock',taken:true});
+pickupSprite.parang_unlock=sprite(t=>{t.fillStyle='#a6b7b7';t.fillRect(29,12,8,46);t.fillStyle='#dfe7df';t.fillRect(30,9,5,40);t.fillStyle='#684b32';t.fillRect(26,50,15,23);t.fillStyle='#c28e4d';t.fillRect(21,47,23,5)});
+pickupSprite.pistol_unlock=smgKitImage;
+pickupSprite.shotgun_unlock=smgKitImage;
+pickupSprite.smg_unlock=smgKitImage;
+pickupSprite.mystery_box=sprite(t=>{t.fillStyle='#281c39';t.fillRect(8,26,48,42);t.fillStyle='#d2a55b';t.fillRect(8,24,48,9);t.fillRect(8,56,48,9);t.fillStyle='#7653a3';t.fillRect(13,33,38,23);t.fillStyle='#ffe19b';t.font='bold 29px monospace';t.fillText('?',25,55)});
+let pistolDropStarted=false, effectTick=0;
+function ownedArsenal(){return Array.isArray(player?.ownedWeapons)?player.ownedWeapons:[]}
+function ownsWeapon(w){return w==='fist'||ownedArsenal().includes(w)}
+function campaignPlayer(fromSave){
+ const meta=ARM.read();
+ const owned=new Set(['fist',...meta.base,...meta.bonus]);
+ if(fromSave){
+  for(const id of player.ownedWeapons||[])if(WEAPONS[id])owned.add(id);
+  // Earlier versions started with firearms. Preserve these on migrated older saves only.
+  if(!Array.isArray(player.ownedWeapons)){
+   if(WEAPONS[player.weapon])owned.add(player.weapon);
+   if(player.smgUnlocked)owned.add('smg');
+  }
+ }
+ player.ownedWeapons=[...owned];
+ player.smgUnlocked=owned.has('smg');
+ player.ammo??={};player.reserve??={};
+ player.ammo.pistol??=12;player.reserve.pistol??=36;
+ player.ammo.shotgun??=6;player.reserve.shotgun??=24;
+ player.ammo.smg??=24;player.reserve.smg??=48;
+ for(const id of player.ownedWeapons){const def=WEAPONS[id];if(!def||!def.bonus)continue;player.ammo[id]??=def.clip;player.reserve[id]??=Math.max(def.clip*3,12)}
+ if(!fromSave||!ownsWeapon(player.weapon))player.weapon='fist';
+ player.bonusEquipped=ARM.byId[player.weapon]?player.weapon:(meta.bonus.at(-1)||null);
+ if(fromSave){const legacyMeta=ARM.read();for(const id of player.ownedWeapons){if(ARM.byId[id]){if(!legacyMeta.bonus.includes(id))legacyMeta.bonus.push(id)}else if(!legacyMeta.base.includes(id))legacyMeta.base.push(id)}ARM.write(legacyMeta)}
+ updateWeaponButtons()
+}
+function grantWeapon(id,announce){
+ if(!WEAPONS[id])return false;
+ const meta=ARM.read();
+ if(!ownsWeapon(id))player.ownedWeapons.push(id);
+ if(ARM.byId[id]){
+  if(!meta.bonus.includes(id))meta.bonus.push(id);
+  const def=WEAPONS[id];player.ammo[id]??=def.clip;player.reserve[id]??=Math.max(def.clip*3,12);
+  player.bonusEquipped=id;
+ }else if(!meta.base.includes(id))meta.base.push(id);
+ if(id==='smg')player.smgUnlocked=true;
+ ARM.write(meta);
+ if(announce)showTip('SENJATA UNLOCK: '+WEAPONS[id].name,3);
+ updateWeaponButtons();persistGame();
+ return true
+}
+function onToyolDown(enemy){
+ if(STAGE!==1||enemy.type!=='toyol'||pistolDropStarted||ownsWeapon('pistol'))return;
+ const drop=items.find(i=>i.type==='pistol_unlock');
+ if(!drop)return;
+ drop.x=enemy.x;drop.y=enemy.y;drop.taken=false;pistolDropStarted=true;
+ showTip('TOYOL JATUHKAN PISTOL! AMBIL SENJATA',3.3);persistGame()
+}
+const coreReset=reset;
+reset=function(){boxSpin=null;selectedMysteryId=null;coreReset();pistolDropStarted=false;campaignPlayer(false);const drop=items.find(i=>i.type==='pistol_unlock');if(drop)drop.taken=true;showTip('LEVEL 03 — CARI SMG DALAM BILIK TEKNIKAL',3.8)};
+const coreRestore=restoreState;
+restoreState=function(c){boxSpin=null;selectedMysteryId=null;coreRestore(c);for(const oldBox of items){if(oldBox.type==='mystery_box'&&!oldBox.taken&&oldBox.x===14.5&&oldBox.y===7.5){oldBox.x=8.5;oldBox.y=3.5}}campaignPlayer(true);if(STAGE===1){const drop=items.find(i=>i.type==='pistol_unlock');if(drop){const toyol=enemies.find(e=>e.type==='toyol'&&!e.alive),legacy=!c.items.some(i=>i.type==='pistol_unlock');if(ownsWeapon('pistol')){drop.taken=true;pistolDropStarted=true}else if(legacy){drop.taken=!toyol;pistolDropStarted=!!toyol;if(toyol){drop.x=toyol.x;drop.y=toyol.y}}else{pistolDropStarted=!drop.taken;if(!pistolDropStarted&&toyol){drop.x=toyol.x;drop.y=toyol.y;drop.taken=false;pistolDropStarted=true}}}}};
+/* v1.8 Mystery Box: deliberate E / GUNA instead of accidental walk-over */
+let boxSpin=null, selectedMysteryId=null;
+const previousGetInteractable=getInteractable;
+getInteractable=function(){
+ const base=previousGetInteractable();
+ if(!playing||boxSpin||base?.kind==='case'||base?.kind==='npc')return base;
+ let best=1.2,found=null;
+ for(const item of items){
+  if(item.taken||item.type!=='mystery_box')continue;
+  const dist=Math.hypot(player.x-item.x,player.y-item.y);
+  if(dist<best&&lineOfSight(player.x,player.y,item.x,item.y)){found={kind:'mystery_box',item};best=dist}
+ }
+ return found||base;
+};
+const previousInteract=interact;
+interact=function(){
+ const target=getInteractable();
+ if(target?.kind!=='mystery_box')return previousInteract();
+ if(boxSpin)return;
+ boxSpin={item:target.item,gun:ARM.roll(ARM.read().bonus),time:1.55,total:1.55};
+ showTip('MYSTERY BOX: CABUTAN BERMULA...',1.5);sound('pickup');
+};
+const corePickup=pickup;
+pickup=function(i){
+ if(i.type==='smg_kit'){i.type='salt_charge';return corePickup(i)}
+ if(i.type==='parang_unlock'||i.type==='pistol_unlock'||i.type==='shotgun_unlock'||i.type==='smg_unlock'){
+  const id=i.type.replace('_unlock','');i.taken=true;grantWeapon(id,false);
+  equip(id);showTip('JUMPA '+WEAPONS[id].name+' — SENJATA KINI DIMILIKI',3.5);sound('pickup');persistGame();return
+ }
+ if(i.type==='mystery_box'){
+  const meta=ARM.read(),gun=(selectedMysteryId&&ARM.byId[selectedMysteryId])||ARM.roll(meta.bonus);
+  i.taken=true;grantWeapon(gun.id,false);equip(gun.id);
+  showTip('MYSTERY BOX ['+gun.tier.toUpperCase()+'] '+gun.name,4.3);
+  sound('win');persistGame();return
+ }
+ return corePickup(i)
+};
+const coreEnd=end;
+end=function(victory){if(victory){const m=ARM.read();if(!m.cleared.includes(STAGE)){m.cleared.push(STAGE);ARM.write(m)}}return coreEnd(victory)};
+const coreEquip=equip;
+equip=function(id){
+ if(id==='bonus'){
+  const list=ARM.read().bonus.filter(w=>ownsWeapon(w));
+  if(!list.length){showTip('BELUM ADA SENJATA BONUS — CARI MYSTERY BOX',2.3);sound('dry');return}
+  id=list[(list.indexOf(player.weapon)+1+list.length)%list.length]
+ }
+ if(!ownsWeapon(id)){showTip(id==='smg'?'SMG DALAM BILIK TEKNIKAL — CARI DULU':'BELUM UNLOCK — CARI SENJATA',2);sound('dry');return}
+ return coreEquip(id)
+};
+const coreButtons=updateWeaponButtons;
+updateWeaponButtons=function(){
+ coreButtons();
+ for(const b of document.querySelectorAll('[data-w]')){
+  const id=b.dataset.w,locked=id!=='bonus'&&!ownsWeapon(id);
+  b.classList.toggle('locked',locked);
+  if(id==='bonus'){
+   const list=ARM.read().bonus;
+   b.classList.toggle('locked',!list.length);
+   b.classList.toggle('active',!!ARM.byId[player.weapon]);
+   b.textContent=list.length?'5 BONUS ('+list.length+')':'5 MISTERI'
+  }else b.setAttribute('aria-label',locked?WEAPONS[id]?.name+' terkunci':'Pilih '+WEAPONS[id]?.name)
+ }
+};
+const coreDamage=damageEnemy;
+function extraDamage(e,dmg){
+ if(!e.alive)return;const was=e.alive;
+ coreDamage(e,dmg,'bonus_effect');if(was&&!e.alive)onToyolDown(e)
+}
+damageEnemy=function(enemy,raw,source){
+ const gun=ARM.byId[source],perk=gun?.perk;
+ if(perk==='crit'&&Math.random()<.32)raw*=2.15;
+ if(perk==='chaos')raw*=.35+Math.random()*2.75;
+ if(perk==='curse'&&['pontianak','langsuir','penanggal'].includes(enemy.type))raw*=1.65;
+ const alive=enemy.alive, dealt=coreDamage(enemy,raw,source);
+ if(alive&&!enemy.alive)onToyolDown(enemy);
+ if(!gun||!alive)return dealt;
+ if(perk==='stun'&&enemy.alive)enemy.stun=Math.max(enemy.stun||0,1.1);
+ if(perk==='push'&&enemy.alive){const a=Math.atan2(enemy.y-player.y,enemy.x-player.x);moveEnemy(enemy,Math.cos(a)*.42,Math.sin(a)*.42)}
+ if((perk==='burn'||perk==='poison'||perk==='bleed')&&enemy.alive)enemy.suffering={ttl:perk==='burn'?2.3:3.4,dps:perk==='burn'?1.45:1.04};
+ if(perk==='heal')player.hp=Math.min(100,player.hp+Math.max(.7,dealt*.3));
+ if(perk==='splash'||perk==='chain'||perk==='ricochet'||perk==='pierce'){
+  const radius=perk==='splash'?1.4:perk==='pierce'?2.1:2.9;
+  let secondary=enemies.filter(e=>e.alive&&e!==enemy&&Math.hypot(e.x-enemy.x,e.y-enemy.y)<radius&&lineOfSight(enemy.x,enemy.y,e.x,e.y));
+  if(perk==='pierce'){const angle=Math.atan2(enemy.y-player.y,enemy.x-player.x);secondary=secondary.filter(e=>Math.abs(Math.atan2(Math.sin(Math.atan2(e.y-player.y,e.x-player.x)-angle),Math.cos(Math.atan2(e.y-player.y,e.x-player.x)-angle)))<.22)}
+  for(const e of secondary.slice(0,perk==='splash'?3:1))extraDamage(e,dealt*(perk==='splash'?.42:.55))
+ }
+ return dealt
+};
+const coreUpdate=update;
+update=function(dt){
+ coreUpdate(dt);
+ if(!playing)return;
+ if(boxSpin){
+  boxSpin.time-=dt;
+  if(boxSpin.time<=0){
+   selectedMysteryId=boxSpin.gun.id;
+   const box=boxSpin.item;boxSpin=null;
+   try{pickup(box)}finally{selectedMysteryId=null}
+  }
+ }
+ effectTick+=dt;
+ if(effectTick>.1){const step=effectTick;effectTick=0;for(const e of enemies){if(!e.alive||!e.suffering)continue;const t=Math.min(step,e.suffering.ttl);e.suffering.ttl-=t;extraDamage(e,e.suffering.dps*t);if(e.suffering.ttl<=0)delete e.suffering}}
+};
+const coreSound=sound;
+sound=function(name){
+ const bonus=ARM.byId[player?.weapon];
+ if(name==='shot'&&bonus){
+  if(bonus.family==='melee'){tone(125,0,.065,.055,'triangle',60);return}
+  if(bonus.family==='beam'){tone(bonus.category==='relic'?640:390,0,.13,.048,'sine',120);tone(990,.04,.18,.025,'triangle',250);return}
+  if(bonus.family==='heavy'||bonus.family==='scatter'){tone(96,0,.21,.13,'sawtooth',38);tone(150,.04,.20,.075,'triangle',67);return}
+  if(bonus.family==='rapid'){tone(290,0,.08,.046,'sawtooth',120);return}
+  tone(230,0,.13,.084,'sawtooth',55);return
+ }
+ if(name==='shot'&&player?.weapon==='fist'){tone(130,0,.06,.03,'triangle',65);return}
+ return coreSound(name)
+};
+const coreWeapon=weapon;
+weapon=function(){
+ const id=player.weapon,bonus=ARM.byId[id];
+ if(id==='fist'){
+  const jab=player.attack>0?Math.sin(Math.PI*Math.max(0,Math.min(1,1-player.attack/.3))):0;
+  const sway=Math.sin(bob)*moving*2;
+  const y=H-20-jab*17;
+  ctx.save();
+  for(const side of [-1,1]){
+   const x=W/2+side*30+sway+(side===1?jab*14:-jab*8);
+   ctx.fillStyle='#332a2c';ctx.fillRect(x-16,y-32,32,47);
+   ctx.fillStyle='#a16b52';ctx.fillRect(x-13,y-39,26,31);
+   ctx.fillStyle='#d1a082';ctx.fillRect(x-11,y-38,21,18);
+   ctx.fillStyle='#6c4234';
+   for(let i=0;i<3;i++)ctx.fillRect(x-10+i*7,y-25,2,11);
+  }
+  ctx.restore();return
+ }
+ if(!bonus)return coreWeapon();
+ if(window.PT_WEAPON_ART?.draw(ctx,{id,spec:bonus,attack:player.attack,reload:player.reload,time:frame,moving,width:W,height:H}))return;
+ return coreWeapon();
+};
+const coreHud=hud;
+hud=function(){
+ coreHud();
+ const bonus=ARM.byId[player.weapon];
+ if(bonus){ctx.fillStyle='#f8d39a';ctx.font='bold 8px monospace';ctx.fillText(bonus.tier.toUpperCase(),180,H-28)}
+ if(player.reload>0&&WEAPONS[player.weapon]?.reload>0){
+  const pct=Math.max(0,Math.min(1,1-player.reload/WEAPONS[player.weapon].reload));
+  ctx.fillStyle='#121b22';ctx.fillRect(W/2-49,H-57,98,6);
+  ctx.fillStyle='#f1c995';ctx.fillRect(W/2-48,H-56,96*pct,4);
+ }
+ if(boxSpin){
+  const passed=boxSpin.total-boxSpin.time;
+  const entry=ARM.catalog[Math.floor(passed*20)%ARM.catalog.length];
+  ctx.fillStyle='#08121cef';ctx.fillRect(W/2-111,75,222,51);
+  ctx.strokeStyle='#c9a56d';ctx.strokeRect(W/2-111,75,222,51);
+  ctx.font='bold 10px monospace';ctx.fillStyle='#e9c78c';
+  ctx.fillText('✦ MYSTERY BOX ✦',W/2-52,88);
+  ctx.font='bold 9px monospace';ctx.fillStyle='#eef4e9';
+  const label=entry.name.length>26?entry.name.slice(0,25)+'…':entry.name;
+  ctx.fillText(label,W/2-ctx.measureText(label).width/2,102);
+  ctx.fillStyle='#2a3037';ctx.fillRect(W/2-91,113,182,5);
+  ctx.fillStyle='#d4ad68';ctx.fillRect(W/2-90,114,180*Math.min(1,passed/boxSpin.total),3);
+ }else{
+  const nearby=getInteractable();
+  if(nearby?.kind==='mystery_box'){
+   ctx.fillStyle='#0a141deb';ctx.fillRect(W/2-96,H-94,192,18);
+   ctx.fillStyle='#ffe0a6';ctx.font='bold 9px monospace';
+   ctx.fillText('E / GUNA : BUKA MYSTERY BOX',W/2-83,H-82);
+  }
+ }
+};
+document.addEventListener('keydown',ev=>{if(!playing||ev.repeat)return;if(ev.code==='Digit0')equip('fist');if(ev.code==='Digit5')equip('bonus')});
+campaignPlayer(false); const p0=items.find(i=>i.type==='pistol_unlock');if(p0)p0.taken=true;
+
+})();
+</script>
+</body></html>
