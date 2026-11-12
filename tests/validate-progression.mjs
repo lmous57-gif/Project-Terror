@@ -10,6 +10,10 @@ const arm=window.PT_ARMORY;
 assert.equal(arm.catalog.length,40,'Exactly forty bonus weapons');
 assert.equal(new Set(arm.catalog.map(w=>w.id)).size,40);
 assert.equal(new Set(arm.catalog.map(w=>w.perk)).size,14,'Fourteen effects');
+assert.equal(new Set(arm.catalog.map(w=>w.visual)).size,40,'One visual profile per weapon');
+assert.equal(arm.catalog[0].name,'REVOLVER .38');
+assert.equal(arm.catalog[32].name,'PELITA PENUNGGU');
+assert.ok(!arm.catalog.some(w=>/USANG|KARAT/.test(w.name)),'Avoid weak placeholder names');
 for(const w of arm.catalog){
  assert.ok(w.name && w.damage>0 && w.range>0 && w.rate>0);
  assert.ok(w.family && ['common','rare','epic','mythic'].includes(w.tier));
@@ -21,6 +25,7 @@ const saved=arm.write({base:['parang','pistol'],bonus:[chosen.id],cleared:[1]});
 assert.equal(saved.bonus[0],chosen.id);assert.equal(arm.read().cleared[0],1);
 for(const page of ['index.html','kampung.html']){
  const html=readFileSync(page,'utf8'),stage=page==='index.html'?1:2;
+ assert.ok(html.includes('<script src="./weapon-art.js"></script>'),page+': sprite workshop script');
  assert.ok(html.indexOf('<script src="./arsenal.js"></script>')<html.indexOf('<script>\n'));
  const a=html.indexOf('<script>\n'),b=html.indexOf('</script>',a);
  assert.ok(a>=0&&b>a);
