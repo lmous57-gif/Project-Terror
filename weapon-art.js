@@ -29,6 +29,7 @@ function oil(g,x,y,c=col.amber){poly(g,[[x,y-25],[x-9,y-6],[x-4,y+4],[x+6,y+8],[
 function drawModel(g,w,pose){
 const c=w.visual,active=pose===1,reload=pose===3,accent=w.category==='relic'?col.violet:w.category==='novelty'?col.amber:w.category==='firearm'?col.steelHi:col.wood;
 g.save();
+if(pose===2){g.translate(47,74);g.rotate(w.family==='melee'?.105:-.075);g.translate(-47,-74)}
 if(active && ['keris','sickle','hoe','axe','hammer','shadowblade','cloth','slipper','pipe','broom','spear'].includes(c)){g.translate(47,74);g.rotate(-.22);g.translate(-47,-74)}
 switch(c){
  case 'revolver':gun(g,{length:33,bar:15});circ(g,44,70,11,col.outline);circ(g,44,70,8,col.steelHi);for(let i=0;i<5;i++){const a=i*Math.PI*2/5;circ(g,44+Math.cos(a)*5,70+Math.sin(a)*5,1,col.outline)}if(reload){ring(g,56,83,11,col.steelHi)}break;
@@ -74,6 +75,11 @@ switch(c){
  default:gun(g,{x:48,y:65,length:36,bar:16});break;
 }
 if(reload && w.clip>0){box(g,57,103,16,19,col.outline);box(g,60,104,10,15,col.gold)}
+if(reload && w.clip===0){
+ if(w.category==='relic'){ring(g,49,54,29,col.violet,3);circ(g,49,54,4,col.gold)}
+ else{rod(g,21,37,70,15,3,col.steelHi);circ(g,70,15,3,col.amber)}
+}
+if(pose===2){rod(g,18,117,34,104,2,w.category==='relic'?col.violet:col.steelHi)}
 if(active){if(w.category==='relic'){for(let i=0;i<4;i++)circ(g,24+i*16,11+i%2*13,3,accent)}
  else if(w.family==='melee'){rod(g,13,23,80,6,4,'#e4e7f1')}
  else if(!['chicken','lantern','torch','firebomb','sambal'].includes(c)){poly(g,[[48,3],[36,17],[41,12],[31,24],[52,18],[61,23],[57,12],[67,17]],col.amber)}
@@ -97,7 +103,7 @@ function draw(ctx,opt){
  const images=frames(w);
  const category=w.category;
  const swing=category==='relic'?Math.sin((opt.time||0)*2.3)*2:Math.sin((opt.time||0)*5)*1.3;
- let offset=state===1? (w.family==='melee'?17:9):state===2?4:0;
+ let offset=state===1?(w.family==='melee'?17:9):state===2?4:reload?5+Math.sin((opt.time||0)*13)*2:0;
  const dw=152,dh=202,px=(opt.width||480)/2-dw/2+swing,py=(opt.height||270)-dh+17+offset+(opt.moving||0)*Math.sin((opt.time||0)*7)*1.7;
  ctx.save();ctx.imageSmoothingEnabled=false;
  if(state===1&&w.family==='melee'){ctx.translate(px+dw/2,py+dh);ctx.rotate(-.24);ctx.drawImage(images[state],-dw/2,-dh,dw,dh)}
