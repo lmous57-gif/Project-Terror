@@ -1,3 +1,15 @@
+# PROJECT: TERROR — Weapon Progression v1.5
+
+**Play:** [Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Arkib 40 Senjata](https://lmous57-gif.github.io/Project-Terror/arsenal.html)
+
+Level 01 kini bermula **tangan kosong**: kutip parang berdekatan spawn, tewaskan Toyol pertama untuk pistol, kemudian cari satu Mystery Box. Level 02 mempunyai pickup **shotgun** dan satu lagi Mystery Box. **SMG ditetapkan untuk Level 03 (belum diterbitkan)**, dengan senjata lama yang pernah diperoleh sebelum update dikekalkan untuk save lama.
+
+Mystery Box memberikan **satu daripada 40 senjata bonus** dengan rarity, statistik dan kesan berbeza (14 jenis efek). Unlock dibawa merentas level melalui localStorage browser yang sama. **0** pilih tangan kosong; **1–4** slot utama bila sudah unlock; **5** kitar senjata bonus. Pada Android, gunakan butang FIST / PARANG / PISTOL / SHOTGUN / SMG / BONUS.
+
+Rujuk [WEAPON_PROGRESSION.md](./WEAPON_PROGRESSION.md) untuk semua 40 item, statistik, rarity dan mekanik. Senjata bonus berfungsi dengan visual procedural sementara, belum mempunyai 40 sprite khas.
+
+---
+
 # PROJECT: TERROR — Combat Overhaul v1.4
 
 **Main terus:**
