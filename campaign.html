@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b11">
+<title>PROJECT: TERROR — Pusat Misi v1.9</title>
+<style>
+:root{color-scheme:dark;--bg:#090b11;--panel:#141920;--panel2:#1b222b;--ink:#f1e8d6;--muted:#aeb6bb;--line:#3e4851;--red:#e66758;--gold:#dabc80;--green:#8ac5a0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 87% 0%,#38212b 0,transparent 48%),linear-gradient(#090b11,#0e1218);color:var(--ink);font-family:Consolas,'Courier New',monospace;line-height:1.5}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background:repeating-linear-gradient(0deg,transparent 0 3px,#607080 4px 4px)}
+a{color:inherit}button,a{touch-action:manipulation}a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+#campaign{width:min(1100px,calc(100% - 36px));margin:auto;padding:32px 0 max(45px,env(safe-area-inset-bottom))}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:12px;letter-spacing:.16em;color:var(--gold)}
+.topline a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);padding:6px 0}
+.header{border-left:4px solid var(--red);padding-left:20px;margin:30px 0 26px}
+.eyebrow{color:var(--red);font-size:12px;letter-spacing:.28em}
+h1{font-size:clamp(36px,7vw,76px);line-height:1.02;letter-spacing:.05em;margin:7px 0 9px;text-shadow:3px 4px #361820}
+h1 span{color:var(--red)}
+.subtitle{margin:0;color:var(--muted);font-size:14px;max-width:670px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.metric{border:1px solid var(--line);background:rgba(24,29,38,.87);padding:18px}
+.metric strong{display:block;font-size:clamp(23px,3.6vw,35px);color:var(--ink)}
+.metric span{font-size:11px;color:var(--muted);letter-spacing:.12em}
+.progress{background:#2d323c;height:6px;border-radius:5px;overflow:hidden;margin:16px 0 29px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .35s}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}
+.section-head h2{font-size:15px;letter-spacing:.18em;margin:0}.section-head span{font-size:11px;color:var(--muted)}
+.mission-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mission{position:relative;min-height:310px;display:flex;flex-direction:column;background:linear-gradient(165deg,#202631,#11151c);border:1px solid #47505a;padding:18px;overflow:hidden}
+.mission:before{content:"";position:absolute;right:-24px;top:27px;width:118px;height:118px;border:1px solid #ffffff12;transform:rotate(45deg)}
+.mission.is-cleared{border-color:#50846b}
+.mission-top{display:flex;align-items:center;justify-content:space-between;gap:9px;position:relative}
+.mission-num{font-size:31px;color:var(--red);line-height:1}
+.mission-status{color:var(--gold);font-size:10px;text-align:right;letter-spacing:.04em}.is-cleared .mission-status{color:var(--green)}
+.mission h2{font-size:clamp(18px,2.3vw,24px);line-height:1.15;letter-spacing:.04em;margin:25px 0 12px;position:relative}
+.mission-meta{margin:0;color:var(--muted);font-size:11px;flex:1}
+.boss{color:#df8e85;font-size:11px;margin:18px 0 16px}
+.mission-foot{display:flex;flex-direction:column;gap:11px}.mission-note{color:var(--muted);font-size:11px;min-height:28px}
+.enter{display:block;text-align:center;text-decoration:none;font-size:12px;font-weight:bold;letter-spacing:.08em;padding:13px 7px;background:var(--red);color:#190d0d;border:1px solid #ffb0a0}.enter:hover{filter:brightness(1.15)}
+.is-cleared .enter{background:#90b7a1;border-color:#bad4c5}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:23px}
+.panel{border:1px solid var(--line);background:#171e27;padding:19px}
+.panel h2{font-size:14px;letter-spacing:.14em;margin:0 0 12px}
+.loadout{display:flex;gap:7px;flex-wrap:wrap}
+.weapon{color:#7f8990;border:1px solid #3b424b;padding:8px;font-size:11px}.weapon.unlocked{color:var(--green);border-color:#50745c}
+.panel p{color:var(--muted);font-size:12px;margin:12px 0 0}
+.links{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:13px}.links a{color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--gold);font-size:12px;padding:7px 0}
+.footer{font-size:11px;color:#8e9a9e;margin-top:30px;text-align:center}
+@media(max-width:780px){.mission-list{grid-template-columns:1fr}.mission{min-height:225px}.mission h2{margin:14px 0 8px}.boss{margin:15px 0}.mission-note{min-height:0}.bottom{grid-template-columns:1fr}}
+@media(max-width:470px){#campaign{width:calc(100% - 24px);padding-top:17px}.metrics{gap:6px}.metric{padding:11px 8px}.metric span{font-size:9px}.topline{font-size:10px}.header{margin-top:20px}.mission{padding:16px}}
+</style>
+</head>
+<body>
+<main id="campaign">
+ <div class="topline"><span>▣ FAIL KEMPEN // TERHAD</span><a href="./index.html">↶ HOSPITAL LAMA</a></div>
+ <header class="header"><div class="eyebrow">SURVIVAL HORROR · MALAYSIA · v1.9</div><h1>PROJECT: <span>TERROR</span></h1><p class="subtitle">PUSAT MISI — Tiga malam. Tiga lokasi. Satu siaran misteri. Pilih misi atau buka semula simpanan daripada peranti ini.</p></header>
+ <section class="metrics" aria-label="Progress kempen">
+  <div class="metric"><strong id="clearedCount">0 / 3</strong><span>MISI SELESAI</span></div>
+  <div class="metric"><strong id="baseCount">0 / 4</strong><span>SENJATA UTAMA</span></div>
+  <div class="metric"><strong id="bonusCount">0 / 40</strong><span>SENJATA MISTERI</span></div>
+ </section>
+ <div class="progress" aria-label="Kemajuan misi"><div id="overallBar"></div></div>
+ <div class="section-head"><h2>01 / PILIH MISI</h2><span>LEVEL 01—03</span></div>
+ <section id="missionList" class="mission-list" aria-label="Pilihan misi">
+  <p>MEMBACA FAIL KEMPEN...</p>
+ </section>
+ <div class="bottom">
+  <section class="panel"><h2>02 / SENJATA UTAMA</h2><div id="loadout" class="loadout"></div><p>Senjata utama dan 40 ganjaran Mystery Box dibawa antara level melalui storan browser.</p><div class="links"><a href="./arsenal.html">▣ ARKIB 40 SENJATA</a><a href="./weapon-gallery.html">▤ BENGKEL SPRITE</a></div></section>
+  <section class="panel"><h2>03 / SIMPANAN</h2><p id="saveHelp">Menyemak simpanan...</p><p>Tiada reset dibuat di sini. Jika browser data dipadam atau guna peranti lain, progres mungkin tidak kelihatan. Selesaikan misi untuk rekodkan status.</p></section>
+ </div>
+ <footer class="footer">FAIL 07 → FAIL 08 · JANGAN PERCAYAKAN SUARA DARI PEMANCAR.</footer>
+</main>
+<script src="./arsenal.js"></script>
+<script src="./campaign.js"></script>
+</body>
+</html>
