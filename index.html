@@ -438,7 +438,7 @@ function reset(){
  $('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');
  updateWeaponButtons();updateTorchButton();updateScareToggle();
  try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){}
- requestAnimationFrame(loop)
+ ensureLoop()
 }
 function end(win){playing=false;ended=true;missionWon=win;fireHeld=false;mouseHeld=false;try{document.exitPointerLock?.()}catch(_){};
  $('result-tag').textContent=win?'MISI SELESAI':'MISI GAGAL';
@@ -483,7 +483,7 @@ function restoreState(c){player=JSON.parse(JSON.stringify(c.player));enemies=JSO
  objective={...c.objective};openDoors=new Set(c.doors);doorProgress=new Map(c.doorProgress||[]);closingDoors=new Set(c.closingDoors||[]);mapSeen=Uint8Array.from(c.mapSeen);mappedWalkable=c.mappedWalkable||0;hiddenCaches=c.hiddenCaches||0;kills=c.kills||0;shots=c.shots||0;spawnedBoss=!!c.spawnedBoss;scareUsed=!!c.scareUsed;visitedZones=new Set(c.visitedZones||[]);
  checkpoint=null;navKey='';navClock=0;saveClock=0;surveyClock=0;hurtCooldown=0;projectiles=[];deathWisps=[];saltBursts=[];scareTime=0;screenShake=0;flash=0;hitmark=0;shotClock=0;fireHeld=false;mouseHeld=false;joy.x=joy.y=0;pointer.joy=null;pointer.look=null;keys.clear();playing=true;started=true;ended=false;missionWon=false;last=performance.now();startTime=last-Math.max(0,Math.min(86400000,c.elapsed||0));zoneName=player.y<5?'LOBI UTAMA':player.y<10?'WAD RAWATAN':'BILIK MAYAT';
  $('joy').classList.add('inactive');$('menu').classList.add('hidden');$('end').classList.add('hidden');$('resumeCheckpoint').classList.add('hidden');updateWeaponButtons();updateTorchButton();updateSaveButton();
- try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){};requestAnimationFrame(loop)}
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){};ensureLoop()}
 function persistGame(){if(!playing||player.hp<=0||ended)return false;try{const state={v:SAVE_VERSION,when:Date.now(),game:snapshotGame(),checkpoint:checkpoint?JSON.parse(JSON.stringify(checkpoint)):null};localStorage.setItem(SAVE_KEY,JSON.stringify(state));updateSaveButton();return true}catch(_){return false}}
 function readSave(){try{const data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!data||data.v!==SAVE_VERSION||!validSnapshot(data.game))return null;if(data.checkpoint&&!validSnapshot(data.checkpoint))data.checkpoint=null;return data}catch(_){return null}}
 function updateSaveButton(){$('continueSaved').classList.toggle('hidden',!readSave())}
@@ -822,7 +822,47 @@ function drawSaltBurst(){if(!saltBursts.length)return;ctx.save();for(const b of 
  ctx.globalAlpha=Math.max(0,Math.min(.7,b.ttl*1.4));ctx.strokeStyle='#b9ffea';ctx.lineWidth=3;ctx.beginPath();ctx.arc(xx,yy,Math.max(3,rad),0,Math.PI*2);ctx.stroke()
  }ctx.restore()}
 function render(){world();atmosphere();drawSaltBurst();weapon();minimap();hud();drawScare()}
-function loop(now){if(!playing)return;const dt=Math.min(.04,Math.max(.005,(now-last)/1000));last=now;update(dt);render();if(playing)requestAnimationFrame(loop)}
+// Single RAF owner and a 30-FPS mobile ceiling. Duplicate loops previously
+// accumulated across resume/new-game paths, overheating slow Android devices.
+let pendingFrame=0,lastRenderedAt=0,loopErrorCount=0;
+const mobilePerformanceMode=typeof navigator!=='undefined'&&(navigator.maxTouchPoints>0||(typeof matchMedia==='function'&&matchMedia('(pointer:coarse)').matches));
+function ensureLoop(){if(playing&&!pendingFrame)pendingFrame=requestAnimationFrame(loop)}
+function reportGameError(err){
+ console.error('[Project Terror game loop]',err);
+ if(++loopErrorCount!==3)return;
+ const shell=$('shell'),notice=document.createElement('div');
+ notice.id='pt-recovery-notice';
+ notice.style.cssText='position:absolute;z-index:20;left:8px;right:8px;top:8px;padding:10px;background:#391d22f2;border:1px solid #e6a29b;color:#fff;font:12px monospace;text-align:center;pointer-events:none';
+ notice.textContent='GAME ERROR (save masih selamat): '+String(err?.message||err).slice(0,100);
+ shell.appendChild(notice);
+}
+function loop(now){
+ pendingFrame=0;
+ if(!playing)return;
+ // On mobile keep frame work under control; the previous update used
+ // uncapped device refresh rates even on 90Hz/120Hz displays.
+ if(mobilePerformanceMode&&now-lastRenderedAt<32){ensureLoop();return}
+ const dt=Math.min(.055,Math.max(.005,(now-last)/1000));last=now;
+ try{
+  update(dt);
+  if(playing)render();
+  lastRenderedAt=now;
+  loopErrorCount=0;
+ }catch(err){reportGameError(err)}
+ if(playing)ensureLoop();
+}
+// If a browser drops an RAF callback after app switching, kick the loop again.
+// Do not wipe local saves, inventory or checkpoints.
+if(typeof window.setInterval==='function'){
+ window.setInterval(()=>{
+  if(!playing||typeof performance==='undefined')return;
+  if(lastRenderedAt&&performance.now()-lastRenderedAt>2500){
+   if(pendingFrame&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(pendingFrame);
+   pendingFrame=0;last=performance.now();ensureLoop();
+  }
+ },1700)
+}
+
 function mobileLook(ev){if(pointer.look!==ev.pointerId)return;const d=ev.clientX-pointer.lastX;pointer.lastX=ev.clientX;player.a+=d*.0055}
 canvas.addEventListener('pointerdown',ev=>{if(!playing)return;if(ev.pointerType==='mouse'){mouseHeld=true;shoot();if(document.pointerLockElement!==canvas)canvas.requestPointerLock?.()}else{const rect=canvas.getBoundingClientRect();if(ev.clientX>rect.left+rect.width*.38){pointer.look=ev.pointerId;pointer.lastX=ev.clientX;try{canvas.setPointerCapture(ev.pointerId)}catch(_){}}}});
 canvas.addEventListener('pointermove',ev=>{if(!playing)return;if(document.pointerLockElement===canvas){player.a+=ev.movementX*.0032}else if(ev.pointerType!=='mouse')mobileLook(ev)});
@@ -887,7 +927,7 @@ $('resumeCheckpoint').addEventListener('click',restoreCheckpoint);$('continueSav
 $('scareToggle').addEventListener('click',()=>{scareEnabled=!scareEnabled;updateScareToggle()});
 $('fire').addEventListener('pointerdown',ev=>{if(!playing)return;ev.preventDefault();try{$('fire').setPointerCapture(ev.pointerId)}catch(_){};fireHeld=true;shoot()});$('fire').addEventListener('pointerup',()=>fireHeld=false);$('fire').addEventListener('pointercancel',()=>fireHeld=false);$('salt').addEventListener('click',throwSalt);$('reload').addEventListener('click',reload);$('use').addEventListener('click',()=>interact());$('torch').addEventListener('click',toggleTorch);document.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>equip(b.dataset.w)));
 document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)mouseHeld=false});document.addEventListener('keydown',ev=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(ev.code))ev.preventDefault();keys.add(ev.code);if(ev.code==='Space')shoot();if(ev.code==='KeyR')reload();if(ev.code==='KeyQ'&&!ev.repeat)throwSalt();if(ev.code==='KeyE'&&!ev.repeat)interact();if(ev.code==='KeyL'&&!ev.repeat)toggleTorch();if(ev.code==='Digit1')equip('parang');if(ev.code==='Digit2')equip('pistol');if(ev.code==='Digit3')equip('shotgun');if(ev.code==='Digit4')equip('smg');if(ev.code==='Escape'&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});document.addEventListener('keyup',ev=>keys.delete(ev.code));document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){persistGame();playing=false;$('menu').classList.remove('hidden');$('start').textContent='SAMBUNG MISI'}});
-$('start').addEventListener('click',()=>{if(started&&!ended&&!playing){playing=true;last=performance.now();$('menu').classList.add('hidden');try{audio?.resume()}catch(_){}requestAnimationFrame(loop)}else reset()});$('again').addEventListener('click',()=>{reset();$('start').textContent='MASUK HOSPITAL'});
+$('start').addEventListener('click',()=>{if(started&&!ended&&!playing){playing=true;last=performance.now();$('menu').classList.add('hidden');try{audio?.resume()}catch(_){}ensureLoop()}else reset()});$('again').addEventListener('click',()=>{reset();$('start').textContent='MASUK HOSPITAL'});
 player={x:2.2,y:1.8,a:.18,hp:100,weapon:'shotgun',ammo:{pistol:12,shotgun:6,smg:24},reserve:{pistol:42,shotgun:26,smg:48},smgUnlocked:false,saltCharges:2,saltCooldown:0,reload:0,attack:0,buff:0,shield:0,flashlight:true};updateScareToggle();updateSaveButton();updateWeaponButtons();objective={fuses:0,key:false,generator:false,boss:false};enemies=FOE_SPAWNS.map(e=>makeEnemy(e.type,e.x,e.y));items=itemSpawns.map(i=>({...i,taken:false}));$('joy').classList.add('inactive');surveyMap();ctx.fillStyle='#111923';ctx.fillRect(0,0,W,H);render();
 
 /* v1.5 — campaign weapon unlocks, first-Toyol pistol drop and 40 bonus Mystery Box weapons */
