@@ -24,7 +24,7 @@ function prepare(file){
  const js=html.slice(begin+8,end);
  const marker='\n})();';
  assert.ok(js.lastIndexOf(marker)>0);
- const injected=js.slice(0,js.lastIndexOf(marker))+'\nwindow.__qa={reset,pickup,damageEnemy,equip,shoot,update,getInteractable,interact,restoreState,snapshotGame,go:(x,y)=>{player.x=x;player.y=y},spin:()=>boxSpin,state:()=>({player,items,enemies,objective,STAGE,WEAPONS})};'+js.slice(js.lastIndexOf(marker));
+ const injected=js.slice(0,js.lastIndexOf(marker))+'\nwindow.__qa={reset,pickup,damageEnemy,equip,shoot,update,render,loop,keys,joy,getInteractable,interact,restoreState,snapshotGame,go:(x,y)=>{player.x=x;player.y=y},spin:()=>boxSpin,state:()=>({player,items,enemies,objective,STAGE,WEAPONS})};'+js.slice(js.lastIndexOf(marker));
  new Script(injected,{filename:file+':instrumented'}).runInContext(context);
  return Object.assign(window.__qa,{clickUse:()=>{assert.ok(useEvents.get('click'),'Mobile GUNA click handler missing');useEvents.get('click')()}});
 }
@@ -32,6 +32,14 @@ const hospital=prepare('index.html');
 hospital.reset();
 let h=hospital.state();
 assert.equal(h.STAGE,1);assert.equal(h.player.weapon,'fist');
+const startX=h.player.x,startY=h.player.y;
+hospital.keys.add('KeyW');
+hospital.loop(10274);
+hospital.keys.delete('KeyW');
+assert.ok(Math.hypot(h.player.x-startX,h.player.y-startY)>.003,'Movement must change player position and render a frame');
+hospital.joy.y=-.9;hospital.loop(10310);hospital.joy.y=0;
+assert.ok(h.player.x>startX+.03,'Joystick must advance player');
+
 assert.ok(!h.player.ownedWeapons.includes('pistol')&&!h.player.ownedWeapons.includes('shotgun'));
 let parang=h.items.find(i=>i.type==='parang_unlock'&&!i.taken);
 assert.ok(parang,'Parang must be reachable on Level 01');
@@ -69,6 +77,9 @@ h=hospital.state();assert.ok(h.player.ownedWeapons.includes(bonus));
 const village=prepare('kampung.html');
 village.reset();let k=village.state();
 assert.equal(k.STAGE,2);assert.equal(k.player.weapon,'fist');
+const villageStartX=k.player.x;village.keys.add('KeyW');village.loop(10274);village.keys.delete('KeyW');
+assert.ok(k.player.x>villageStartX+.003,'Kampung render and movement both work');
+
 for(const w of ['parang','pistol',bonus])assert.ok(k.player.ownedWeapons.includes(w),'Cross-level ownership '+w);
 assert.ok(!k.player.ownedWeapons.includes('shotgun'));
 const shotgun=k.items.find(i=>i.type==='shotgun_unlock'&&!i.taken);
