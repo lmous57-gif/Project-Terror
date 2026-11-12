@@ -27,6 +27,8 @@ jobs:
         run: node tests/validate-game.mjs
       - name: Validate progression and 40 Mystery Box weapons
         run: node tests/validate-progression.mjs
+      - name: Test level unlocks and Mystery Box engine runtime
+        run: node tests/qa-progress-runtime.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
