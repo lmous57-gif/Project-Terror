@@ -993,7 +993,18 @@ update=function(dt){
  if(effectTick>.1){const step=effectTick;effectTick=0;for(const e of enemies){if(!e.alive||!e.suffering)continue;const t=Math.min(step,e.suffering.ttl);e.suffering.ttl-=t;extraDamage(e,e.suffering.dps*t);if(e.suffering.ttl<=0)delete e.suffering}}
 };
 const coreSound=sound;
-sound=function(name){if(name==='shot'&&(player?.weapon==='fist'||ARM.byId[player?.weapon]?.family==='melee')){tone(130,0,.06,.03,'triangle',65);return}return coreSound(name)};
+sound=function(name){
+ const bonus=ARM.byId[player?.weapon];
+ if(name==='shot'&&bonus){
+  if(bonus.family==='melee'){tone(125,0,.065,.055,'triangle',60);return}
+  if(bonus.family==='beam'){tone(bonus.category==='relic'?640:390,0,.13,.048,'sine',120);tone(990,.04,.18,.025,'triangle',250);return}
+  if(bonus.family==='heavy'||bonus.family==='scatter'){tone(96,0,.21,.13,'sawtooth',38);tone(150,.04,.20,.075,'triangle',67);return}
+  if(bonus.family==='rapid'){tone(290,0,.08,.046,'sawtooth',120);return}
+  tone(230,0,.13,.084,'sawtooth',55);return
+ }
+ if(name==='shot'&&player?.weapon==='fist'){tone(130,0,.06,.03,'triangle',65);return}
+ return coreSound(name)
+};
 const coreWeapon=weapon;
 weapon=function(){
  const id=player.weapon,bonus=ARM.byId[id];
