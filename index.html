@@ -967,6 +967,21 @@ sound=function(name){if(name==='shot'&&(player?.weapon==='fist'||ARM.byId[player
 const coreWeapon=weapon;
 weapon=function(){
  const id=player.weapon,bonus=ARM.byId[id];
+ if(id==='fist'){
+  const jab=player.attack>0?Math.sin(Math.PI*Math.max(0,Math.min(1,1-player.attack/.3))):0;
+  const sway=Math.sin(bob)*moving*2;
+  const y=H-20-jab*17;
+  ctx.save();
+  for(const side of [-1,1]){
+   const x=W/2+side*30+sway+(side===1?jab*14:-jab*8);
+   ctx.fillStyle='#332a2c';ctx.fillRect(x-16,y-32,32,47);
+   ctx.fillStyle='#a16b52';ctx.fillRect(x-13,y-39,26,31);
+   ctx.fillStyle='#d1a082';ctx.fillRect(x-11,y-38,21,18);
+   ctx.fillStyle='#6c4234';
+   for(let i=0;i<3;i++)ctx.fillRect(x-10+i*7,y-25,2,11);
+  }
+  ctx.restore();return
+ }
  if(!bonus)return coreWeapon();
  if(window.PT_WEAPON_ART?.draw(ctx,{id,spec:bonus,attack:player.attack,reload:player.reload,time:frame,moving,width:W,height:H}))return;
  return coreWeapon();
