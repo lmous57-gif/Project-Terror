@@ -1,3 +1,13 @@
+# PROJECT: TERROR v2.0 — Loji Air Hitam / Level 04
+
+**Main sekarang:** [Campaign Hub 4 Level](https://lmous57-gif.github.io/Project-Terror/campaign.html) · [Level 01 Hospital Lama](https://lmous57-gif.github.io/Project-Terror/) · [Level 02 Kampung Berhantu](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Level 03 Bukit Meranti](https://lmous57-gif.github.io/Project-Terror/bukit.html) · [Level 04 Loji Air Hitam](https://lmous57-gif.github.io/Project-Terror/loji.html)
+
+**v2.0 baharu:** Loji pam air terbiar dengan geometri/tekstur industri, Pengawal Rahman, tiga bukti Fail 09, tiga injap pembendung, kunci takungan dan escape jeti. Lampu Suluh UV adalah pickup tetap yang unlock `bonus_20`, dibawa antara level. Orang Minyak mempunyai sprite pixel sendiri dan AI vanish → dash → recover (fasa mengamuk di separuh nyawa). Tiga tompok minyak bahaya melambatkan pemain dan menyebabkan damage berkala. Satu Mystery Box dengan E/GUNA dan roulette dikekalkan.
+
+Progress/save: `project-terror-loji-v1-save` kekal berasingan; 40 bonus weapons dan rekod misi selesai dikongsi melalui `pt-campaign-armory-v1`. Campaign Hub kini menyenaraikan empat level. **Auto CI lulus** untuk objektif penuh, UV, oil hazard, movement/runtime, boss, near-box anti-freeze dan sprites. **Android fizikal belum diuji.** Rujuk [LEVEL_04_DESIGN.md](./LEVEL_04_DESIGN.md).
+
+---
+
 # PROJECT: TERROR v1.9 — Campaign Hub
 
 **Pusat Misi:** [Buka Campaign Hub](https://lmous57-gif.github.io/Project-Terror/campaign.html) · [Level 01](https://lmous57-gif.github.io/Project-Terror/) · [Level 02](https://lmous57-gif.github.io/Project-Terror/kampung.html) · [Level 03](https://lmous57-gif.github.io/Project-Terror/bukit.html)
