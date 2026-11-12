@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070a10"><title>PROJECT: TERROR — Arkib 40 Senjata</title>
+<style>
+:root{color-scheme:dark;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:#080b10;color:#e8ebe6;min-height:100vh}
+main{max-width:1080px;margin:auto;padding:24px 18px 64px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+a{color:#aee0ca;text-decoration:none;border:1px solid #425c57;border-radius:6px;padding:10px 12px}
+h1{letter-spacing:.10em;color:#e7b59b;margin:22px 0 8px;font-size:clamp(26px,5vw,42px)}.subtitle{color:#a4b5b1;max-width:680px;line-height:1.7}
+.small{color:#849a96;font-size:12px}.bar{height:9px;background:#212d2f;border-radius:99px;overflow:hidden;margin:18px 0 26px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#62a9a2,#eac082);width:0}
+.campaign{border:1px solid #344448;border-radius:10px;padding:15px 18px;line-height:1.8;background:#10171c;margin:18px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.card{min-height:126px;border:1px solid #344349;padding:14px;border-radius:8px;background:#111920;display:flex;flex-direction:column;gap:8px}
+.card.locked{opacity:.58;filter:grayscale(.5)}.serial{font-size:11px;color:#9ab2ab}.name{font-size:14px;font-weight:800}.details{font-size:11px;color:#c6c9c3;line-height:1.5}.tier{font-size:10px;font-weight:700;letter-spacing:.08em}
+.common{border-color:#546469}.rare{border-color:#438299}.epic{border-color:#9272af}.mythic{border-color:#b89851}
+footer{font-size:12px;color:#8a999b;margin-top:26px;line-height:1.6}
+</style></head><body><main>
+<header><div>▣ FAIL 08 / ARKIB SENJATA</div><div><a href="./index.html">HOSPITAL</a> <a href="./kampung.html">KAMPUNG</a></div></header>
+<h1>40 SENJATA MISTERI</h1><p class="subtitle">Setiap level ada satu Mystery Box. Senjata bonus terpilih secara rawak, dengan rarity, damage dan kemampuan tersendiri. Nama senjata yang belum ditemui dirahsiakan supaya setiap box kekal kejutan.</p>
+<h2 id="counter">0 / 40 DIJUMPAI</h2><div class="bar"><span id="fill"></span></div>
+<section class="campaign"><b>PROGRESSION UTAMA</b><div>LEVEL 01 — Tangan kosong → Parang → Pistol daripada Toyol</div><div>LEVEL 02 — Shotgun, serta senjata yang sudah dibuka dari Level 01</div><div>LEVEL 03 — SMG (akan datang; level belum diterbitkan)</div><div class="small">0 = tangan kosong · 1/2/3/4 = senjata utama · 5 = tukar senjata bonus. Unlock disimpan dalam browser yang sama.</div></section>
+<div class="grid" id="weapons" aria-label="Senarai senjata bonus"></div>
+<footer>40 item direka dengan enam jenis combat dan empat rarity. Weapon visual masih procedural placeholder; art/sprite khas akan ditambah kemudian. Kesan termasuk stun, splash, chain, burn, poison, bleed, crit, knockback, lifesteal dan chaos.</footer>
+</main><script src="./arsenal.js"></script><script>
+const arm=window.PT_ARMORY,own=new Set(arm.read().bonus),n=own.size;
+document.getElementById('counter').textContent=n+' / 40 DIJUMPAI';
+document.getElementById('fill').style.width=(n/40*100)+'%';
+const perkNames={crit:'Critical hit',pierce:'Piercing damage',none:'Rapid damage',splash:'Area splash',push:'Knockback',burn:'Burn damage',stun:'Stun',chain:'Chain lightning',poison:'Poison',bleed:'Bleed',ricochet:'Ricochet',heal:'Lifesteal',chaos:'Random chaos',curse:'Anti-hantu bonus'};
+const frag=document.createDocumentFragment();
+for(const w of arm.catalog){
+ const found=own.has(w.id),d=document.createElement('article');d.className='card '+(found?w.tier:'locked');
+ const serial=document.createElement('div');serial.className='serial';serial.textContent='#'+w.id.slice(-2);
+ const name=document.createElement('div');name.className='name';name.textContent=found?w.name:'??? SENJATA MISTERI';
+ const tier=document.createElement('div');tier.className='tier';tier.textContent=found?w.tier.toUpperCase():'TERKUNCI';
+ const info=document.createElement('div');info.className='details';info.textContent=found?(w.family.toUpperCase()+' · '+(perkNames[w.perk]||w.perk)):'Cari dan buka Mystery Box semasa bermain';
+ d.append(serial,name,tier,info);frag.appendChild(d)
+}document.getElementById('weapons').appendChild(frag);
+</script></body></html>
