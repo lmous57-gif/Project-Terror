@@ -31,6 +31,8 @@ jobs:
         run: node tests/qa-progress-runtime.mjs
       - name: Test Bukit Meranti Level 03 complete gameplay and freeze regression
         run: node tests/qa-level03.mjs
+      - name: Test Level 04 Loji Air Hitam runtime, UV, oil hazards and boss
+        run: node tests/qa-level04.mjs
       - name: Validate v1.9 campaign hub and save compatibility
         run: node tests/validate-campaign.mjs
       - name: Validate 40 unique pixel weapon sprites and 160 poses
