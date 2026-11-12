@@ -26,7 +26,8 @@ for(const page of ['index.html','kampung.html']){
  assert.ok(a>=0&&b>a);
  new Script(html.slice(a+8,b),{filename:page});
  for(const token of ['const STAGE='+stage+';', 'type:\'mystery_box\'', 'function grantWeapon', 'function onToyolDown','function campaignPlayer','corePickup','coreReset','coreRestore','weapon=function()','Digit5','data-w="bonus"','data-w="fist"'])assert.ok(html.includes(token),page+': missing '+token);
- const rows=[...html.matchAll(/^'([123.DK]+)',?$/gm)].map(m=>m[1]);
+ const mapSource=html.match(/const MAP=\[([\s\S]*?)\];/)?.[1]||'';
+ const rows=[...mapSource.matchAll(/'([123.DK]+)'/g)].map(m=>m[1]);
  assert.ok(rows.length>=15,page+' map rows missing');
  const cells=page==='index.html'?[[2,2],[15,1]]:[[2,2],[14,7]];
  for(const [x,y] of cells)assert.equal(rows[y][x],'.',page+': pickup spawned inside wall');
