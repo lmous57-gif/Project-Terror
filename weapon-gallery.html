@@ -27,7 +27,7 @@ footer{font-size:12px;color:#879ba3;margin-top:24px;line-height:1.7}
 <h1>WEAPON VIEW WORKSHOP</h1>
 <p>Semak <b>pandangan first-person sebenar dalam game</b> untuk semua 40 senjata. Default GAME POV menunjukkan perspektif seperti dalam level. Guna SPRITE untuk periksa lukisan 96×128; tukar pose untuk animasi.</p>
 <div class="buttons" id="controls">
-<button id="view" class="active">GAME POV</button><button data-pose="0" class="active">IDLE</button><button data-pose="1">SERANG / CAST</button><button data-pose="2">RECOVER</button><button data-pose="3">RELOAD</button><button id="auto">▶ PLAY POSES</button>
+<button id="viewGame" class="active">GAME POV</button><button id="viewSprite">RAW SPRITE</button><button data-pose="0" class="active">IDLE</button><button data-pose="1">SERANG / CAST</button><button data-pose="2">RECOVER</button><button data-pose="3">RELOAD</button><button id="auto">▶ PLAY POSES</button>
 </div>
 <div class="grid" id="grid"></div>
 <footer>GAME POV menggunakan <code>PT_WEAPON_ART.draw()</code> yang sama seperti dalam Hospital, Kampung, Bukit dan Loji. Mod SPRITE menunjukkan setiap frame mentah 96×128. Save dan progression kekal.</footer>
@@ -50,6 +50,8 @@ footer{font-size:12px;color:#879ba3;margin-top:24px;line-height:1.7}
   cardNodes.push({w,canvas})
  }
  function render(){
+  document.getElementById('viewGame').classList.toggle('active',gameView);
+  document.getElementById('viewSprite').classList.toggle('active',!gameView);
   document.querySelectorAll('[data-pose]').forEach(b=>b.classList.toggle('active',Number(b.dataset.pose)===pose));
   for(const o of cardNodes){
    o.canvas.width=gameView?256:96;o.canvas.height=gameView?144:128;
@@ -70,7 +72,8 @@ footer{font-size:12px;color:#879ba3;margin-top:24px;line-height:1.7}
    }
   }
  }
- document.getElementById('view').addEventListener('click',function(){gameView=!gameView;this.textContent=gameView?'GAME POV':'SPRITE';this.classList.toggle('active',gameView);render()});
+ document.getElementById('viewGame').addEventListener('click',()=>{gameView=true;render()});
+ document.getElementById('viewSprite').addEventListener('click',()=>{gameView=false;render()});
  document.querySelectorAll('[data-pose]').forEach(btn=>btn.addEventListener('click',()=>{pose=Number(btn.dataset.pose);render()}));
  document.getElementById('auto').addEventListener('click',function(){
   playing=!playing;this.textContent=playing?'■ STOP':'▶ PLAY POSES';
