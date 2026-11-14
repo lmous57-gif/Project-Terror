@@ -35,6 +35,9 @@ for(const w of catalog){
 assert.equal(made,160,'Lazy cache should generate exactly four frames for each of forty weapons');
 const gallery=readFileSync('weapon-gallery.html','utf8');
 assert.ok(gallery.includes('weapon-art.js')&&gallery.includes('data-pose="3"')&&gallery.includes('art.preview'));
+assert.ok(gallery.includes('id="viewGame"')&&gallery.includes('id="viewSprite"'),'Workshop must offer both POV and raw sprite views');
+assert.ok(gallery.includes('art.draw(c,'),'Workshop POV must use in-game first-person renderer');
+assert.ok(artSource.includes("case 'crossbow':")&&artSource.includes("handsFor(g,w,pose)"),'Crossbow perspective and grip hands must render');
 const codes=gallery.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(codes);new Script(codes[1],{filename:'weapon-gallery.html'});
 console.log('PASS: 40 unique silhouettes and 160 cached pixel-art frames, attack/reload draws, preview gallery');
