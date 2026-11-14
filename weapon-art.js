@@ -60,6 +60,10 @@ g.save();
 const longGun=['lever','doublebarrel','boltrifle','smg','grenade','arcrifle'].includes(c);
 const sidearm=['revolver','pistol','magnum','nailgun'].includes(c);
 const bladeGrip=['keris','sickle','hoe','axe','hammer','shadowblade','cloth','slipper','pipe','broom','spear','lightningspear'].includes(c);
+if(c==='crossbow'){
+ // Angled slightly towards the centre of aim, keeping both bow limbs visible.
+ g.translate(52,113);g.rotate(-.105);g.scale(.90,.95);g.translate(-52,-113);
+}
 if(longGun||sidearm||bladeGrip){
  g.translate(48,110);
  g.rotate(longGun?-.16:sidearm?-.24:-.13);
