@@ -14,23 +14,59 @@ function spike(g,x,y,c){poly(g,[[x,y-8],[x-5,y+5],[x+5,y+5]],c)}
 function blade(g,x1,y1,x2,y2,w=10,c=col.steelHi){rod(g,x1,y1,x2,y2,w,col.outline);rod(g,x1+1,y1,x2+1,y2,w-4,c);rod(g,x1-2,y1,x2-2,y2,2,'#f0efe5')}
 function hand(g,x,y){box(g,x-12,y-9,24,28,col.outline);box(g,x-10,y-7,20,25,col.skin);box(g,x-8,y-5,14,8,col.skinHi)}
 function grip(g,x,y,w=24,h=38){box(g,x,y,w,h,col.outline);box(g,x+3,y+2,w-6,h-4,col.stock);box(g,x+5,y+5,w-10,4,col.wood);box(g,x+5,y+12,w-10,3,col.wood)}
-function gun(g,o){const x=o.x||44,y=o.y||65,l=o.length||35,bar=o.bar||14;
- box(g,x-14,y+4,32,21,col.outline);box(g,x-11,y+6,26,15,o.dark||col.steel);
- box(g,x-7,y+9,22,3,col.steelHi);
- box(g,x-bar/2,y-l,bar,l,col.outline);box(g,x-bar/2+3,y-l+3,bar-6,l-3,o.light||col.steelHi);
- box(g,x-bar/2+4,y-l+4,bar-8,5,col.outline);
- if(o.stock!==false)grip(g,x-7,y+23,22,34);
+function gun(g,o){
+ const x=o.x||44,y=o.y||65,l=o.length||35,bar=o.bar||14,near=bar*.67,far=Math.max(4,bar*.26);
+ // Tapering receiver/barrel: the muzzle is distant, not a top-down vertical rectangle.
+ poly(g,[[x-near-6,y+19],[x+near+7,y+19],[x+near+1,y-4],[x-near+2,y-4]],col.outline);
+ poly(g,[[x-near-2,y+14],[x+near+3,y+14],[x+near-1,y],[x-near+2,y]],o.dark||col.steel);
+ poly(g,[[x-near,y+1],[x+near,y+1],[x+far,y-l],[x-far,y-l]],col.outline);
+ poly(g,[[x-near+3,y-2],[x+near-3,y-2],[x+far-1,y-l+3],[x-far+1,y-l+3]],o.light||col.steelHi);
+ rod(g,x-4,y+5,x-1,y-l+5,2,'#eef0da');
+ box(g,x-far-1,y-l,far*2+2,4,col.outline);
+ box(g,x-far,y-l-3,far*2,3,col.steelHi);
+ if(o.stock!==false){poly(g,[[x-9,y+19],[x+11,y+19],[x+14,y+58],[x-5,y+55]],col.outline);poly(g,[[x-6,y+22],[x+8,y+22],[x+11,y+53],[x-2,y+51]],col.stock)}
 }
 function glow(g,x,y,c,r=15){circ(g,x,y,r+6,c+'20');ring(g,x,y,r,c,3);circ(g,x,y,Math.max(3,r/3),c)}
 function magic(g,x,y,c){ring(g,x,y,18,c,2);for(let n=0;n<6;n++){const a=n*Math.PI/3;circ(g,x+Math.cos(a)*23,y+Math.sin(a)*23,2,c)}}
 function shell(g){box(g,43,100,11,23,col.steel);box(g,46,99,5,10,col.steelHi)}
-function handle(g){hand(g,34,108);hand(g,64,112)}
+function holdingHand(g,x,y,angle){
+ g.save();g.translate(x,y);g.rotate(angle);
+ poly(g,[[-13,10],[-11,-7],[-5,-13],[8,-13],[14,-5],[14,13]],col.outline);
+ poly(g,[[-10,9],[-9,-5],[-3,-10],[6,-10],[11,-3],[11,10]],col.skin);
+ poly(g,[[-7,-7],[3,-9],[9,-5],[8,0],[-7,0]],col.skinHi);
+ for(let i=0;i<3;i++)box(g,-7+i*5,3,2,7,'#8e5946');
+ g.restore();
+}
+function handsFor(g,w,pose){
+ const c=w.visual;
+ const two=['lever','doublebarrel','boltrifle','smg','grenade','arcrifle','crossbow','slingshot','grimoire','lantern','sprayer','megaphone'].includes(c);
+ const casting=w.category==='relic';
+ // Sleeves connect to the viewport bottom; palms wrap around the actual grip.
+ if(two){
+  poly(g,[[0,128],[22,128],[38,104],[28,94],[15,99]],col.outline);
+  poly(g,[[4,128],[19,128],[35,104],[28,100],[18,103]],'#3b4548');
+  holdingHand(g,c==='crossbow'?39:32,c==='crossbow'?91:99,-.22);
+ }
+ poly(g,[[73,128],[96,128],[77,95],[58,97]],col.outline);
+ poly(g,[[78,128],[94,128],[74,100],[62,102]],'#3d424a');
+ if(c==='grimoire')holdingHand(g,68,103,.20);
+ else if(c==='amulet'||casting)holdingHand(g,56,111,.15);
+ else holdingHand(g,c==='crossbow'?63:59,107+(pose===3?3:0),.18);
+}
 function oil(g,x,y,c=col.amber){poly(g,[[x,y-25],[x-9,y-6],[x-4,y+4],[x+6,y+8],[x+10,y-6]],c);circ(g,x,y-3,5,'#fff5ba')}
 function drawModel(g,w,pose){
 const c=w.visual,active=pose===1,reload=pose===3,accent=w.category==='relic'?col.violet:w.category==='novelty'?col.amber:w.category==='firearm'?col.steelHi:col.wood;
 g.save();
-if(pose===2){g.translate(47,74);g.rotate(w.family==='melee'?.105:-.075);g.translate(-47,-74)}
-if(active && ['keris','sickle','hoe','axe','hammer','shadowblade','cloth','slipper','pipe','broom','spear'].includes(c)){g.translate(47,74);g.rotate(-.22);g.translate(-47,-74)}
+const longGun=['lever','doublebarrel','boltrifle','smg','grenade','arcrifle'].includes(c);
+const sidearm=['revolver','pistol','magnum','nailgun'].includes(c);
+const bladeGrip=['keris','sickle','hoe','axe','hammer','shadowblade','cloth','slipper','pipe','broom','spear','lightningspear'].includes(c);
+if(longGun||sidearm||bladeGrip){
+ g.translate(48,110);
+ g.rotate(longGun?-.16:sidearm?-.24:-.13);
+ g.scale(longGun?.94:sidearm?.92:.96,longGun?.95:1);
+ g.translate(-48,-110);
+}
+if(pose===2){g.translate(47,74);g.rotate(w.family==='melee'?.09:-.045);g.translate(-47,-74)}
 switch(c){
  case 'revolver':gun(g,{length:33,bar:15});circ(g,44,70,11,col.outline);circ(g,44,70,8,col.steelHi);for(let i=0;i<5;i++){const a=i*Math.PI*2/5;circ(g,44+Math.cos(a)*5,70+Math.sin(a)*5,1,col.outline)}if(reload){ring(g,56,83,11,col.steelHi)}break;
  case 'lever':gun(g,{x:50,y:69,length:59,bar:11});rod(g,17,108,35,75,13,col.wood);ring(g,49,91,13,col.gold,4);box(g,42,23,19,5,col.steelHi);break;
@@ -40,7 +76,21 @@ switch(c){
  case 'boltrifle':gun(g,{x:47,y:73,length:69,bar:11});rod(g,45,27,45,10,8,col.outline);box(g,36,27,22,6,col.outline);box(g,40,23,13,3,col.steelHi);rod(g,52,65,70,61,5,col.gold);break;
  case 'smg':gun(g,{x:46,y:68,length:33,bar:17});box(g,25,53,42,28,col.outline);box(g,30,57,32,18,col.steel);box(g,34,83,15,31,col.outline);box(g,37,84,9,28,col.steelHi);break;
  case 'grenade':gun(g,{x:48,y:71,length:40,bar:28});ring(g,48,30,17,col.outline,7);ring(g,48,30,12,col.steel,5);circ(g,48,30,7,'#1e2226');box(g,22,74,50,12,col.gold);break;
- case 'crossbow':rod(g,47,112,47,17,14,col.wood);rod(g,18,37,77,37,10,col.outline);rod(g,18,37,77,37,5,col.steelHi);rod(g,19,37,48,13,2,col.amber);rod(g,77,37,48,13,2,col.amber);rod(g,48,65,48,15,4,col.steelHi);spike(g,48,12,col.steelHi);break;
+ case 'crossbow':
+ // Crossbow seen from the stock: horizontal recurve limbs in the distance,
+ // bolt/rail converging towards the aim point, grip nearest the camera.
+ poly(g,[[49,122],[74,122],[58,56],[47,53],[43,77]],col.outline);
+ poly(g,[[55,114],[68,114],[54,58],[49,58]],col.wood);
+ poly(g,[[44,84],[57,84],[53,32],[47,32]],col.outline);
+ poly(g,[[47,81],[53,81],[51,31],[49,31]],col.steelHi);
+ poly(g,[[49,43],[28,36],[10,28],[5,39],[23,49],[46,52]],col.outline);
+ poly(g,[[52,43],[71,35],[86,29],[92,40],[72,49],[54,52]],col.outline);
+ rod(g,10,34,47,54,3,col.steel);rod(g,88,34,53,54,3,col.steel);
+ rod(g,10,35,50,68,2,col.amber);rod(g,88,35,50,68,2,col.amber);
+ rod(g,49,78,50,21,4,col.steelHi);spike(g,50,18,col.steelHi);
+ box(g,44,47,14,6,col.gold);box(g,50,65,4,18,col.outline);
+ if(active)rod(g,50,42,50,4,3,col.amber);
+ break;
  case 'arcrifle':gun(g,{x:48,y:74,length:56,bar:20,light:'#4b9eb4'});for(let i=0;i<4;i++)ring(g,48,23+i*13,9,i%2?col.blue:col.violet,2);glow(g,48,23,col.blue,9);break;
  case 'pipe':rod(g,25,117,64,15,18,col.outline);rod(g,25,117,64,15,11,col.steel);ring(g,64,15,8,col.steelHi,4);break;
  case 'sprayer':box(g,22,70,48,47,col.outline);box(g,27,73,38,37,'#50826d');box(g,34,78,24,23,col.green);rod(g,47,81,65,25,9,col.steel);box(g,57,18,24,10,col.steelHi);if(active)glow(g,77,20,col.green,7);break;
@@ -84,8 +134,8 @@ if(active){if(w.category==='relic'){for(let i=0;i<4;i++)circ(g,24+i*16,11+i%2*13
  else if(w.family==='melee'){rod(g,13,23,80,6,4,'#e4e7f1')}
  else if(!['chicken','lantern','torch','firebomb','sambal'].includes(c)){poly(g,[[48,3],[36,17],[41,12],[31,24],[52,18],[61,23],[57,12],[67,17]],col.amber)}
 }
+handsFor(g,w,pose);
 g.restore();
-handle(g);
 }
 function sprite(w,pose){
  const canvas=document.createElement('canvas');canvas.width=SIZE[0];canvas.height=SIZE[1];const g=canvas.getContext('2d');g.imageSmoothingEnabled=false;
@@ -101,13 +151,20 @@ function draw(ctx,opt){
  const atk=Math.max(0,Math.min(1,(opt.attack||0)/.3)),reload=(opt.reload||0)>0;
  const state=reload?3:atk>.47?1:atk>.02?2:0;
  const images=frames(w);
- const category=w.category;
- const swing=category==='relic'?Math.sin((opt.time||0)*2.3)*2:Math.sin((opt.time||0)*5)*1.3;
- let offset=state===1?(w.family==='melee'?17:9):state===2?4:reload?5+Math.sin((opt.time||0)*13)*2:0;
- const dw=152,dh=202,px=(opt.width||480)/2-dw/2+swing,py=(opt.height||270)-dh+17+offset+(opt.moving||0)*Math.sin((opt.time||0)*7)*1.7;
+ const category=w.category,visual=w.visual,melee=w.family==='melee';
+ const crossbow=visual==='crossbow',longGun=['lever','doublebarrel','boltrifle','smg','grenade','arcrifle'].includes(visual);
+ const dw=crossbow?183:longGun?171:melee?153:158,dh=crossbow?196:longGun?213:melee?196:201;
+ const time=opt.time||0,motion=opt.moving||0,action=atk>0?Math.sin((1-atk)*Math.PI):0;
+ const sway=(category==='relic'?Math.sin(time*2.3)*1.4:Math.sin(time*5)*.7)+motion*Math.sin(time*7)*2.3;
+ const px=(opt.width||480)/2-dw/2+(crossbow?7:longGun?23:melee?29:22)+sway;
+ const py=(opt.height||270)-dh+22-(melee?14:8)*action+(reload?7:0)+motion*Math.cos(time*7)*2.1;
  ctx.save();ctx.imageSmoothingEnabled=false;
- if(state===1&&w.family==='melee'){ctx.translate(px+dw/2,py+dh);ctx.rotate(-.24);ctx.drawImage(images[state],-dw/2,-dh,dw,dh)}
- else{ctx.drawImage(images[state],px,py,dw,dh)}
+ if(melee&&atk>.02){
+  // Single continuous slash arc; no double rotation of the blade itself.
+  ctx.translate(px+dw*.55,py+dh*.88);
+  ctx.rotate(-.33*action);
+  ctx.drawImage(images[state],-dw*.55,-dh*.88,dw,dh);
+ }else ctx.drawImage(images[state],px,py,dw,dh);
  ctx.restore();return true
 }
 function preview(id,pose=0){
