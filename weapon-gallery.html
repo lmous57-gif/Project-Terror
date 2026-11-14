@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>PROJECT: TERROR — Sprite Workshop v1.6</title><meta name="theme-color" content="#0b1018">
+<title>PROJECT: TERROR — Weapon View Workshop v2.1</title><meta name="theme-color" content="#0b1018">
 <style>
 *{box-sizing:border-box}
 :root{color-scheme:dark;font-family:ui-monospace,Consolas,monospace}
@@ -17,31 +17,31 @@ button.active{background:#345a59;color:#fff9d9;border-color:#8eb9a0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px}
 .item{background:linear-gradient(#182127,#0c1117);border:1px solid #34464d;padding:12px 10px 10px;border-radius:8px}
 .frame{display:flex;align-items:center;justify-content:center;min-height:191px;background:radial-gradient(ellipse at 50% 68%,#252d39,#10151b 70%);border:1px solid #303c42}
-canvas{width:144px;height:192px;image-rendering:pixelated}
+canvas{max-width:100%;width:230px;height:auto;image-rendering:pixelated}
 .name{font:800 12px monospace;margin-top:12px;line-height:1.5}
 .details{display:flex;gap:8px;flex-wrap:wrap;color:#a5b4be;font:700 10px monospace;margin-top:5px;text-transform:uppercase}
 .rare{color:#74c2e1}.epic{color:#bd9df2}.mythic{color:#f2c977}
 footer{font-size:12px;color:#879ba3;margin-top:24px;line-height:1.7}
 </style></head><body><main>
 <div class="top"><div>▣ PROJECT: TERROR · ORIGINAL PIXEL ART</div><a href="./arsenal.html">ARKIB SENJATA</a></div>
-<h1>WEAPON SPRITE WORKSHOP</h1>
-<p>Pratonton dalaman untuk 40 model senjata baru. <b>Bukan rifle reskin:</b> pelita, keris, kitab, revolver, shotgun, durian dan seruling ada bentuk tersendiri. Pilih pose untuk semak animasi setiap senjata. Galeri ini sengaja tidak dipautkan dalam game utama supaya Mystery Box kekal misteri.</p>
+<h1>WEAPON VIEW WORKSHOP</h1>
+<p>Semak <b>pandangan first-person sebenar dalam game</b> untuk semua 40 senjata. Default GAME POV menunjukkan perspektif seperti dalam level. Guna SPRITE untuk periksa lukisan 96×128; tukar pose untuk animasi.</p>
 <div class="buttons" id="controls">
-<button data-pose="0" class="active">IDLE</button><button data-pose="1">SERANG / CAST</button><button data-pose="2">RECOVER</button><button data-pose="3">RELOAD</button><button id="auto">▶ PLAY POSES</button>
+<button id="view" class="active">GAME POV</button><button data-pose="0" class="active">IDLE</button><button data-pose="1">SERANG / CAST</button><button data-pose="2">RECOVER</button><button data-pose="3">RELOAD</button><button id="auto">▶ PLAY POSES</button>
 </div>
 <div class="grid" id="grid"></div>
-<footer>Semua imej dijana oleh <code>weapon-art.js</code> sebagai sprite canvas 96×128 asli, dengan empat pose setiap weapon dan cache hanya bila diperlukan. Ini preview art pass pertama; asset authored dan animasi multi-directional boleh menggantikannya kemudian tanpa mengubah progression.</footer>
+<footer>GAME POV menggunakan <code>PT_WEAPON_ART.draw()</code> yang sama seperti dalam Hospital, Kampung, Bukit dan Loji. Mod SPRITE menunjukkan setiap frame mentah 96×128. Save dan progression kekal.</footer>
 </main>
 <script src="./arsenal.js"></script><script src="./weapon-art.js"></script><script>
 (function(){
  const arm=window.PT_ARMORY,art=window.PT_WEAPON_ART;
  const container=document.getElementById('grid');
  const cardNodes=[];
- let pose=0,playing=false,timer=null;
+ let pose=0,playing=false,timer=null,gameView=true;
  for(const w of arm.catalog){
   const card=document.createElement('section');card.className='item';
   const frame=document.createElement('div');frame.className='frame';
-  const canvas=document.createElement('canvas');canvas.width=96;canvas.height=128;frame.appendChild(canvas);
+  const canvas=document.createElement('canvas');canvas.width=256;canvas.height=144;frame.appendChild(canvas);
   const name=document.createElement('div');name.className='name';name.textContent=w.id.slice(-2)+' — '+w.name;
   const desc=document.createElement('div');desc.className='details';
   const tier=document.createElement('span');tier.className=w.tier;tier.textContent=w.tier;
@@ -52,12 +52,25 @@ footer{font-size:12px;color:#879ba3;margin-top:24px;line-height:1.7}
  function render(){
   document.querySelectorAll('[data-pose]').forEach(b=>b.classList.toggle('active',Number(b.dataset.pose)===pose));
   for(const o of cardNodes){
-   const c=o.canvas.getContext('2d');c.clearRect(0,0,96,128);
-   c.imageSmoothingEnabled=false;
-   const preview=art.preview(o.w.id,pose);
-   if(preview)c.drawImage(preview,0,0)
+   o.canvas.width=gameView?256:96;o.canvas.height=gameView?144:128;
+   const c=o.canvas.getContext('2d');c.imageSmoothingEnabled=false;
+   if(gameView){
+    c.fillStyle='#17212a';c.fillRect(0,0,256,72);
+    c.fillStyle='#333a35';c.fillRect(0,72,256,72);
+    c.fillStyle='#414947';c.fillRect(34,43,188,32);
+    c.fillStyle='#182227';c.fillRect(67,50,122,25);
+    c.fillStyle='#444d4a';c.fillRect(0,137,256,7);
+    c.save();c.scale(256/480,144/270);
+    art.draw(c,{id:o.w.id,spec:o.w,attack:pose===1?.22:pose===2?.07:0,reload:pose===3?1:0,width:480,height:270,time:1,moving:0});
+    c.restore();
+    c.fillStyle='#dce6dd';c.fillRect(126,69,4,1);c.fillRect(127,67,1,5);
+   }else{
+    const preview=art.preview(o.w.id,pose);
+    if(preview)c.drawImage(preview,0,0);
+   }
   }
  }
+ document.getElementById('view').addEventListener('click',function(){gameView=!gameView;this.textContent=gameView?'GAME POV':'SPRITE';this.classList.toggle('active',gameView);render()});
  document.querySelectorAll('[data-pose]').forEach(btn=>btn.addEventListener('click',()=>{pose=Number(btn.dataset.pose);render()}));
  document.getElementById('auto').addEventListener('click',function(){
   playing=!playing;this.textContent=playing?'■ STOP':'▶ PLAY POSES';
